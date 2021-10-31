@@ -8,19 +8,21 @@ public class grab : MonoBehaviour
     public GameObject enemy2;
     public Transform kéz;
     public Transform Stuarthát;
+    public Collider2D Stuart;
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
+
     // Update is called once per frame
-    void OnTriggerStay2D(Collider2D collider)
+    private void Update()
     {
-        enemy.position = kéz.position;
-        if (Input.GetKeyDown(KeyCode.E))
+        void OnTriggerStay2D(Collider2D Stuart)
         {
-            Destroy(enemy2);
+
         }
     }
+   
 }

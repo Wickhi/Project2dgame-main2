@@ -16,6 +16,9 @@ public class follow : MonoBehaviour
     {
         transform.position = new Vector3(player.position.x, player.position.y, transform.position.z);
 
-
+        //baseangle < angle4 && angle4 >= 90;
+        //angle3 = angle4 - baseangle;
+        //angle3 = angle3 - change;
+        /////////////b/aseangle = baseangle - change;
     }
 }
