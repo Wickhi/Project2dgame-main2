@@ -9,8 +9,7 @@ public class playermovement2 : MonoBehaviour
     Vector2 movement;
     Vector2 mousepos;
     public Camera cam;
-    public float majom;
-    public float majom2 = 0f;
+    public Transform Stuart;
     // Update is called once per frame
     void Update()
     {
@@ -21,19 +20,12 @@ public class playermovement2 : MonoBehaviour
 
     void FixedUpdate()
     {
+        // rb.position = Stuart.position;
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
         Vector2 lookDir = mousepos - rb.position;
-        float angle = majom;
-
-
-        angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-
-
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = angle;
-        rb.MoveRotation(rb.rotation + 1 * Time.fixedDeltaTime);
-
 
     }
-
 }
-

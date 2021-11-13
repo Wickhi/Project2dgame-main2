@@ -17,11 +17,13 @@ public class playermovement : MonoBehaviour
     public float angle4;
     public float nul = 0f;
     public int faszom;
+    public Transform target;
+    public Vector3 mouse;
 
     // Update is called once per frame
     private void Start()
     {
-        
+
     }
     void Update()
     {
@@ -37,6 +39,7 @@ public class playermovement : MonoBehaviour
 
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         angle4 = angle;
+        mouse = new Vector3(0f, 0f, angle);        
 
 
 
@@ -44,36 +47,40 @@ public class playermovement : MonoBehaviour
         {
             angle4 = angle + 360;
         }
-         
-        if(baseangle < 90 && angle4 > 270)
-        {
-            angle3 = angle3 - change;
-        }
-        if (baseangle < angle4)
-        {
-            baseangle = baseangle + change;
-            faszom = 1;
-        }
-        if ((baseangle > angle4) || (angle4 > 270 && baseangle < 90))
-        {
-            if (angle4 > 270 && baseangle < 90)
-            {
-                angle4 -= 360;
-                baseangle = baseangle - change;
-                faszom = 2;
-            }
-            else
-            {
 
-                baseangle = baseangle - change;
-                faszom = 2;
-            }
-            
-        }
+        // if(baseangle < 90 && angle4 > 270)
+        //{
+        //   angle3 = angle3 - change;
+        // }
+        //if (baseangle < angle4)
+        //{
+        //   baseangle = baseangle + change;
+        //  faszom = 1;
+        //}
+        //if ((baseangle > angle4) || (angle4 > 270 && baseangle < 90))
+        // {
+        //    if (angle4 > 270 && baseangle < 90)
+        //  {
+        //      angle4 -= 360;
+        //     baseangle = baseangle - change;
+        //       faszom = 2;
+        //  }
+        // else
+        //{
 
-        rb.rotation = baseangle;
+        //    baseangle = baseangle - change;
+        //   faszom = 2;
+        //}
+        Quaternion rotation = Quaternion.Euler(mouse);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
 
- 
+
     }
-    
+
+    // rb.rotation = Quaternion.RotateTowards(transform.rotation, lookdir, change * Time.deltaTime);
+
+
+
 }
+
+
