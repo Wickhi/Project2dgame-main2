@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+
 using UnityEngine.Audio;
 using UnityEngine;
 
@@ -25,7 +26,16 @@ public class shooting : MonoBehaviour
     public bool egérlent;
     public double autofire;
     public double firerate = 0.1;
-
+    public Transform Casingpoint;
+    public GameObject bulletcasing;
+    public float Casingforce;
+    public float bursttime = 0.2f;
+    public float casingpoint;
+    public float casingstart;
+    public Vector3 valami;
+    public float spreadangle;
+    public Quaternion casingrot;
+    public Vector3 szar;
 
 
     void Start()
@@ -38,6 +48,11 @@ public class shooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Casingforce = Random.Range(300, 1000);
+        casingstart = Random.Range(-0.25f, 0.25f);
+        valami = new Vector3(casingstart, casingstart, 0);
+        
+
 
         if (isreloading)
         {
@@ -120,11 +135,11 @@ public class shooting : MonoBehaviour
     IEnumerator Burst()
     {
         Shoot();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(bursttime);
         Shoot();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(bursttime);
         Shoot();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(bursttime);
     }
 
 
@@ -132,9 +147,14 @@ public class shooting : MonoBehaviour
     {
 
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
+        rb_ammo.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
+        Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
+        rb_casing.AddForce((Casingpoint.up + valami) * Casingforce, ForceMode2D.Force);
+        szar = Casingpoint.up;
         audiscr.PlayOneShot(lövés);
+        
     }
     IEnumerator reload()
     {
