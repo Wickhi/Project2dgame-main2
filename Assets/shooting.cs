@@ -111,13 +111,13 @@ public class shooting : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 egérlent = true;
-                Debug.Log("faszom");
+               // Debug.Log("faszom");
 
             }
             if (Input.GetMouseButtonUp(0))
             {
                 egérlent = false;
-                Debug.Log("az egészbe");
+             //   Debug.Log("az egészbe");
 
             }
             if (egérlent == true && autofire == 0)

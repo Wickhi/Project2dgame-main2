@@ -7,6 +7,9 @@ public class characterswitch_stuart2 : MonoBehaviour
     public GameObject Stuart;
     public GameObject cam;
     public int playerszam;
+   // public GameObject fal;
+    public bool mozoghat = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +20,8 @@ public class characterswitch_stuart2 : MonoBehaviour
     void Update()
     {
         playerszam = cam.GetComponent<follow>().playervalue;
+     //   mozoghat = fal.GetComponent<szar>().mozgás;
+    //    && mozoghat == true
         if (playerszam == 1)
         {
             Stuart.GetComponent<playermovement>().enabled = true;

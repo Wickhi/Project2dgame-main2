@@ -27,7 +27,7 @@ public class artillery : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             Vector3 arty = cam.ScreenToWorldPoint(Input.mousePosition);
-            arty.z = player.position.z;
+            arty.z = player.position.z ;
             GameObject szar2 = Instantiate(szar, arty, Quaternion.Euler(new Vector3(0, 0, 0)));
 
 
