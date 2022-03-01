@@ -36,6 +36,13 @@ public class shooting : MonoBehaviour
     public float spreadangle;
     public Quaternion casingrot;
     public Vector3 szar;
+    public Transform player;
+    //  public Quaternion degrees;
+    //public Quaternion degrees2;
+    public int NumberOfProjectiles = 20;
+    public int bulletcount;
+
+
 
 
     void Start()
@@ -83,15 +90,16 @@ public class shooting : MonoBehaviour
         {
             firemode = firemode + 1;
         }
-        if (firemode == 4)
+        if (firemode == 5)
         {
-            firemode = firemode - 3;
+            firemode = firemode - 4;
         }
         if (firemode == 1)
         {
             if (Input.GetButtonDown("Fire1"))
             {
                 Shoot();
+                Casing();
                 mag = mag - 1;
             }
         }
@@ -111,50 +119,79 @@ public class shooting : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 egérlent = true;
-               // Debug.Log("faszom");
+                // Debug.Log("faszom");
 
             }
             if (Input.GetMouseButtonUp(0))
             {
                 egérlent = false;
-             //   Debug.Log("az egészbe");
+                //   Debug.Log("az egészbe");
 
             }
             if (egérlent == true && autofire == 0)
             {
                 Shoot();
+                Casing();
                 autofire = firerate;
 
             }
-
-
-
         }
-        
+
+        if (firemode == 4)
+        {
+            if (Input.GetButtonDown("Fire1"))
+            {
+                StartCoroutine(Buckshot());
+                Casing();
+
+                //  mag = mag - 1;
+
+            }
+        }
+
+
+
+
     }
     IEnumerator Burst()
     {
         Shoot();
+        Casing();
         yield return new WaitForSeconds(bursttime);
         Shoot();
+        Casing();
         yield return new WaitForSeconds(bursttime);
         Shoot();
+        Casing();
         yield return new WaitForSeconds(bursttime);
     }
+    IEnumerator Buckshot()
+    {
+        for (int i = 0; i < NumberOfProjectiles; i++)
+        {
+            Shoot();
+            yield return new WaitForSeconds(0.001f);
+            // mag = mag - 1;
 
-
+        }
+    }
     void Shoot()
     {
-
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(player.rotation.eulerAngles.z + spreadangle, player.rotation.eulerAngles.z - spreadangle)));
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
+        audiscr.PlayOneShot(lövés);
         Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
-        rb_ammo.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+        rb_ammo.AddForce(bullet.transform.up * bulletForce, ForceMode2D.Impulse);
+        bulletcount = bulletcount + 1;
+
+        
+    }
+    void Casing()
+    {
         GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
         Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
         rb_casing.AddForce((Casingpoint.up + valami) * Casingforce, ForceMode2D.Force);
         szar = Casingpoint.up;
-        audiscr.PlayOneShot(lövés);
-        
     }
     IEnumerator reload()
     {
@@ -166,7 +203,7 @@ public class shooting : MonoBehaviour
     }
     IEnumerator varakoztatas()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(60);
 
     }
     

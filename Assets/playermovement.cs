@@ -9,17 +9,17 @@ public class playermovement : MonoBehaviour
     Vector2 movement;
     Vector2 mousepos;
     public Camera cam;
-    public float angle1; 
-    public float angle2;
-    public float baseangle;
+  //  public float angle1; 
+  //  public float angle2;
+  //  public float baseangle;
     public float change = 20f;
-    public float angle3 = 1f;
-    public float angle4;
-    public float nul = 0f;
-    public int faszom;
-    public Transform target;
+ //   public float angle3 = 1f;
+ //   public float angle4;
+  //  public float nul = 0f;
+  //  public int faszom;
+ //   public Transform target;
     public Vector3 mouse;
-    public Transform Stuart;
+    //public Transform Stuart;
  //   public bool mozgas;
    // public GameObject fal;
 
@@ -45,7 +45,7 @@ public class playermovement : MonoBehaviour
      
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        transform.position = new Vector2(Mathf.Round(transform.position.x * 100) / 100, Mathf.Round(transform.position.y * 100) / 100);
+    //    transform.position = new Vector2(Mathf.Round(transform.position.x * 100) / 100, Mathf.Round(transform.position.y * 100) / 100);
 
 
 
@@ -54,17 +54,17 @@ public class playermovement : MonoBehaviour
         Vector2 lookDir = mousepos - rb.position;
 
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-        angle4 = angle;
-        Mathf.Round((angle * 100) / 100);
+     //   angle4 = angle;
+       // Mathf.Round((angle * 100) / 100);
 
         mouse = new Vector3(0f, 0f, angle);        
 
 
 
-        if (angle < 0)
-        {
-            angle4 = angle + 360;
-        }
+   //     if (angle < 0)
+    //    {
+     //       angle4 = angle + 360;
+     //   }
 
         // if(baseangle < 90 && angle4 > 270)
         //{
@@ -89,13 +89,13 @@ public class playermovement : MonoBehaviour
         //    baseangle = baseangle - change;
         //   faszom = 2;
         //}
-        Mathf.Round(Stuart.rotation.z);
+      //  Mathf.Round(Stuart.rotation.z);
 
         Quaternion rotation = Quaternion.Euler(mouse);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
 
-        Debug.Log(Stuart.rotation.z);
+      //  Debug.Log(Stuart.rotation.z);
 
 
 
