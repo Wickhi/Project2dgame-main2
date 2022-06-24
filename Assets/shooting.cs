@@ -4,6 +4,7 @@ using System.Threading;
 
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class shooting : MonoBehaviour
 {
@@ -41,13 +42,15 @@ public class shooting : MonoBehaviour
     //public Quaternion degrees2;
     public int NumberOfProjectiles = 20;
     public int bulletcount;
-
+    public Slider slider;
+    public float reloadtime = 0f;
+    public float reloadtimebase = 4f;
 
 
 
     void Start()
     {
-        mag = 30;
+       // mag = 30;
     }
 
 
@@ -61,13 +64,15 @@ public class shooting : MonoBehaviour
         
 
 
-        if (isreloading)
+        if (isreloading == true)
         {
-            return;
+            reloadtime = reloadtime + Time.deltaTime;
+            
         }
         if (mag <= 0)
         {
             StartCoroutine(reload());
+
             return;
         }
         if (cooldownTimer > 0)
@@ -100,7 +105,7 @@ public class shooting : MonoBehaviour
             {
                 Shoot();
                 Casing();
-                mag = mag - 1;
+
             }
         }
         if (firemode == 2)
@@ -109,7 +114,7 @@ public class shooting : MonoBehaviour
             {
 
                 StartCoroutine(Burst());
-                mag = mag - 3;
+               
                 cooldownTimer = cooldown;
 
             }
@@ -183,8 +188,9 @@ public class shooting : MonoBehaviour
         Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
         rb_ammo.AddForce(bullet.transform.up * bulletForce, ForceMode2D.Impulse);
         bulletcount = bulletcount + 1;
+        mag = mag - 1;
 
-        
+
     }
     void Casing()
     {
@@ -194,12 +200,13 @@ public class shooting : MonoBehaviour
         szar = Casingpoint.up;
     }
     IEnumerator reload()
-    {
+    { 
         isreloading = true;
         Debug.Log("reloading..");
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(reloadtimebase);
         mag = 30;
         isreloading = false;
+        reloadtime = 0;
     }
     IEnumerator varakoztatas()
     {

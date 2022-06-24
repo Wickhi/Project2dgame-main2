@@ -20,33 +20,69 @@ public class playermovement : MonoBehaviour
  //   public Transform target;
     public Vector3 mouse;
     //public Transform Stuart;
- //   public bool mozgas;
-   // public GameObject fal;
-
+    //   public bool mozgas;
+    // public GameObject fal;
+    public float sprint = 10f;
+    public bool shiftle = false;
+    public float basemovespeed;
     // Update is called once per frame
+   
     private void Start()
     {
 
     }
     void Update()
     {
-      //  mozgas = fal.GetComponent<szar>().mozgás;
-    //    if (mozgas == true)
-     //   { 
-      //  movement.x = Input.GetAxisRaw("Horizontal");
-      //  movement.y = Input.GetAxisRaw("Vertical");
-     //   }   
-      //  mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+        moveSpeed = basemovespeed;
+
+        if (sprint < 0f)
+        {
+            moveSpeed = basemovespeed / 2;
+
+        }
+
+        if (shiftle == true && sprint > 0f)
+        {
+            sprint -= Time.deltaTime;
+            if (sprint > 0f)
+            {
+                moveSpeed = basemovespeed * 2;
+
+            }
+        }
+        if (shiftle == false)
+        {
+            if (sprint < 10f)
+            {
+                sprint += Time.deltaTime;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            shiftle = true;
+
+
+
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            shiftle = false;
+            moveSpeed = basemovespeed;
+
+
+        }
+        
     }
 
     void FixedUpdate()
-
     {
      
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-    //    transform.position = new Vector2(Mathf.Round(transform.position.x * 100) / 100, Mathf.Round(transform.position.y * 100) / 100);
+        
 
+    
 
 
         mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -54,17 +90,43 @@ public class playermovement : MonoBehaviour
         Vector2 lookDir = mousepos - rb.position;
 
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-     //   angle4 = angle;
-       // Mathf.Round((angle * 100) / 100);
+
 
         mouse = new Vector3(0f, 0f, angle);        
 
 
 
-   //     if (angle < 0)
-    //    {
-     //       angle4 = angle + 360;
-     //   }
+   
+        Quaternion rotation = Quaternion.Euler(mouse);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+
+
+
+
+
+        //  mozgas = fal.GetComponent<szar>().mozgás;
+        //    if (mozgas == true)
+        //   { 
+        //  movement.x = Input.GetAxisRaw("Horizontal");
+        //  movement.y = Input.GetAxisRaw("Vertical");
+        //   }   
+        //  mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+
+
+
+        //    transform.position = new Vector2(Mathf.Round(transform.position.x * 100) / 100, Mathf.Round(transform.position.y * 100) / 100);
+
+        //   angle4 = angle;
+
+        // Mathf.Round((angle * 100) / 100);
+
+        //  Debug.Log(Stuart.rotation.z);
+        //     if (angle < 0)
+        //    {
+        //       angle4 = angle + 360;
+        //   }
 
         // if(baseangle < 90 && angle4 > 270)
         //{
@@ -89,13 +151,8 @@ public class playermovement : MonoBehaviour
         //    baseangle = baseangle - change;
         //   faszom = 2;
         //}
-      //  Mathf.Round(Stuart.rotation.z);
+        //  Mathf.Round(Stuart.rotation.z);
 
-        Quaternion rotation = Quaternion.Euler(mouse);
-
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
-
-      //  Debug.Log(Stuart.rotation.z);
 
 
 
