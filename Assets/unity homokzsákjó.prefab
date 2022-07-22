@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1667758404312494709}
   - component: {fileID: 2487943444762775731}
-  - component: {fileID: 2398461982378227313}
   - component: {fileID: 3991900895651796897}
   - component: {fileID: 477404232889673541}
+  - component: {fileID: 7764142955048669682}
   m_Layer: 0
   m_Name: "unity homokzs\xE1kj\xF3"
   m_TagString: Untagged
@@ -85,25 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2398461982378227313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3001333778628504919}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 189a811e6e9c85c4cbf413f5472bd36b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallPrefab: {fileID: 0}
-  buildingspot: {fileID: 0}
-  buildin: 0
-  falszam: 2
-  bustszam: 10000000
-  bustPrefab: {fileID: 0}
-  bustbuild: 0
 --- !u!61 &3991900895651796897
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -151,6 +132,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7764142955048669682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3001333778628504919}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233a08a712af728429ee1c4174a6944e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8887988051799087859
 GameObject:
   m_ObjectHideFlags: 0

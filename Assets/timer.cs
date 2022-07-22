@@ -20,8 +20,8 @@ public class timer : MonoBehaviour
     }
     public void cooldown()
     {
-        slider.maxValue = Stuart.GetComponent<shooting>().reloadtimebase;
-        slider.value = Stuart.GetComponent<shooting>().reloadtime; 
-
+       // slider.maxValue = Stuart.GetComponent<shooting>().reloadtime;
+        slider.value = Stuart.GetComponent<shooting>().reloadtimebase;
+        slider.maxValue = 4f;
     }
 }

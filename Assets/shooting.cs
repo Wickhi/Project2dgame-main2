@@ -43,14 +43,15 @@ public class shooting : MonoBehaviour
     public int NumberOfProjectiles = 20;
     public int bulletcount;
     public Slider slider;
-    public float reloadtime = 0f;
+    public float reloadtime = 4f;
     public float reloadtimebase = 4f;
+    public int magazinebase;
 
 
 
     void Start()
     {
-       // mag = 30;
+        magazinebase = mag;
     }
 
 
@@ -66,8 +67,9 @@ public class shooting : MonoBehaviour
 
         if (isreloading == true)
         {
-            reloadtime = reloadtime + Time.deltaTime;
-            
+            reloadtime = reloadtime - Time.deltaTime;
+            reloadtimebase = reloadtimebase + Time.deltaTime;
+
         }
         if (mag <= 0)
         {
@@ -200,13 +202,15 @@ public class shooting : MonoBehaviour
         szar = Casingpoint.up;
     }
     IEnumerator reload()
-    { 
+    {
+        egérlent = false;
         isreloading = true;
         Debug.Log("reloading..");
-        yield return new WaitForSeconds(reloadtimebase);
-        mag = 30;
+        yield return new WaitForSeconds(reloadtime);
+        mag = magazinebase;
         isreloading = false;
-        reloadtime = 0;
+        reloadtimebase = 0f;
+        reloadtime = 4f;
     }
     IEnumerator varakoztatas()
     {

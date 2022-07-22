@@ -105,6 +105,7 @@ public class playermovement : MonoBehaviour
 
 
 
+
         //  mozgas = fal.GetComponent<szar>().mozgás;
         //    if (mozgas == true)
         //   { 
