@@ -22,40 +22,51 @@ public class playermovement_orgia : MonoBehaviour
     //public Transform Stuart;
     //   public bool mozgas;
     // public GameObject fal;
-    public float sprint = 10f;
-    public float maxsprint;
+    public float stamina = 10f;
+    public float maxstamina;
     public bool shiftle = false;
     public float basemovespeed;
+    public float staminause;
+    public float staminaregen;
+    public float sprintgrade;
+    public Transform Stuart;
+    public bool forcemethod;
+    public bool előre;
+    public bool hátra;
+    public Transform forcepoint;
     // Update is called once per frame
 
     private void Start()
     {
-
+        //  stamina = maxstamina;
     }
     void Update()
     {
+        moveSpeed = Mathf.Round(moveSpeed * 2) / 2;
         moveSpeed = basemovespeed;
 
-        if (sprint < 0f)
+
+        if (stamina < 0f)
         {
             moveSpeed = basemovespeed / 2;
-
+            moveSpeed = Mathf.Round(moveSpeed * 2) / 2;
         }
 
-        if (shiftle == true && sprint > 0f)
+        if (shiftle == true && stamina > 0f)
         {
-            sprint -= Time.deltaTime;
-            if (sprint > 0f)
+            stamina -= Time.deltaTime * staminause;
+            if (stamina > 0f)
             {
-                moveSpeed = basemovespeed * 2;
-
+                moveSpeed = basemovespeed * sprintgrade;
+                moveSpeed = Mathf.Round(moveSpeed * 2) / 2;
             }
         }
         if (shiftle == false)
         {
-            if (sprint < maxsprint)
+            if (stamina < maxstamina)
             {
-                sprint += Time.deltaTime;
+                stamina += Time.deltaTime * staminaregen;
+
             }
         }
 
@@ -70,6 +81,7 @@ public class playermovement_orgia : MonoBehaviour
         {
             shiftle = false;
             moveSpeed = basemovespeed;
+            moveSpeed = Mathf.Round(moveSpeed * 2) / 2;
 
 
         }
@@ -78,29 +90,24 @@ public class playermovement_orgia : MonoBehaviour
 
     void FixedUpdate()
     {
-
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-
-
-
-
-
-        mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-        Vector2 lookDir = mousepos - rb.position;
-
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        if (forcemethod == false)
+        {
+            sima();
+        }
+        if (forcemethod == true)
+        {
 
 
-        mouse = new Vector3(0f, 0f, angle);
+            forcemethod1();
+
+        }
 
 
 
 
-        Quaternion rotation = Quaternion.Euler(mouse);
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+
+
 
 
 
@@ -161,7 +168,67 @@ public class playermovement_orgia : MonoBehaviour
     }
 
     // rb.rotation = Quaternion.RotateTowards(transform.rotation, lookdir, change * Time.deltaTime);
+    void forcemethod1()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            előre = true;
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            előre = false;
+        }
+        if (előre == true)
+        {
+            rb.AddForce(transform.up * moveSpeed);
 
+
+
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            hátra = true;
+        }
+        if (Input.GetKeyUp(KeyCode.S))
+        {
+            hátra = false;
+        }
+        if (hátra == true)
+        {
+            rb.AddForce(-transform.up * moveSpeed);
+
+
+        }
+        mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        Vector2 lookDir = mousepos - rb.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+
+
+        mouse = new Vector3(0f, 0f, angle);
+        Quaternion rotation = Quaternion.Euler(mouse);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+    }
+    void sima()
+
+    {
+        movement.x = Mathf.Round(Input.GetAxisRaw("Horizontal"));
+        movement.y = Mathf.Round(Input.GetAxisRaw("Vertical"));
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+
+        Vector2 lookDir = mousepos - rb.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+
+
+        mouse = new Vector3(0f, 0f, angle);
+        Quaternion rotation = Quaternion.Euler(mouse);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+
+
+    }
 
 
 }

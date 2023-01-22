@@ -55,13 +55,13 @@ public class building : MonoBehaviour
             bust1();
             bustszam = bustszam - 1;
         }
-        Hmg = GameObject.Find("M3Hmg");
+        Hmg = GameObject.Find("M3(Clone)");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Hmg = GameObject.Find("M3(Clone)");
         if (Input.GetKeyDown(KeyCode.Q))
         {
 
@@ -148,6 +148,8 @@ public class building : MonoBehaviour
                     bust.transform.Rotate(0, 0, 1);
                 }
             }
+
+
             if (whattobuild == 3)
             {
                 
@@ -161,8 +163,12 @@ public class building : MonoBehaviour
                     }
                     else
                     {
-                        Destroy(Hmg);
-                        hmgdeployed = false;
+                        if (usinghmg == false)
+                        {
+                            Destroy(Hmg);
+                            hmgdeployed = false;
+                        }
+                        
                     }
                 }
 

@@ -6,6 +6,9 @@ public class collidee : MonoBehaviour
 {
     public bool usinghmg = false;
     public bool bentvan = false;
+    public GameObject Hmg;
+    public GameObject Stuart;
+    public Transform hmg;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +18,8 @@ public class collidee : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Stuart = GameObject.Find("Stuart");
+
         if (bentvan == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -29,6 +34,20 @@ public class collidee : MonoBehaviour
                     usinghmg = false;
                 }
             }
+        }
+        if (usinghmg == false)
+        {
+            Hmg.GetComponent<hmg>().enabled = false;
+            Hmg.GetComponent<shooting>().enabled = false;
+            Stuart.transform.SetParent(null);
+
+        }
+        if (usinghmg == true)
+        {
+            Hmg.GetComponent<hmg>().enabled = true;
+            Hmg.GetComponent<shooting>().enabled = true;
+            Stuart.transform.SetParent(hmg);
+
         }
     }
     void OnTriggerStay2D(Collider2D collider)

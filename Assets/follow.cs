@@ -8,6 +8,8 @@ public class follow : MonoBehaviour
     public GameObject George;
     public GameObject John;
     public int playervalue = 1;
+    public GameObject hmg;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,18 +21,28 @@ public class follow : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(Stuart.transform.position.x, Stuart.transform.position.y, transform.position.z);
+        hmg = GameObject.Find("M3(Clone)");
+        bool usinghmg = hmg.GetComponent<collidee>().usinghmg;
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playervalue = playervalue + 1;
         }
-        if (playervalue > 3)
+        if (playervalue > 4)
         {
             playervalue = 1;
         }
         if (playervalue == 1)
         {
         //    transform.position = new Vector3(Stuart.position.x, Stuart.position.y, transform.position.z);
-            Stuart = GameObject.Find("Stuart");
+            if (usinghmg == true)
+            {
+                Stuart = GameObject.Find("M3(Clone)");
+            }
+            else
+            {
+                Stuart = GameObject.Find("Stuart");
+            }
+            
 
 
 
@@ -46,6 +58,13 @@ public class follow : MonoBehaviour
         {
            // transform.position = new Vector3(John.position.x, John.position.y, transform.position.z);
             Stuart = GameObject.Find("John");
+
+
+        }
+        if (playervalue == 4)
+        {
+            // transform.position = new Vector3(John.position.x, John.position.y, transform.position.z);
+            Stuart = GameObject.Find("t72_luka (2)");
 
 
         }

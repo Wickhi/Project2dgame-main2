@@ -29,7 +29,9 @@ public class hmg : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     //   állás = rb.rotation;
+        Stuart = GameObject.Find("Stuart");
+
+        //   állás = rb.rotation;
         jobbra = Stuart.GetComponent<building>().jobbra;
         balra = Stuart.GetComponent<building>().balra;
         building = Stuart.GetComponent<building>().whattobuild;
@@ -56,8 +58,9 @@ public class hmg : MonoBehaviour
         }
         Vector2 lookDir = mousepos - rb.position;
         
-        float angle = Mathf.Abs( Mathf.Atan2(lookDir.y, lookDir.x)) * Mathf.Rad2Deg - 90f;
-        angle = Mathf.Clamp(angle, állás - fordulás, állás + fordulás);
+      //  float angle = Mathf.Abs( Mathf.Atan2(lookDir.y, lookDir.x)) * Mathf.Rad2Deg - 90f;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        //  angle = Mathf.Clamp(angle, állás - fordulás, állás + fordulás);
 
         mouse = new Vector3(0f, 0f, angle);
 

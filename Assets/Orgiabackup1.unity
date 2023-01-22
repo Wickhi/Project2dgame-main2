@@ -28402,10 +28402,12 @@ MonoBehaviour:
   cam: {fileID: 137805416}
   change: 20
   mouse: {x: 0, y: 0, z: 0}
-  sprint: 5
-  maxsprint: 5
+  sprint: 3
+  maxsprint: 3
   shiftle: 0
   basemovespeed: 10
+  staminause: 4
+  staminaregen: 1
 --- !u!50 &1889668107
 Rigidbody2D:
   serializedVersion: 4

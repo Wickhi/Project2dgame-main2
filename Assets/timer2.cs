@@ -20,9 +20,9 @@ public class timer2 : MonoBehaviour
     }
     public void cooldown()
     {
-        slider.maxValue = Stuart.GetComponent<playermovement_orgia>().maxsprint;
-        slider.minValue = Stuart.GetComponent<playermovement_orgia>().maxsprint / 10 * -1;
-        slider.value = Stuart.GetComponent<playermovement_orgia>().sprint;
+        slider.maxValue = Stuart.GetComponent<playermovement_orgia>().maxstamina;
+        slider.minValue = Stuart.GetComponent<playermovement_orgia>().maxstamina / 10 * -1;
+        slider.value = Stuart.GetComponent<playermovement_orgia>().stamina;
 
     }
 }
