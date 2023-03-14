@@ -13,14 +13,14 @@ public class kurva : MonoBehaviour
     {
         //https://github.com/7ark/Unity-Pathfinding
 
-        gridarray = gridarray [magas, szélesség];
-        for (int x = 0; x < gridarray.GetLength(0); x++)
-        {
-            for (int y = 0; x < gridarray.GetLength(1); y++)
-            {
-                Debug.Log(x, y);
-            }
-        }
+        //gridarray = gridarray [magas, szélesség];
+        //for (int x = 0; x < gridarray.GetLength(0); x++)
+        //{
+          //  for (int y = 0; x < gridarray.GetLength(1); y++)
+          //  {
+            //    Debug.Log(x, y);
+            //}
+        //}
 
 
 
