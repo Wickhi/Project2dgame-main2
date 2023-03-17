@@ -34,6 +34,8 @@ public class playermovement_orgia : MonoBehaviour
     public bool előre;
     public bool hátra;
     public Transform forcepoint;
+    public bool moving;
+    public AudioSource audi;
     // Update is called once per frame
 
     private void Start()
@@ -73,6 +75,8 @@ public class playermovement_orgia : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             shiftle = true;
+            moving = true;
+
 
 
 
@@ -80,12 +84,25 @@ public class playermovement_orgia : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             shiftle = false;
+            moving = false;
+
             moveSpeed = basemovespeed;
             moveSpeed = Mathf.Round(moveSpeed * 2) / 2;
 
 
         }
+        if (moving == false)
+        {
+            if(!audi.isPlaying)
+            {
+                audi.Play();
+            }
+            else
+            {
+                audi.Stop();
 
+            }
+        }
     }
 
     void FixedUpdate()
@@ -173,10 +190,14 @@ public class playermovement_orgia : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             előre = true;
+            moving = true;
+
         }
         if (Input.GetKeyUp(KeyCode.W))
         {
             előre = false;
+            moving = false;
+
         }
         if (előre == true)
         {
@@ -188,10 +209,13 @@ public class playermovement_orgia : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S))
         {
             hátra = true;
+            moving = true;
+
         }
         if (Input.GetKeyUp(KeyCode.S))
         {
             hátra = false;
+            moving = false;
         }
         if (hátra == true)
         {
