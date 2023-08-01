@@ -1,0 +1,3 @@
+rep "secret 2d@Wickhi@cloud"
+  path "/"
+    smartbranch "/main"

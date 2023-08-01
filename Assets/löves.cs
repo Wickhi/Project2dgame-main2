@@ -8,50 +8,85 @@ using UnityEngine.UI;
 
 public class löves : MonoBehaviour
 {
+    //FIREMODES
+    public bool semiauto;
+    public bool fullauto;
+    public bool burst;
+    public bool buckshot;
+
+
+    //WEAPON MODES
+    public int mag;
+    public int magazinebase;
+    public float reloadtime;
+    public float reloadtimeBase = 4f;
+
+    public double Roundperminute = 600f;
+    public float bursttime = 0.2f;
+    public float bulletForce = 20f;
+    public int NumberOfProjectiles = 20;
+    public double semiautofirebase;
+    public float Burstcooldown = 1;
+    public float spreadangle;
+    public AudioClip lövés;
+    public AudioSource audiscr;
+
+
+    //OBJECTS
     public Transform firePoint;
     public GameObject bulletPrefab;
     public GameObject bullet1Prefab;
     public GameObject bullet2Prefab;
-    public int mag = 30;
-    public float bulletForce = 20f;
-    public float reloadTime = 1f;
-    public int One = 1;
-    private bool isreloading = false;
-    public bool burstmode = false;
-    public int firemode = 1;
-    public float cooldown = 1;
-    public bool iscooldown;
-    public float cooldownTimer;
-    public AudioClip lövés;
-    public AudioSource audiscr;
-    public bool egérlent;
-    public double autofire;
-    public double firerate = 0.1;
     public Transform Casingpoint;
     public GameObject bulletcasing;
+    public string playername;
+    public GameObject cam;
+
+
+    //CASING STUFF
     public float Casingforce;
-    public float bursttime = 0.2f;
     public float casingpoint;
     public float casingstart;
-    public Vector3 valami;
-    public float spreadangle;
+    public Vector3 casingVariability;
     public Quaternion casingrot;
-    public Vector3 szar;
-    public Transform player;
-    //  public Quaternion degrees;
-    //public Quaternion degrees2;
-    public int NumberOfProjectiles = 20;
+
+
+    //weaponfunction
+    public int firemode = 1;
     public int bulletcount;
+    private bool isreloading = false;
+    public double firerate;
+    public bool burstmode = false;
+    public float BurstcooldownTimer;
+    public bool isBurstcooldown;
     public Slider slider;
-    public float reloadtime = 4f;
-    public float reloadtimebase = 4f;
-    public int magazinebase;
+    public bool egérlent;
+    public double autofire;
+    public double semiautofire;
+    public bool semiautofirecooldown;
+    public int numberoffiremodes = 5;
+    public float reloadtimebase;
+
+
+
+
+    // public int One = 1;
+
+
+
+
+
+
 
 
 
     void Start()
     {
-        magazinebase = mag;
+        mag = magazinebase;
+        firerate = 60 / Roundperminute;
+        reloadtime = reloadtimeBase;
+        cam = GameObject.Find("Main Camera");
+        audiscr = cam.GetComponent<AudioSource>();
     }
 
 
@@ -61,7 +96,8 @@ public class löves : MonoBehaviour
     {
         Casingforce = Random.Range(300, 1000);
         casingstart = Random.Range(-0.25f, 0.25f);
-        valami = new Vector3(casingstart, casingstart, 0);
+        casingVariability = new Vector3(casingstart, casingstart, 0);
+
 
 
 
@@ -77,13 +113,13 @@ public class löves : MonoBehaviour
 
             return;
         }
-        if (cooldownTimer > 0)
+        if (BurstcooldownTimer > 0)
         {
-            cooldownTimer -= Time.deltaTime;
+            BurstcooldownTimer -= Time.deltaTime;
         }
-        if (cooldownTimer < 0)
+        if (BurstcooldownTimer < 0)
         {
-            cooldownTimer = 0;
+            BurstcooldownTimer = 0;
         }
         if (autofire < 0)
         {
@@ -93,66 +129,112 @@ public class löves : MonoBehaviour
         {
             autofire -= Time.deltaTime;
         }
+        if (semiautofire < 0)
+        {
+            semiautofire = 0;
+        }
+        if (semiautofire > 0)
+        {
+            semiautofire -= Time.deltaTime;
+        }
         if (Input.GetKeyDown(KeyCode.R))
         {
             firemode = firemode + 1;
         }
-        if (firemode == 5)
+        if (firemode == numberoffiremodes)
         {
             firemode = firemode - 4;
         }
         if (firemode == 1)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (semiauto == true)
             {
-                Shoot();
-                Casing();
+                if (semiautofirecooldown == true)
+                {
 
+                }
+                if (semiautofire == 0)
+                {
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        Shoot();
+                        Casing();
+                        semiautofire = semiautofirebase;
+
+                    }
+                }
+
+            }
+            else
+            {
+                firemode = firemode + 1;
             }
         }
         if (firemode == 2)
         {
-            if (Input.GetButtonDown("Fire1") && cooldownTimer == 0)
+            if (burst == true)
             {
+                if (Input.GetButtonDown("Fire1") && BurstcooldownTimer == 0)
+                {
 
-                StartCoroutine(Burst());
+                    StartCoroutine(Burst());
 
-                cooldownTimer = cooldown;
+                    BurstcooldownTimer = Burstcooldown;
 
+                }
+            }
+            else
+            {
+                firemode = firemode + 1;
             }
         }
         if (firemode == 3)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (fullauto == true)
             {
-                egérlent = true;
-                // Debug.Log("faszom");
+                if (Input.GetMouseButtonDown(0))
+                {
+                    egérlent = true;
+                    // Debug.Log("faszom");
 
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    egérlent = false;
+                    //   Debug.Log("az egészbe");
+
+                }
+                if (egérlent == true && autofire == 0)
+                {
+                    Shoot();
+                    Casing();
+                    autofire = firerate;
+
+                }
+                
             }
-            if (Input.GetMouseButtonUp(0))
+            else
             {
-                egérlent = false;
-                //   Debug.Log("az egészbe");
-
-            }
-            if (egérlent == true && autofire == 0)
-            {
-                Shoot();
-                Casing();
-                autofire = firerate;
-
+                firemode = firemode + 1; 
             }
         }
 
         if (firemode == 4)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (buckshot == true)
             {
-                StartCoroutine(Buckshot());
-                Casing();
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    StartCoroutine(Buckshot());
+                    Casing();
 
-                //  mag = mag - 1;
+                    //  mag = mag - 1;
 
+                }
+            }
+            else
+            {
+                firemode = firemode + 1;
             }
         }
 
@@ -184,7 +266,7 @@ public class löves : MonoBehaviour
     }
     void Shoot()
     {
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(player.rotation.eulerAngles.z + spreadangle, player.rotation.eulerAngles.z - spreadangle)));
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
         audiscr.PlayOneShot(lövés);
         Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
@@ -198,8 +280,7 @@ public class löves : MonoBehaviour
     {
         GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
         Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
-        rb_casing.AddForce((Casingpoint.up + valami) * Casingforce, ForceMode2D.Force);
-        szar = Casingpoint.up;
+        rb_casing.AddForce((Casingpoint.up + casingVariability) * Casingforce, ForceMode2D.Force);
     }
     IEnumerator reload()
     {
@@ -210,7 +291,7 @@ public class löves : MonoBehaviour
         mag = magazinebase;
         isreloading = false;
         reloadtimebase = 0f;
-        reloadtime = 4f;
+        reloadtime = reloadtimeBase;
     }
     IEnumerator varakoztatas()
     {
