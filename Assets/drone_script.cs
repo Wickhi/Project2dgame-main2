@@ -36,83 +36,38 @@ public class drone : MonoBehaviour
     public Transform forcepoint;
     public bool jobbra;
     public bool balra;
+    public Quaternion rotation;
+    private float revSpeed = 2.0f;
+    public Vector2 mousepos2;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            előre = true;
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            előre = false;
-        }
-        if (előre == true)
-        {
-            rb.AddForce(transform.up * moveSpeed * Time.deltaTime);
-
-
-
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            hátra = true;
-        }
-        if (Input.GetKeyUp(KeyCode.S))
-        {
-            hátra = false;
-        }
-        if (hátra == true)
-        {
-            rb.AddForce(-transform.up * moveSpeed * Time.deltaTime);
-
-
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            balra = true;
-        }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            balra = false;
-        }
-        if (balra == true)
-        {
-            rb.AddForce(-transform.right * moveSpeed * Time.deltaTime);
-
-
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            jobbra = true;
-        }
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            jobbra = false;
-        }
-        if (jobbra == true)
-        {
-            rb.AddForce(transform.right * moveSpeed * Time.deltaTime);
-
-
-        }
-        mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
-
         Vector2 lookDir = mousepos - rb.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x);
 
 
-        mouse = new Vector3(0f, 0f, angle);
-        Quaternion rotation = Quaternion.Euler(mouse);
+        mouse = new Vector3(0f, 0f, angle * Mathf.Rad2Deg - 90f);
+        rotation = Quaternion.Euler(mouse);
+        mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
+        mousepos2 = mousepos;
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+
     }
-  
-    
+    void FixedUpdate()
+    {
+
+
+
+        // rb.MoveRotation(rb.rotation + revSpeed * Time.deltaTime);
+        rb.MoveRotation(rotation);
+
+    }
 }

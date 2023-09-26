@@ -136,13 +136,11 @@ public class shooting_script : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 active.egérlent = true;
-                // Debug.Log("faszom");
 
             }
             if (Input.GetMouseButtonUp(0))
             {
                 active.egérlent = false;
-                //   Debug.Log("az egészbe");
 
             }
             if (active.egérlent == true && autofire == 0)
@@ -178,7 +176,6 @@ public class shooting_script : MonoBehaviour
             // Assign the selected weapon as the active weapon
             active = weapons[currentWeaponIndex];
 
-            // Log the current weapon's statistics
             Debug.Log("Current Weapon: " + active.Name);
             Debug.Log("Damage: " + active.damage);
             Debug.Log("Fire Rate: " + active.firerate);

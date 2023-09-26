@@ -90,7 +90,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.0010729624, w: -0.99999946}
   m_LocalPosition: {x: -0.032, y: 5.472, z: 0}
-  m_LocalScale: {x: 3, y: 6, z: 1}
+  m_LocalScale: {x: 0.75, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7924295391797284471}
@@ -137,7 +137,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 12
   m_Sprite: {fileID: 21300000, guid: 15472e353669cae439336ff3447c84ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -187,13 +187,21 @@ MonoBehaviour:
   bulletcasing: {fileID: 7078799336936176684, guid: e65dbd696e0fb4a49a85b0b62b64646d,
     type: 3}
   playername: 
+  cam: {fileID: 0}
+  magazin: {fileID: 7575771649585829933, guid: 3ad1d8963bfbaf8459ce424a24951ed1, type: 3}
   Casingforce: 1
   casingpoint: 1
   casingstart: 1
   casingVariability: {x: 0, y: 0, z: 0}
   casingrot: {x: 0, y: 0, z: 0, w: 0}
+  Magforce: 0
+  Magpoint: 0
+  Magstart: 0
+  MagVariability: {x: 0, y: 0, z: 0}
+  Magrot: {x: 0, y: 0, z: 0, w: 0}
   firemode: 1
   bulletcount: 0
+  isreloading: 0
   firerate: 0
   burstmode: 0
   BurstcooldownTimer: 0

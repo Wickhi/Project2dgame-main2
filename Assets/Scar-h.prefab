@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.01, y: 5.28, z: 0}
-  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 198364298558036797}
@@ -126,13 +126,20 @@ MonoBehaviour:
     type: 3}
   playername: 
   cam: {fileID: 0}
+  magazin: {fileID: 4108159218935521615, guid: 35b0c119c1fb7d141a647b8629641d05, type: 3}
   Casingforce: 1
   casingpoint: 1
   casingstart: 1
   casingVariability: {x: 0, y: 0, z: 0}
   casingrot: {x: 0, y: 0, z: 0, w: 0}
+  Magforce: 0
+  Magpoint: 0
+  Magstart: 0
+  MagVariability: {x: 0, y: 0, z: 0}
+  Magrot: {x: 0, y: 0, z: 0, w: 0}
   firemode: 1
   bulletcount: 0
+  isreloading: 0
   firerate: 0
   burstmode: 0
   BurstcooldownTimer: 0

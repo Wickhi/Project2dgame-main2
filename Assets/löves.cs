@@ -41,6 +41,7 @@ public class löves : MonoBehaviour
     public GameObject bulletcasing;
     public string playername;
     public GameObject cam;
+    public GameObject magazin;
 
 
     //CASING STUFF
@@ -50,11 +51,18 @@ public class löves : MonoBehaviour
     public Vector3 casingVariability;
     public Quaternion casingrot;
 
+    //MAG STUFF
+    public float Magforce;
+    public float Magpoint;
+    public float Magstart;
+    public Vector3 MagVariability;
+    public Quaternion Magrot;
+
 
     //weaponfunction
     public int firemode = 1;
     public int bulletcount;
-    private bool isreloading = false;
+    public bool isreloading = false;
     public double firerate;
     public bool burstmode = false;
     public float BurstcooldownTimer;
@@ -98,6 +106,10 @@ public class löves : MonoBehaviour
         casingstart = Random.Range(-0.25f, 0.25f);
         casingVariability = new Vector3(casingstart, casingstart, 0);
 
+        Magforce = Random.Range(-300 , 300);
+        Magstart = Random.Range(-0.25f, 0.25f);
+        MagVariability = new Vector3(Magstart, Magstart, 0);
+
 
 
 
@@ -107,7 +119,7 @@ public class löves : MonoBehaviour
             reloadtimebase = reloadtimebase + Time.deltaTime;
 
         }
-        if (mag <= 0)
+        if (Input.GetKeyDown(KeyCode.R) && isreloading == false)
         {
             StartCoroutine(reload());
 
@@ -137,104 +149,115 @@ public class löves : MonoBehaviour
         {
             semiautofire -= Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             firemode = firemode + 1;
         }
-        if (firemode == numberoffiremodes)
+        if (firemode == numberoffiremodes )
         {
             firemode = firemode - 4;
         }
-        if (firemode == 1)
+
+
+
+
+
+
+
+
+        if (isreloading == false &&  mag > 0)
         {
-            if (semiauto == true)
+            if (firemode == 1)
             {
-                if (semiautofirecooldown == true)
+                if (semiauto == true)
                 {
+                    if (semiautofirecooldown == true)
+                    {
+
+                    }
+                    if (semiautofire == 0)
+                    {
+                        if (Input.GetButtonDown("Fire1"))
+                        {
+                            Shoot();
+                            Casing();
+                            semiautofire = semiautofirebase;
+
+                        }
+                    }
 
                 }
-                if (semiautofire == 0)
+                else
                 {
-                    if (Input.GetButtonDown("Fire1"))
+                    firemode = firemode + 1;
+                }
+            }
+            if (firemode == 2)
+            {
+                if (burst == true)
+                {
+                    if (Input.GetButtonDown("Fire1") && BurstcooldownTimer == 0)
                     {
-                        Shoot();
-                        Casing();
-                        semiautofire = semiautofirebase;
+
+                        StartCoroutine(Burst());
+
+                        BurstcooldownTimer = Burstcooldown;
 
                     }
                 }
-
-            }
-            else
-            {
-                firemode = firemode + 1;
-            }
-        }
-        if (firemode == 2)
-        {
-            if (burst == true)
-            {
-                if (Input.GetButtonDown("Fire1") && BurstcooldownTimer == 0)
+                else
                 {
-
-                    StartCoroutine(Burst());
-
-                    BurstcooldownTimer = Burstcooldown;
-
+                    firemode = firemode + 1;
                 }
             }
-            else
+            if (firemode == 3)
             {
-                firemode = firemode + 1;
-            }
-        }
-        if (firemode == 3)
-        {
-            if (fullauto == true)
-            {
-                if (Input.GetMouseButtonDown(0))
+                if (fullauto == true)
                 {
-                    egérlent = true;
-                    // Debug.Log("faszom");
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        egérlent = true;
+                        // Debug.Log("faszom");
+
+                    }
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        egérlent = false;
+                        //   Debug.Log("az egészbe");
+
+                    }
+                    if (egérlent == true && autofire == 0)
+                    {
+                        Shoot();
+                        Casing();
+                        autofire = firerate;
+
+                    }
 
                 }
-                if (Input.GetMouseButtonUp(0))
+                else
                 {
-                    egérlent = false;
-                    //   Debug.Log("az egészbe");
-
-                }
-                if (egérlent == true && autofire == 0)
-                {
-                    Shoot();
-                    Casing();
-                    autofire = firerate;
-
-                }
-                
-            }
-            else
-            {
-                firemode = firemode + 1; 
-            }
-        }
-
-        if (firemode == 4)
-        {
-            if (buckshot == true)
-            {
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    StartCoroutine(Buckshot());
-                    Casing();
-
-                    //  mag = mag - 1;
-
+                    firemode = firemode + 1;
                 }
             }
-            else
+
+            if (firemode == 4)
             {
-                firemode = firemode + 1;
+                if (buckshot == true)
+                {
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        StartCoroutine(Buckshot());
+                        Casing();
+
+                        //  mag = mag - 1;
+
+                    }
+                }
+                else
+                {
+                    firemode = firemode + 1;
+                }
             }
         }
 
@@ -287,11 +310,15 @@ public class löves : MonoBehaviour
         egérlent = false;
         isreloading = true;
         Debug.Log("reloading..");
+        GameObject magazine = Instantiate(magazin, Casingpoint.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        Rigidbody2D rb_magazine = magazine.GetComponent<Rigidbody2D>();
+        rb_magazine.AddForce((Casingpoint.up + MagVariability) * Magforce, ForceMode2D.Force);
         yield return new WaitForSeconds(reloadtime);
         mag = magazinebase;
         isreloading = false;
         reloadtimebase = 0f;
         reloadtime = reloadtimeBase;
+        
     }
     IEnumerator varakoztatas()
     {

@@ -8,6 +8,7 @@ public class timer : MonoBehaviour
 {
     public Slider slider;
     public GameObject Stuart;
+    public GameObject weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,12 +17,13 @@ public class timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        cooldown();
+        weapon = Stuart.GetComponent<Weaponswitch_script>().activeweapon;
+        // slider.maxValue = Stuart.GetComponent<shooting>().reloadtime;
+        slider.value = weapon.GetComponent<löves>().reloadtimebase;
+        slider.maxValue = weapon.GetComponent<löves>().reloadtimeBase;
+
     }
     public void cooldown()
     {
-       // slider.maxValue = Stuart.GetComponent<shooting>().reloadtime;
-        slider.value = Stuart.GetComponent<shooting_script>().active.reloadtimebase;
-        slider.maxValue = 4f;
     }
 }

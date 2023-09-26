@@ -5,63 +5,60 @@ using UnityEngine;
 public class building_script : MonoBehaviour
 
 {
-    public GameObject fallPrefab;
+
+
+
+    //Variables
+    public int falszam = 3;
+    public int bustszam = 1;
+
+    //Gameobjects
     public Transform buildingspot;
-    public bool buildin = false;
-    public int falszam = 2;
-    public int bustszam = 10000000;
-    public GameObject bustPrefab;
-    public bool bustbuild = false;
-    Vector2 mousepos;
-    Vector3 szarpos;
-    public Camera cam;
     public Transform player;
-    public bool mozoghat = true;
-    public int whattobuild = 0;
-    public bool buildingtime = false;
-    public bool bpressed = false;
-    public GameObject fal;
-    public bool balra = false;
-    public bool jobbra = false;
+    public GameObject playerman;
+    public Camera cam;
+
     public GameObject bust;
+    public GameObject bustPrefab;
     public GameObject Hmg;
     public GameObject hmgPrefab;
+    public GameObject fal;
+    public GameObject fallPrefab;
+
+    //Workvariables
+    public bool bpressed = false;
+    public bool balra = false;
+    public bool jobbra = false;
+    public int whattobuild = 1;
+    public bool mozoghat = true;
+    public bool buildingtime = false;
     public bool hmgdeployed = false;
     public bool usinghmg = false;
+    Vector2 mousepos;
+    Vector3 szarpos;
+    public bool bustbuild = false;
+    public bool buildin = false;
+
+
+
+
+
 
     // B.U.S.T. Bestday Utility Sentry Turret
     // Start is called before the first frame update
     void Start()
     {
-        falszam = 100;
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-
-            buildin = true;
-
-        }
-        if (buildin == true && falszam > 0)
-        {
-            fal1();
-            falszam = falszam - 1;
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            bustbuild = true;
-
-        }
-        if (bustbuild == true && bustszam > 0)
-        {
-            bust1();
-            bustszam = bustszam - 1;
-        }
-        Hmg = GameObject.Find("M3(Clone)");
+        //Hmg = GameObject.Find("M3(Clone)");
     }
 
     // Update is called once per frame
     void Update()
     {
-        Hmg = GameObject.Find("M3(Clone)");
+       // Hmg = GameObject.Find("M3(Clone)");
+
+
+
+        //Rotate the object
         if (Input.GetKeyDown(KeyCode.Q))
         {
 
@@ -71,6 +68,7 @@ public class building_script : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             jobbra = true;
+
         }
         if (Input.GetKeyUp(KeyCode.Q))
         {
@@ -82,6 +80,12 @@ public class building_script : MonoBehaviour
             jobbra = false;
         }
 
+
+
+
+
+
+        //Enter Building Mode
         if (Input.GetKeyDown(KeyCode.B))
         {
             if (!bpressed)
@@ -98,54 +102,81 @@ public class building_script : MonoBehaviour
             }
         }
 
+
+
+
+
+
+        //Building Type Selector
         if (buildingtime == true)
         {
 
+
+            //Wallbuilding
             if (Input.GetKeyDown(KeyCode.Keypad1))
             {
                 whattobuild = 1;
+
             }
+
+
+            //Bustbuilding
             if (Input.GetKeyDown(KeyCode.Keypad2))
             {
                 whattobuild = 2;
 
             }
+
+            //Hmgbuilding
             if (Input.GetKeyDown(KeyCode.Keypad3))
             {
                 whattobuild = 3;
 
             }
+
+
+
+
+
             if (whattobuild == 1)
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (falszam > 0)
                 {
-                    fal1();
-                }
-                if (jobbra == true)
-                {
-                    fal.transform.Rotate(0, 0, -1);
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        fal1();
+                    }
+                    if (jobbra == true)
+                    {
+                        fal.transform.Rotate(0, 0, -1);
 
-                }
-                if (balra == true)
-                {
-                    fal.transform.Rotate(0, 0, 1);
+                    }
+                    if (balra == true)
+                    {
+                        fal.transform.Rotate(0, 0, 1);
+                    }
                 }
             }
+
+
             if (whattobuild == 2)
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (bustszam > 0)
                 {
-                    bust1();
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        bust1();
 
-                }
-                if (jobbra == true)
-                {
-                    bust.transform.Rotate(0, 0, -1);
+                    }
+                    if (jobbra == true)
+                    {
+                        bust.transform.Rotate(0, 0, -1);
 
-                }
-                if (balra == true)
-                {
-                    bust.transform.Rotate(0, 0, 1);
+                    }
+                    if (balra == true)
+                    {
+                        bust.transform.Rotate(0, 0, 1);
+                    }
                 }
             }
 
@@ -172,9 +203,8 @@ public class building_script : MonoBehaviour
                     }
                 }
 
-                    
 
-                
+
                 if (jobbra == true)
                 {
                     Hmg.transform.Rotate(0, 0, -0.5f);
@@ -193,12 +223,19 @@ public class building_script : MonoBehaviour
             }
         }
 
+
     }
+
+
     void fal1()
     {
         Vector3 busthely = cam.ScreenToWorldPoint(Input.mousePosition);
         busthely.z = player.position.z;
         fal = Instantiate(fallPrefab, busthely, Quaternion.Euler(new Vector3(0, 0, 0)));
+        fal.GetComponent<hitdetection>().playername = gameObject.name;
+        falszam -= 1;
+
+
         //  buildin = false;
         //  mozoghat = false;
 

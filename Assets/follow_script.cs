@@ -14,15 +14,16 @@ public class follow_script : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Stuart = GameObject.Find("Stuart");
+        //Stuart = GameObject.Find("Stuart");
     }
 
+
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         transform.position = new Vector3(Stuart.transform.position.x, Stuart.transform.position.y, transform.position.z);
-        hmg = GameObject.Find("M3(Clone)");
-        bool usinghmg = hmg.GetComponent<collidee>().usinghmg;
+        //hmg = GameObject.Find("M3(Clone)");
+        //bool usinghmg = hmg.GetComponent<collidee>().usinghmg;
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             playervalue = playervalue + 1;
@@ -33,15 +34,15 @@ public class follow_script : MonoBehaviour
         }
         if (playervalue == 1)
         {
-        //    transform.position = new Vector3(Stuart.position.x, Stuart.position.y, transform.position.z);
-            if (usinghmg == true)
-            {
-                Stuart = GameObject.Find("M3(Clone)");
-            }
-            else
-            {
-                Stuart = GameObject.Find("Stuart");
-            }
+            transform.position = new Vector3(Stuart.transform.position.x, Stuart.transform.position.y, transform.position.z);
+            //if (usinghmg == true)
+            //{
+              //  Stuart = GameObject.Find("M3(Clone)");
+            //}
+            //else
+            //{
+              //  Stuart = GameObject.Find("Stuart");
+            //}
             
 
 
@@ -49,22 +50,22 @@ public class follow_script : MonoBehaviour
         }
         if (playervalue == 2)
         {
-          //  transform.position = new Vector3(George.position.x, George.position.y, transform.position.z);
-            Stuart = GameObject.Find("George");
+            transform.position = new Vector3(George.transform.position.x, George.transform.position.y, transform.position.z);
+            //Stuart = GameObject.Find("George");
             
 
         }
         if (playervalue == 3)
         {
-           // transform.position = new Vector3(John.position.x, John.position.y, transform.position.z);
-            Stuart = GameObject.Find("John");
+            transform.position = new Vector3(John.transform.position.x, John.transform.position.y, transform.position.z);
+            //Stuart = GameObject.Find("John");
 
 
         }
         if (playervalue == 4)
         {
-            // transform.position = new Vector3(John.position.x, John.position.y, transform.position.z);
-            Stuart = GameObject.Find("t72_luka (2)");
+            transform.position = new Vector3(John.transform.position.x, John.transform.position.y, transform.position.z);
+            //Stuart = GameObject.Find("t72_luka (2)");
 
 
         }

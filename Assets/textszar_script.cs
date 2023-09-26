@@ -7,8 +7,9 @@ public class textszar : MonoBehaviour
 {
     public string MyText;
     public GameObject stuart;
+    public GameObject weapon;
     public TextMeshProUGUI text;
-    public int szar;
+    public int ammo;
    
 
     // Start is called before the first frame update
@@ -20,9 +21,9 @@ public class textszar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        szar = stuart.GetComponent<shooting_script>().active.mag;
+        weapon = stuart.GetComponent<Weaponswitch_script>().activeweapon;
+        ammo = weapon.GetComponent<löves>().mag;
 
-
-        text.text = szar.ToString(); 
+        text.text = ammo.ToString(); 
     }
 }
