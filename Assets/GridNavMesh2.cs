@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridNode : MonoBehaviour
 {
+    // https://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html
     public Vector2Int position;
     public bool walkable;
     public List<GridNode> neighbors;

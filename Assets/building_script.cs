@@ -11,6 +11,7 @@ public class building_script : MonoBehaviour
     //Variables
     public int falszam = 3;
     public int bustszam = 1;
+    public float cooldown = 0.5f;
 
     //Gameobjects
     public Transform buildingspot;
@@ -24,6 +25,7 @@ public class building_script : MonoBehaviour
     public GameObject hmgPrefab;
     public GameObject fal;
     public GameObject fallPrefab;
+    public GameObject fal2;
 
     //Workvariables
     public bool bpressed = false;
@@ -35,9 +37,16 @@ public class building_script : MonoBehaviour
     public bool hmgdeployed = false;
     public bool usinghmg = false;
     Vector2 mousepos;
-    Vector3 szarpos;
+    Vector3 mouseposition;
     public bool bustbuild = false;
     public bool buildin = false;
+    public bool Canbuild = true;
+    public float cooldownbase = 0.5f;
+    public string falname = "fal";
+    public bool selected;
+    public bool deployed;
+    public bool firebuttonpressed;
+   
 
 
 
@@ -54,7 +63,9 @@ public class building_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       // Hmg = GameObject.Find("M3(Clone)");
+        mouseposition = cam.ScreenToWorldPoint(Input.mousePosition);
+        mouseposition.z = player.position.z;
+        // Hmg = GameObject.Find("M3(Clone)");
 
 
 
@@ -98,11 +109,20 @@ public class building_script : MonoBehaviour
             {
                 bpressed = false;
                 mozoghat = true;
+                selected = false;
                 buildingtime = false;
             }
         }
 
-
+        if (Canbuild == false)
+        {
+            cooldownbase -= Time.deltaTime;
+            if (cooldownbase < 0)
+            {
+                cooldownbase = cooldown;
+                Canbuild = true;
+            }
+        }
 
 
 
@@ -140,24 +160,38 @@ public class building_script : MonoBehaviour
 
             if (whattobuild == 1)
             {
-                if (falszam > 0)
+
+                
+                if (selected == true)
                 {
-                    if (Input.GetButtonDown("Fire1"))
-                    {
-                        fal1();
-                    }
+                    fal.transform.position = mouseposition;
                     if (jobbra == true)
                     {
-                        fal.transform.Rotate(0, 0, -1);
+                        fal.transform.Rotate(0, 0, -0.5f);
 
                     }
                     if (balra == true)
                     {
-                        fal.transform.Rotate(0, 0, 1);
+                        fal.transform.Rotate(0, 0, 0.5f);
+                    }
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        selected = false;
+
                     }
                 }
             }
-
+            if (falszam > 0)
+            {
+                if (Canbuild == true)
+                {
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        fal1();
+                        firebuttonpressed = true;
+                    }
+                }
+            }
 
             if (whattobuild == 2)
             {
@@ -234,6 +268,8 @@ public class building_script : MonoBehaviour
         fal = Instantiate(fallPrefab, busthely, Quaternion.Euler(new Vector3(0, 0, 0)));
         fal.GetComponent<hitdetection>().playername = gameObject.name;
         falszam -= 1;
+        fal.name = falname + " " + falszam.ToString();
+        selected = true;
 
 
         //  buildin = false;
@@ -245,7 +281,7 @@ public class building_script : MonoBehaviour
     void bust1()
     {
         Vector3 busthely = cam.ScreenToWorldPoint(Input.mousePosition);
-        busthely.z = player.position.z;
+        busthely.z = player.rotation.z;
         bust = Instantiate(bustPrefab, busthely, Quaternion.Euler(new Vector3(0, 0, 0)));
         //  bustbuild = false;
         // mozoghat = false;
