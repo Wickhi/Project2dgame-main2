@@ -2,17 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaraGrid : MonoBehaviour
+public class baragrid : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int GridSizeX;
+    public int GridSizeY;
+    public int CellSize;
+    private baranode[,] grid;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
