@@ -12,7 +12,7 @@ public class baranode : MonoBehaviour
     public int fCost;
     public baranode parent;
     public bool special;
-    public string place;
+    public string place = "normal";
     public baranode(Vector2Int pos, bool isWalkable)
     {
         position = pos;
