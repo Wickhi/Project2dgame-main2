@@ -13,12 +13,14 @@ public class baranode : MonoBehaviour
     public baranode parent;
     public bool special;
     public string place = "normal";
-    public baranode(Vector2Int pos, bool isWalkable)
-    {
-        position = pos;
-        walkable = isWalkable;
-        neighbors = new List<GameObject>();
-    }
+    public GameObject Up;
+    public GameObject Down;
+    public GameObject Right;
+    public GameObject Left;
+    public GameObject Upleft;
+    public GameObject Upright;
+    public GameObject Downleft;
+    public GameObject Downright;
 
     public int CalculateDistanceCost(baranode targetNode)
     {
