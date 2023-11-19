@@ -169,14 +169,7 @@ public class Barapath : MonoBehaviour
                     Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
                     Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
                     Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Up);
-                    node.GetComponent<baranode>().neighbors.Add(Left);
-                    node.GetComponent<baranode>().neighbors.Add(Down);
-                    node.GetComponent<baranode>().neighbors.Add(Right);
-                    node.GetComponent<baranode>().neighbors.Add(Downleft);
-                    node.GetComponent<baranode>().neighbors.Add(Downright);
-                    node.GetComponent<baranode>().neighbors.Add(Upright);
-                    node.GetComponent<baranode>().neighbors.Add(Upleft);
+                    
 
 
                 }
@@ -185,18 +178,14 @@ public class Barapath : MonoBehaviour
                     Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
                     Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
                     Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Right);
-                    node.GetComponent<baranode>().neighbors.Add(Down);
-                    node.GetComponent<baranode>().neighbors.Add(Downright);
+                    
                 }
                 if (node.GetComponent<baranode>().place == "top right")
                 {
                     Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
                     Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
                     Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Left);
-                    node.GetComponent<baranode>().neighbors.Add(Down);
-                    node.GetComponent<baranode>().neighbors.Add(Downleft);
+                    
                 }
                 if (node.GetComponent<baranode>().place == "only top")
                 {
@@ -205,11 +194,7 @@ public class Barapath : MonoBehaviour
                     Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
                     Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
                     Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Right);
-                    node.GetComponent<baranode>().neighbors.Add(Left);
-                    node.GetComponent<baranode>().neighbors.Add(Down);
-                    node.GetComponent<baranode>().neighbors.Add(Downleft);
-                    node.GetComponent<baranode>().neighbors.Add(Downright);
+
                 }
                 if (node.GetComponent<baranode>().place == "bottom left")
                 {
@@ -217,9 +202,7 @@ public class Barapath : MonoBehaviour
                     Debug.Log("Cell (" + (fx + 1) + ", " + fy + ")");
                     Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
                     Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Right);
-                    node.GetComponent<baranode>().neighbors.Add(Up);
-                    node.GetComponent<baranode>().neighbors.Add(Upright);
+                    
 
                 }
                 if (node.GetComponent<baranode>().place == "bottom right")
@@ -227,9 +210,7 @@ public class Barapath : MonoBehaviour
                     Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
                     Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
                     Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Up);
-                    node.GetComponent<baranode>().neighbors.Add(Left);
-                    node.GetComponent<baranode>().neighbors.Add(Upleft);
+                    
                 }
                 if (node.GetComponent<baranode>().place == "only bottom")
                 {
@@ -238,11 +219,7 @@ public class Barapath : MonoBehaviour
                     Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
                     Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
                     Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Right);
-                    node.GetComponent<baranode>().neighbors.Add(Left);
-                    node.GetComponent<baranode>().neighbors.Add(Up);
-                    node.GetComponent<baranode>().neighbors.Add(Upleft);
-                    node.GetComponent<baranode>().neighbors.Add(Upright);
+                    
                 }
                 if (node.GetComponent<baranode>().place == "right")
                 {
@@ -251,10 +228,7 @@ public class Barapath : MonoBehaviour
                     Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
                     Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
 
-                    node.GetComponent<baranode>().neighbors.Add(Up);
-                    node.GetComponent<baranode>().neighbors.Add(Down);
-                    node.GetComponent<baranode>().neighbors.Add(Upleft);
-                    node.GetComponent<baranode>().neighbors.Add(Downleft);
+
                 }
                 if (node.GetComponent<baranode>().place == "left")
                 {
@@ -263,11 +237,7 @@ public class Barapath : MonoBehaviour
                     Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
                     Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
                     Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
-                    node.GetComponent<baranode>().neighbors.Add(Right);
-                    node.GetComponent<baranode>().neighbors.Add(Up);
-                    node.GetComponent<baranode>().neighbors.Add(Down);
-                    node.GetComponent<baranode>().neighbors.Add(Upright);
-                    node.GetComponent<baranode>().neighbors.Add(Downright);
+
                 }
 
 
