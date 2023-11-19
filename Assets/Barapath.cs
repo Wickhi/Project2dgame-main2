@@ -9,7 +9,7 @@ public class Barapath : MonoBehaviour
     public int CellSize;
     private baranode[,] grid;
     public GameObject neighbor;
-    public GameObject node;
+    public baranode node;
     public GameObject Up;
     public GameObject Down;
     public GameObject Right;
@@ -159,84 +159,8 @@ public class Barapath : MonoBehaviour
                     node.GetComponent<SpriteRenderer>().color = Color.red;
 
                 }
-                if (node.GetComponent<baranode>().place == "normal")
+                if (node.position.x - 1 >=0)
                 {
-                    Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
-                    Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
-                    Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
-                    Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
-                    Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
-                    Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
-                    
-
-
-                }
-                if (node.GetComponent<baranode>().place == "top left")
-                {
-                    Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
-                    Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
-                    
-                }
-                if (node.GetComponent<baranode>().place == "top right")
-                {
-                    Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
-                    Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
-                    
-                }
-                if (node.GetComponent<baranode>().place == "only top")
-                {
-                    Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
-                    Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
-                    Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
-
-                }
-                if (node.GetComponent<baranode>().place == "bottom left")
-                {
-                    Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Debug.Log("Cell (" + (fx + 1) + ", " + fy + ")");
-                    Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
-                    Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
-                    
-
-                }
-                if (node.GetComponent<baranode>().place == "bottom right")
-                {
-                    Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
-                    Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
-                    
-                }
-                if (node.GetComponent<baranode>().place == "only bottom")
-                {
-                    Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Left = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
-                    Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
-                    Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
-                    
-                }
-                if (node.GetComponent<baranode>().place == "right")
-                {
-                    Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
-                    Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
-                    Upleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")"));
-                    Downleft = GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")"));
-
-
-                }
-                if (node.GetComponent<baranode>().place == "left")
-                {
-                    Right = GameObject.Find(("Cell (" + (fx + 1) + ", " + fy + ")"));
-                    Up = GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")"));
-                    Down = GameObject.Find(("Cell (" + fx + ", " + (fy - 1) + ")"));
-                    Upright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")"));
-                    Downright = GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")"));
 
                 }
 
