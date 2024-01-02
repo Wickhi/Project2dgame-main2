@@ -74,9 +74,9 @@ public class Barapath : MonoBehaviour
         {
             for (int fy = 0; fy < GridSizeY; fy++)
             {
-                node = GameObject.Find(("Cell (" + fx + ", " + fy + ")"));
-                node.GetComponent<baranode>().place = "normal";
-                Debug.Log("Node= " + node.name);
+                //node = GameObject.Find(("Cell (" + fx + ", " + fy + ")"));
+                //node.GetComponent<baranode>().place = "normal";
+                //Debug.Log("Node= " + node.name);
                 if (fy == GridSizeY - 1)
                 {
 
@@ -84,19 +84,19 @@ public class Barapath : MonoBehaviour
                     if (fx == GridSizeX - GridSizeX)
                     {
                         //Top left
-                        node.GetComponent<baranode>().special = true;
-                        node.GetComponent<baranode>().place = "top left";
+                        node.special = true;
+                        node.place = "top left";
                         
                     }
                     if (fx == GridSizeX - 1)
                     {
                         //Top right
-                        node.GetComponent<baranode>().place = "top right";
-                        node.GetComponent<baranode>().special = true;
+                        node.place = "top right";
+                        node.special = true;
                     }
-                    if (node.GetComponent<baranode>().special == false)
+                    if (node.special == false)
                     {
-                        node.GetComponent<baranode>().place = "only top";
+                        node.place = "only top";
                         
                     }
 
@@ -105,26 +105,26 @@ public class Barapath : MonoBehaviour
                 if (fy == GridSizeY - GridSizeY)
                 {
                     //Bottom
-                    Debug.Log("Node= " + node.name);
+                    //Debug.Log("Node= " + node.name);
                     if (fx == GridSizeX - GridSizeX)
                     {
                         //Bottom left
-                        node.GetComponent<baranode>().place = "bottom left";
-                        node.GetComponent<baranode>().special = true;
+                        node.place = "bottom left";
+                        node.special = true;
  
 
                     }
                     if (fx == GridSizeX - 1)
                     {
                         //Bottom right
-                        node.GetComponent<baranode>().place = "bottom right";
-                        node.GetComponent<baranode>().special = true;
+                        node.place = "bottom right";
+                        node.special = true;
 
 
                     }
-                    if (node.GetComponent<baranode>().special == false)
+                    if (node.special == false)
                     {
-                        node.GetComponent<baranode>().place = "only bottom";
+                        node.place = "only bottom";
 
 
                     }
@@ -138,7 +138,7 @@ public class Barapath : MonoBehaviour
                     if (fy > GridSizeY - GridSizeY && fy < GridSizeY - 1)
                     {
 
-                        node.GetComponent<baranode>().place = "right";
+                        node.place = "right";
  
                     }
                 }
@@ -150,11 +150,11 @@ public class Barapath : MonoBehaviour
                     if (fy > GridSizeY - GridSizeY && fy < GridSizeY - 1)
                     {
 
-                        node.GetComponent<baranode>().place = "left";
+                        node.place = "left";
 
                     }
                 }
-                if (node.GetComponent<baranode>().place != "normal")
+                if (node.place != "normal")
                 {
                     node.GetComponent<SpriteRenderer>().color = Color.red;
 

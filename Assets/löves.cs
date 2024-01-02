@@ -231,7 +231,6 @@ public class löves : MonoBehaviour
                         Shoot();
                         Casing();
                         autofire = firerate;
-
                     }
 
                 }
