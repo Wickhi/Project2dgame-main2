@@ -9,7 +9,7 @@ public class Barapath : MonoBehaviour
     public int CellSize;
     private baranode[,] grid;
     public GameObject neighbor;
-    public baranode node;
+    public GameObject node;
     public GameObject Up;
     public GameObject Down;
     public GameObject Right;
@@ -19,19 +19,28 @@ public class Barapath : MonoBehaviour
     public GameObject Downleft;
     public GameObject Downright;
     public Sprite sprite;
+    public Dictionary<Vector2, GameObject> backgroundszar;
+    public Dictionary<GameObject, Vector2> backgroundszar2;
     public SpriteRenderer spriteRenderer;
     public List<GameObject> neighbors;
     // https://pavcreations.com/tilemap-based-a-star-algorithm-implementation-in-unity-game/
     // https://pavcreations.com/pathfinding-with-a-star-algorithm-in-unity-small-game-project/
     // Start is called before the first frame update
-    private void Start()
+    void Start()
     {
+        backgroundszar = new Dictionary<Vector2, GameObject>();
+        backgroundszar2 = new Dictionary<GameObject, Vector2>();
         CreateGrid();
         GenerateNavMesh();
     }
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            //neighbors.Add(GameObject.Find("Stuart"));
+            //node.GetComponent<baranode>().neighbors = neighbors;
 
+        }
     }
     void CreateGrid()
     {
@@ -55,7 +64,7 @@ public class Barapath : MonoBehaviour
                 cellObject.AddComponent<SpriteRenderer>();
                 spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = sprite;
-                cellObject.transform.position = gridOffset + new Vector3(x * CellSize, y * CellSize, 0f);
+                cellObject.transform.position = gridOffset + new Vector3(x * CellSize, y * CellSize, 10f);
                 grid[x, y] = cellObject.AddComponent<baranode>();
                 grid[x, y].position = position;
                 grid[x, y].walkable = isWalkable;
@@ -74,95 +83,131 @@ public class Barapath : MonoBehaviour
         {
             for (int fy = 0; fy < GridSizeY; fy++)
             {
-                //node = GameObject.Find(("Cell (" + fx + ", " + fy + ")"));
-                //node.GetComponent<baranode>().place = "normal";
+                neighbors.Clear();
+                node = GameObject.Find(("Cell (" + fx + ", " + fy + ")"));
+                node.GetComponent<baranode>().place = "normal";
                 //Debug.Log("Node= " + node.name);
                 if (fy == GridSizeY - 1)
                 {
-
                     //Top
                     if (fx == GridSizeX - GridSizeX)
                     {
                         //Top left
-                        node.special = true;
-                        node.place = "top left";
+                        node.GetComponent<baranode>().special = true;
+                        node.GetComponent<baranode>().place = "top left";
+                        //neighbors.Add(GameObject.Find("Stuart"));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx)  + ", " + (fy - 1)  + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
                         
+
                     }
                     if (fx == GridSizeX - 1)
                     {
                         //Top right
-                        node.place = "top right";
-                        node.special = true;
+                        node.GetComponent<baranode>().place = "top right";
+                        node.GetComponent<baranode>().special = true;
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
                     }
-                    if (node.special == false)
+                    if (node.GetComponent<baranode>().special == false)
                     {
-                        node.place = "only top";
-                        
+                        //Only Top
+                        node.GetComponent<baranode>().place = "only top";
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
                     }
-
-
                 }
+
                 if (fy == GridSizeY - GridSizeY)
                 {
                     //Bottom
-                    //Debug.Log("Node= " + node.name);
                     if (fx == GridSizeX - GridSizeX)
                     {
                         //Bottom left
-                        node.place = "bottom left";
-                        node.special = true;
- 
+                        node.GetComponent<baranode>().place = "bottom left";
+                        node.GetComponent<baranode>().special = true;
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
 
                     }
                     if (fx == GridSizeX - 1)
                     {
                         //Bottom right
-                        node.place = "bottom right";
-                        node.special = true;
-
+                        node.GetComponent<baranode>().place = "bottom right";
+                        node.GetComponent<baranode>().special = true;
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
 
                     }
-                    if (node.special == false)
+                    if (node.GetComponent<baranode>().special == false)
                     {
-                        node.place = "only bottom";
-
+                        //Only bottom
+                        node.GetComponent<baranode>().place = "only bottom";
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
 
                     }
-
-
                 }
+
                 if (fx == GridSizeX - 1)
                 {
-                    //node.GetComponent<baranode>().place = "right";
                     //right
                     if (fy > GridSizeY - GridSizeY && fy < GridSizeY - 1)
                     {
-
-                        node.place = "right";
- 
+                        node.GetComponent<baranode>().place = "right";
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx -  1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx ) + ", " + (fy - 1) + ")")));
                     }
                 }
+
                 if (fx == GridSizeX - GridSizeX)
                 {
-
                     //left
-                    //node.GetComponent<baranode>().place = "left";
                     if (fy > GridSizeY - GridSizeY && fy < GridSizeY - 1)
                     {
-
-                        node.place = "left";
+                        node.GetComponent<baranode>().place = "left";
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
 
                     }
                 }
-                if (node.place != "normal")
+
+                if (node.GetComponent<baranode>().place != "normal")
                 {
                     node.GetComponent<SpriteRenderer>().color = Color.red;
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
 
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
                 }
-                if (node.position.x - 1 >=0)
-                {
+                node.GetComponent<baranode>().neighbors = neighbors;
+                Vector2Int position = new Vector2Int(fx, fy);
+                backgroundszar.Add(position, node);
+                backgroundszar2.Add(node, position);
 
-                }
+                backgroundszar[new Vector2(fx, fy)] = node;
+                backgroundszar2[node] = new Vector2(fx, fy);
 
 
 
@@ -171,5 +216,13 @@ public class Barapath : MonoBehaviour
 
         }
     }
- }
+    public GameObject Getileatpostition(Vector2 pos)
+    {
+        if (backgroundszar.TryGetValue(pos, out var point))
+        {
+            return point;
+        }
+        return null;
+    }
+}
 
