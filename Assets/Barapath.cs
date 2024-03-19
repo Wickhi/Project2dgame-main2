@@ -35,7 +35,7 @@ public class Barapath : MonoBehaviour
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             //neighbors.Add(GameObject.Find("Stuart"));
             //node.GetComponent<baranode>().neighbors = neighbors;
@@ -68,7 +68,7 @@ public class Barapath : MonoBehaviour
                 grid[x, y] = cellObject.AddComponent<baranode>();
                 grid[x, y].position = position;
                 grid[x, y].walkable = isWalkable;
-                
+
             }
         }
     }
@@ -96,10 +96,10 @@ public class Barapath : MonoBehaviour
                         node.GetComponent<baranode>().special = true;
                         node.GetComponent<baranode>().place = "top left";
                         //neighbors.Add(GameObject.Find("Stuart"));
-                        neighbors.Add(GameObject.Find(("Cell (" + (fx)  + ", " + (fy - 1)  + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
                         neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
                         neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
-                        
+
 
                     }
                     if (fx == GridSizeX - 1)
@@ -168,8 +168,8 @@ public class Barapath : MonoBehaviour
                         neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
                         neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
                         neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
-                        neighbors.Add(GameObject.Find(("Cell (" + (fx -  1) + ", " + (fy - 1) + ")")));
-                        neighbors.Add(GameObject.Find(("Cell (" + (fx ) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
                     }
                 }
 
@@ -214,6 +214,122 @@ public class Barapath : MonoBehaviour
             }
 
 
+        }
+    }
+    void GenerateNavMesh2()
+    {
+
+        for (int fx = 0; fx < GridSizeX; fx++)
+        {
+            for (int fy = 0; fy < GridSizeY; fy++)
+            {
+                neighbors.Clear();
+                node = GameObject.Find(("Cell (" + fx + ", " + fy + ")"));
+                //Debug.Log("Node= " + node.name);
+                if (fy == GridSizeY - 1)
+                {
+                    //Top
+                    if (node.GetComponent<baranode>().place == "top left")
+                    {
+                        //Top left
+                        //neighbors.Add(GameObject.Find("Stuart"));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+
+
+                    }
+                    if (node.GetComponent<baranode>().place == "top right")
+                    {
+                        //Top right
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                    }
+                    if (node.GetComponent<baranode>().place == "only top")
+                    {
+                        //Only Top
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                    }
+                }
+
+                if (fy == GridSizeY - GridSizeY)
+                {
+                    //Bottom
+                    if (node.GetComponent<baranode>().place == "bottom left")
+                    {
+                        //Bottom left
+
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+
+                    }
+                    if (node.GetComponent<baranode>().place == "bottom right")
+                    {
+                        //Bottom right
+
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+
+                    }
+                    if (node.GetComponent<baranode>().place == "only bottom")
+                    {
+                        //Only bottom
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+
+                    }
+                }
+
+                if (fx == GridSizeX - 1)
+                {
+                    //right
+                    if (node.GetComponent<baranode>().place == "right")
+                    {
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                    }
+                }
+
+                if (fx == GridSizeX - GridSizeX)
+                {
+                    //left
+                    if (node.GetComponent<baranode>().place == "left")
+                    {
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                        neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+
+                    }
+                }
+
+                if (node.GetComponent<baranode>().place == "normal")
+                {
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy) + ")")));
+
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy - 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy - 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy - 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx - 1) + ", " + (fy + 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx) + ", " + (fy + 1) + ")")));
+                    neighbors.Add(GameObject.Find(("Cell (" + (fx + 1) + ", " + (fy + 1) + ")")));
+                }
+            }
         }
     }
     public GameObject Getileatpostition(Vector2 pos)
