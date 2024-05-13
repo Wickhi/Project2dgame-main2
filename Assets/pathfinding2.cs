@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PathfindingOptimized : MonoBehaviour
 {
+
+
+    //variables
     [SerializeField] private int gridWidth = 10;
     [SerializeField] private int gridHeight = 10;
     [SerializeField] private int cellWidth = 1;
@@ -17,35 +20,51 @@ public class PathfindingOptimized : MonoBehaviour
     [SerializeField] private Transform textPrefab;
     [SerializeField] private Transform textParent;
 
-    private Dictionary<Vector2, Cell> cells;
+    [SerializeField]  private Dictionary<Vector2, Cell2> cells;
 
-    public Dictionary<Cell, GameObject> objectCell;
-    public Dictionary<GameObject, Cell> objectCell2;
+    [SerializeField] public Dictionary<Cell2, GameObject> objectCell;
+    [SerializeField] public Dictionary<GameObject, Cell2> objectCell2;
+    private Dictionary<Vector2, GameObject> cells2;
     public Sprite sprite;
     public SpriteRenderer spriteRenderer;
     public List<Vector2> cellsToSearch;
     public List<Vector2> searchedCells;
     public List<Vector2> finalPath;
-
-    bool pathGenerated;
+    [SerializeField] public int x;
+    [SerializeField] public int y;
+    public bool pathGenerated;
     private void Update()
     {
         if (newPath && !pathGenerated)
         {
             GenerateGrid();
 
-            FindPath(new Vector2(0, 0), new Vector2(6, 8));
+            FindPath(new Vector2(0, 0), new Vector2(x, y));
 
-            if (showTexts)
-            {
-                VisualiseText();
-            }
+            //foreach (Vector2 c in finalPath)
+            //{
+                //objectCell[cells[c]].GetComponent<SpriteRenderer>().color = Color.magenta;
+            //}
+
 
             pathGenerated = true;
         }
         else if (!newPath)
         {
             pathGenerated = false;
+        }
+        if (pathGenerated == true)
+        {
+            if (showTexts)
+            {
+                //Debug.Log("kurva");
+                foreach (Vector2 c in finalPath)
+                {
+
+                    Debug.Log("kurva");
+                    cells2[c].GetComponent<SpriteRenderer>().color = Color.magenta;
+                }
+            }
         }
     }
 
@@ -66,7 +85,7 @@ public class PathfindingOptimized : MonoBehaviour
 
             foreach (Vector2 pos in cellsToSearch)
             {
-                Cell c = cells[pos];
+                Cell2 c = cells[pos];
                 if (c.fCost < cells[cellToSearch].fCost ||
                     c.fCost == cells[cellToSearch].fCost && c.hCost == cells[cellToSearch].hCost)
                 {
@@ -80,7 +99,7 @@ public class PathfindingOptimized : MonoBehaviour
 
             if (cellToSearch == endPos)
             {
-                Cell pathCell = cells[endPos];
+                Cell2 pathCell = cells[endPos];
 
                 while (pathCell.position != startPos)
                 {
@@ -89,7 +108,7 @@ public class PathfindingOptimized : MonoBehaviour
                 }
 
                 finalPath.Add(startPos);
-                VisualiseText();
+                //VisualiseText();
                 return;
             }
 
@@ -102,21 +121,21 @@ public class PathfindingOptimized : MonoBehaviour
         }
     }
 
-    private void VisualiseText()
-    {
-        foreach (Transform child in textParent)
-        {
-            Destroy(child.gameObject);
-        }
+    //private void VisualiseText()
+    //{
+        //foreach (Transform child in textParent)
+        //{
+            //Destroy(child.gameObject);
+        //}
 
-        foreach (Vector2 pos in cells.Keys)
-        {
-            Transform text = Instantiate(textPrefab, pos + (Vector2)transform.position, new Quaternion(), textParent);
-            text.GetChild(0).GetComponent<Text>().text = cells[pos].gCost.ToString();
-            text.GetChild(1).GetComponent<Text>().text = cells[pos].hCost.ToString();
-            text.GetChild(2).GetComponent<Text>().text = cells[pos].fCost.ToString();
-        }
-    }
+        //foreach (Vector2 pos in cells.Keys)
+        //{
+            //Transform text = Instantiate(textPrefab, pos + (Vector2)transform.position, new Quaternion(), textParent);
+            //text.GetChild(0).GetComponent<Text>().text = cells[pos].gCost.ToString();
+            //text.GetChild(1).GetComponent<Text>().text = cells[pos].hCost.ToString();
+            //text.GetChild(2).GetComponent<Text>().text = cells[pos].fCost.ToString();
+        //}
+    //}
 
     private void SearchCellNeighbors(Vector2 cellPos, Vector2 endPos)
     {
@@ -126,13 +145,13 @@ public class PathfindingOptimized : MonoBehaviour
             {
                 Vector2 neighborPos = new Vector2(x, y);
 
-                if (cells.TryGetValue(neighborPos, out Cell c) && !searchedCells.Contains(neighborPos) && !cells[neighborPos].isWall)
+                if (cells.TryGetValue(neighborPos, out Cell2 c) && !searchedCells.Contains(neighborPos) && !cells[neighborPos].isWall)
                 {
                     int GcostToNeighbour = cells[cellPos].gCost + GetDistance(cellPos, neighborPos);
 
                     if (GcostToNeighbour < cells[neighborPos].gCost)
                     {
-                        Cell neighbourNode = cells[neighborPos];
+                        Cell2 neighbourNode = cells[neighborPos];
 
                         neighbourNode.connection = cellPos;
                         neighbourNode.gCost = GcostToNeighbour;
@@ -150,9 +169,10 @@ public class PathfindingOptimized : MonoBehaviour
     }
     void GenerateGrid()
     {
-        cells = new Dictionary<Vector2, Cell>();
-        objectCell = new Dictionary<Cell, GameObject>();
-        objectCell2 = new Dictionary<GameObject, Cell>();
+        cells = new Dictionary<Vector2, Cell2>();
+        cells2 = new Dictionary<Vector2, GameObject>();
+        objectCell = new Dictionary<Cell2, GameObject>();
+        objectCell2 = new Dictionary<GameObject, Cell2>();
         Vector3 gridOffset = transform.position - new Vector3(gridHeight * CellSize / 2f, gridWidth * CellSize / 2f, 0f);
         for (float x = 0; x < gridWidth; x += cellWidth)
         {
@@ -167,9 +187,10 @@ public class PathfindingOptimized : MonoBehaviour
                 spriteRenderer.sprite = sprite;
                 cellObject.transform.position = gridOffset + new Vector3(x * CellSize, y * CellSize, 10f);
                 Vector2 pos = new Vector2(x, y);
-                cells.Add(pos, new Cell(pos));
-                objectCell.Add(new Cell(pos), cellObject);
-                objectCell2.Add(cellObject, new Cell(pos));
+                cells.Add(pos, new Cell2(pos));
+                cells2.Add(pos, cellObject);
+                objectCell.Add(new Cell2(pos), cellObject);
+                objectCell2.Add(cellObject, new Cell2(pos));
 
 
             }
@@ -181,34 +202,37 @@ public class PathfindingOptimized : MonoBehaviour
             cells[pos].isWall = true;
         }
     }
-
-    private void OnDrawGizmos()
+    //Get grid visualized
+    private void VisualizeGrid()
     {
-        if (!visualiseGrid || cells == null)
-        {
-            return;
-        }
+        //if (!visualiseGrid || cells == null)
+        //{
+            //return;
+            
+        //}
 
-        foreach (KeyValuePair<Vector2, Cell> kvp in cells)
+        foreach (KeyValuePair<Vector2, Cell2> kvp in cells)
         {
             if (!kvp.Value.isWall)
             {
-                
-                objectCell[c]spriteRenderer.color = Color.white;
+                Debug.Log("kurva");
+                objectCell[cells[kvp.Key]].GetComponent<SpriteRenderer>().color = Color.white;
             }
             else
             {
-                spriteRenderer.color = Color.black;
+                Debug.Log("kurva");
+                objectCell[cells[kvp.Key]].GetComponent<SpriteRenderer>().color = Color.black;
             }
 
             if (finalPath.Contains(kvp.Key))
             {
-                spritere.color = Color.magenta;
+                Debug.Log("kurva");
+                objectCell[cells[kvp.Key]].GetComponent<SpriteRenderer>().color = Color.magenta;
             }
 
-            float gizmoSize = showTexts ? 0.2f : 1;
+            //float gizmoSize = showTexts ? 0.2f : 1;
 
-            Gizmos.DrawCube(kvp.Key + (Vector2)transform.position, new Vector3(cellWidth, cellHeight) * gizmoSize);
+            //Gizmos.DrawCube(kvp.Key + (Vector2)transform.position, new Vector3(cellWidth, cellHeight) * gizmoSize);
         }
     }
     public int GetDistance(Vector2 pos1, Vector2 pos2)
@@ -220,17 +244,6 @@ public class PathfindingOptimized : MonoBehaviour
         return lowest * 14 + horizontalMovesRequired * 10;
     }
 }
-public class Cell
-{
-    public Vector2 position;
-    public int fCost = int.MaxValue;
-    public int gCost = int.MaxValue;
-    public int hCost = int.MaxValue;
-    public Vector2 connection;
-    public bool isWall;
 
-    public Cell(Vector2 pos)
-    {
-        position = pos;
-    }
-}
+
+//Cell for calculation
