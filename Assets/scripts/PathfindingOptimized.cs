@@ -28,6 +28,7 @@ public class PathfindingOptimized : MonoBehaviour
     public bool reset;
     public bool visualizegrid;
     public bool DisableGrid;
+    public bool doupdategrid;
     public bool getwalls;
     public int numberOfWalls;
 
@@ -49,7 +50,6 @@ public class PathfindingOptimized : MonoBehaviour
     public List<Vector2> Objectfinalpos;
     public List<Vector2> Walls;
     public List<Vector2> TilesToAvoid;
-    public List<Vector2> path;
 
 
 
@@ -72,6 +72,8 @@ public class PathfindingOptimized : MonoBehaviour
         if (getwalls == true)
         {
             GenerateWalls2();
+            //GenerateWalls3();
+
             getwalls = false;
         }
         if (DisableGrid == true)
@@ -79,7 +81,11 @@ public class PathfindingOptimized : MonoBehaviour
             Visualizegrid();
             DisableGrid = false;
         }
-
+        if (doupdategrid == true)
+        {
+            updategrid();
+            doupdategrid = false;
+        }
     }
 
 
@@ -251,37 +257,55 @@ public class PathfindingOptimized : MonoBehaviour
                 Collider2D collider = celle.GetComponent<BoxCollider2D>();
                 spriteRenderer = celle.GetComponent<SpriteRenderer>();
                 RaycastHit2D hit = Physics2D.Raycast(celle.transform.position, celle.transform.position, Mathf.Infinity, layrm);
+                
+                if(collider.IsTouching(collidee))
+                {
+                    cells[pos].tiletoavoid = true;
+                    TilesToAvoid.Add(pos);
+                    spriteRenderer.color = Color.blue;
+                }
                 if (hit.collider == collidee)
                 {
                     cells[pos].isWall = true;
                     spriteRenderer.color = Color.black;
                     Walls.Add(pos);
                 }
-
             }
 
         }
-        foreach (Vector2 c in Walls)
-        {
-            Vector2 pos = new Vector2(cells[c].position.x - 1, cells[c].position.y - 1);
-            for (int x = 0; x < 3; x++)
-            {
-                for (int y = 0; y < 3; y++)
-                {
-                    Vector2 pos2 = new Vector2(pos.x + x, pos.y + y);
-                    if (cells.TryGetValue(pos2, out Cell2 B))
-                    {
-                        B.tiletoavoid = true;
-                        TilesToAvoid.Add(pos2);
-                        cells2[pos2].GetComponent<SpriteRenderer>().color = Color.cyan;
-                    }
-                   
-                }
-
-            }
-        }
+        
     }
+    public void GenerateWalls3()
+    {
+        //foreach (Vector2 c in Walls)
+        //{
+        //Vector2 pos = new Vector2(cells[c].position.x - 1, cells[c].position.y - 1);
+        //for (int x = 0; x < 3; x++)
+        //{
+        //for (int y = 0; y < 3; y++)
+        //{
+        //Vector2 pos2 = new Vector2(pos.x + x, pos.y + y);
+        //if (cells.TryGetValue(pos2, out Cell2 B))
+        //{
+        //B.tiletoavoid = true;
+        //TilesToAvoid.Add(pos2);
+        //cells2[pos2].GetComponent<SpriteRenderer>().color = Color.cyan;
+        //}
 
+        //}
+
+        //}
+        //}
+        for (int x = 0; x < gridWidth; x += cellWidth)
+        {
+            for (int y = 0; y < gridHeight; y += cellHeight)
+            {
+
+
+            }
+        }
+      
+    }
     //Get grid visualized
 
     public int GetDistance(Vector2 pos1, Vector2 pos2)

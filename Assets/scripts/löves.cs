@@ -5,8 +5,9 @@ using System.Threading;
 using UnityEngine.Audio;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
-public class löves : MonoBehaviour
+public class löves : NetworkBehaviour
 {
     //FIREMODES
     public bool semiauto;
@@ -290,6 +291,8 @@ public class löves : MonoBehaviour
     {
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
+        bullet.GetComponent<NetworkObject>().Spawn(true);
+
         audiscr.PlayOneShot(lövés);
         Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
         rb_ammo.AddForce(bullet.transform.up * bulletForce, ForceMode2D.Impulse);
@@ -301,6 +304,7 @@ public class löves : MonoBehaviour
     void Casing()
     {
         GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
+        ammocasing.GetComponent<NetworkObject>().Spawn(true);
         Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
         rb_casing.AddForce((Casingpoint.up + casingVariability) * Casingforce, ForceMode2D.Force);
     }
@@ -310,6 +314,8 @@ public class löves : MonoBehaviour
         isreloading = true;
         Debug.Log("reloading..");
         GameObject magazine = Instantiate(magazin, Casingpoint.position, Quaternion.Euler(0, 0, Random.Range(0, 360)));
+        magazine.GetComponent<NetworkObject>().Spawn(true);
+
         Rigidbody2D rb_magazine = magazine.GetComponent<Rigidbody2D>();
         rb_magazine.AddForce((Casingpoint.up + MagVariability) * Magforce, ForceMode2D.Force);
         yield return new WaitForSeconds(reloadtime);

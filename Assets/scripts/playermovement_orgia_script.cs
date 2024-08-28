@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class playermovement_orgia_script : MonoBehaviour
+public class playermovement_orgia_script : NetworkBehaviour
 {
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
@@ -41,9 +42,15 @@ public class playermovement_orgia_script : MonoBehaviour
     private void Start()
     {
         //  stamina = maxstamina;
+        
+
+
     }
     void Update()
     {
+
+        if (!IsOwner) return;
+
         moveSpeed = Mathf.Round(moveSpeed * 2) / 2;
         moveSpeed = basemovespeed;
 
@@ -107,6 +114,7 @@ public class playermovement_orgia_script : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!IsOwner) return;
         if (forcemethod == false)
         {
             sima();

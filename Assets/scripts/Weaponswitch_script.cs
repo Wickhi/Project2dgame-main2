@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Weaponswitch_script : MonoBehaviour
+public class Weaponswitch_script : NetworkBehaviour
 {
     public int numberofweapons;
     public int currentweapon = 0;
@@ -14,12 +15,13 @@ public class Weaponswitch_script : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        numberofweapons = weapons.Length -1;
+        numberofweapons = weapons.Length;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner) return;
         if (currentweapon > numberofweapons)
         {
             currentweapon = 0;
@@ -34,7 +36,13 @@ public class Weaponswitch_script : MonoBehaviour
 
     void weaponswitch()
     {
-        Destroy(activeweapon);
+        if (activeweapon != null)
+        {
+            Destroy(activeweapon);
+
+        }
         activeweapon = Instantiate(weapons[currentweapon], weaponpoint.position, weaponpoint.rotation, weaponpoint);
+        activeweapon.GetComponent<NetworkObject>().Spawn(true);
+
     }
 }
