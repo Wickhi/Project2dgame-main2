@@ -1,27 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UIElements;
 
 public class zombie : MonoBehaviour
 {
     public Rigidbody2D Rb;
     public Transform playerpoint;
-    public float navmeshrefresh;
+    public float attacktime;
+    public int attackdamage;
+
+    public float navmeshrefreshbase;
     public float navmeshrefresh2;
 
     public int moveSpeed;
     public float change;
     public PathfindingOptimized pt;
-
+    public GameObject player;
     public AudioSource src;
     public Collider2D coll;
     public Collider2D coll2;
     public Collider2D collsaved;
     public Collider2D coll2saved;
+    public Collider2D heararea;
+    public Collider2D attackarea;
+
 
     public Vector2 startpoint;
     public Vector2 targetpoint;
@@ -31,7 +39,12 @@ public class zombie : MonoBehaviour
     public bool pathGenerated;
     public bool activepathfinding;
     public bool adjustment;
+    public bool attackable = true;
+
     public LayerMask layermask;
+
+    public LayerMask layermask2;
+
     public bool canexecute;
 
 
@@ -43,20 +56,23 @@ public class zombie : MonoBehaviour
     public List<Vector2> Objectfinalpos;
     public List<Vector2> Walls;
     public List<Vector2> TilesToAvoid;
-
+    public List<GameObject> players;
+    public List<float> szamok;
 
     [Header("Pathfinding Function")]
     public int GcostToNeighbour;
     public bool reset;
     public bool visualizegrid;
     public int Gcostmodifier;
+    public bool alwayssee;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
         canexecute = true;
-        navmeshrefresh = Random.Range(navmeshrefresh - 0.2f, navmeshrefresh + 0.2f);
+        navmeshrefreshbase = Random.Range(navmeshrefreshbase - 0.2f, navmeshrefreshbase + 0.2f);
     }
 
     // Update is called once per frame 
@@ -105,7 +121,7 @@ public class zombie : MonoBehaviour
                         path = Objectfinalpos;
                         path2 = finalfinalfinalPath;
                         adjustment = true;
-                        navmeshrefresh2 = navmeshrefresh;
+                        navmeshrefresh2 = navmeshrefreshbase;
                     }
                 }
             }
@@ -141,20 +157,24 @@ public class zombie : MonoBehaviour
             }
         }
     }
-    
-        
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Player"))
+        {
+            if (attackable == true)
+            {
+                StartCoroutine(attack());
+            }
+        }
+
+    }
+
     void movementek(Vector2 lookDir)
     {
         Rb.MovePosition((Vector2)transform.position + (lookDir * moveSpeed * Time.deltaTime));
 
     }
-    IEnumerator Move()
-    {
-        
-        
-        yield return new WaitForSeconds(navmeshrefresh);
-        canexecute = true;
-    }
+
     public void FindPath(Vector2 startPos, Vector2 endPos)
     {
         cellsToSearch.Clear();
@@ -272,6 +292,7 @@ public class zombie : MonoBehaviour
         int horizontalMovesRequired = highest - lowest;
         return lowest * 14 + horizontalMovesRequired * 10;
     }
+
     public void clearhistory()
     {
         //Walls.Clear();
@@ -297,5 +318,31 @@ public class zombie : MonoBehaviour
             }
 
         }
+    }
+    public void getplayer()
+    {
+        foreach (GameObject c in players)
+        {
+            int szam = players.IndexOf(c);
+            Vector2.Distance(c.transform.position, Rb.position);
+            szamok.Add(Vector2.Distance(c.transform.position, Rb.position));
+        }
+        float distance = szamok.Min();
+        int szam2 = szamok.IndexOf(distance);
+        player = players[szam2];
+    }
+    IEnumerator attack()
+    {
+
+        attackable = false;
+        yield return new WaitForSeconds(attacktime);
+        RaycastHit2D hit4 = Physics2D.Raycast(player.transform.position, player.transform.position, Mathf.Infinity, layermask2);
+        if(hit4.collider.gameObject == gameObject)
+        {
+            player.GetComponent<hp_system>().hp -= 10;
+            Debug.Log("attacking");
+        }
+        attackable = true;
+
     }
 }
