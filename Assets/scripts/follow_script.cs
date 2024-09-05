@@ -5,8 +5,8 @@ using UnityEngine;
 public class follow_script : MonoBehaviour
 {
     public GameObject Stuart;
-    public GameObject George;
-    public GameObject John;
+    //public GameObject George;
+    //public GameObject John;
     public int playervalue = 1;
     public GameObject hmg;
 
@@ -26,7 +26,7 @@ public class follow_script : MonoBehaviour
         //bool usinghmg = hmg.GetComponent<collidee>().usinghmg;
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            playervalue = playervalue + 1;
+            //playervalue = playervalue + 1;
         }
         if (playervalue > 4)
         {
@@ -50,21 +50,21 @@ public class follow_script : MonoBehaviour
         }
         if (playervalue == 2)
         {
-            transform.position = new Vector3(George.transform.position.x, George.transform.position.y, transform.position.z);
+            //transform.position = new Vector3(George.transform.position.x, George.transform.position.y, transform.position.z);
             //Stuart = GameObject.Find("George");
             
 
         }
         if (playervalue == 3)
         {
-            transform.position = new Vector3(John.transform.position.x, John.transform.position.y, transform.position.z);
+            //transform.position = new Vector3(John.transform.position.x, John.transform.position.y, transform.position.z);
             //Stuart = GameObject.Find("John");
 
 
         }
         if (playervalue == 4)
         {
-            transform.position = new Vector3(John.transform.position.x, John.transform.position.y, transform.position.z);
+            //transform.position = new Vector3(John.transform.position.x, John.transform.position.y, transform.position.z);
             //Stuart = GameObject.Find("t72_luka (2)");
 
 

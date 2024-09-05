@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/secret2dbackup197.unity
+    guid: 1117ee4c54b42dc4d81446624a5c39a1
   m_configObjects: {}

@@ -10,7 +10,7 @@ public class Cell2
     public int hCost = int.MaxValue;
     public Vector2 connection;
     public bool isWall;
-
+    public bool tiletoavoid;
     public Cell2(Vector2 pos)
     {
         position = pos;

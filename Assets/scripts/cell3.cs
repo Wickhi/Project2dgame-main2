@@ -12,5 +12,5 @@ public class cell3 : MonoBehaviour
     public Vector2 connection;
     public bool isWall;
 
-    
+    public bool tiletoavoid;
 }
