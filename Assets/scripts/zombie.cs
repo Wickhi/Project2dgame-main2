@@ -10,6 +10,9 @@ using UnityEngine.UIElements;
 
 public class zombie : MonoBehaviour
 {
+
+    public bool activepathfinding;
+
     public Rigidbody2D Rb;
     public Transform playerpoint;
     public float attacktime;
@@ -37,7 +40,6 @@ public class zombie : MonoBehaviour
     public List<Vector2> path2;
 
     public bool pathGenerated;
-    public bool activepathfinding;
     public bool adjustment;
     public bool attackable = true;
 
@@ -65,6 +67,7 @@ public class zombie : MonoBehaviour
     public bool visualizegrid;
     public int Gcostmodifier;
     public bool alwayssee;
+    public bool retarget = true;
 
 
 
@@ -99,6 +102,10 @@ public class zombie : MonoBehaviour
 
         if (navmeshrefresh2 == 0)
         {
+            if(retarget == true )
+            {
+                getplayer();
+            }
             collsaved = coll;
             coll2saved = coll2;
             RaycastHit2D hit = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
@@ -324,12 +331,16 @@ public class zombie : MonoBehaviour
         foreach (GameObject c in players)
         {
             int szam = players.IndexOf(c);
-            Vector2.Distance(c.transform.position, Rb.position);
-            szamok.Add(Vector2.Distance(c.transform.position, Rb.position));
+            float distance2 = Vector3.Distance(Rb.position, c.transform.position);
+            szamok.Add(distance2);
+
+
         }
         float distance = szamok.Min();
         int szam2 = szamok.IndexOf(distance);
         player = players[szam2];
+        playerpoint = player.transform;
+        szamok.Clear();
     }
     IEnumerator attack()
     {
