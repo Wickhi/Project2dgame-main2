@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.UIElements;
@@ -17,9 +18,9 @@ public class zombie : MonoBehaviour
     public Transform playerpoint;
     public float attacktime;
     public int attackdamage;
+    public float RetargetTimeBase;
 
     public float navmeshrefreshbase;
-    public float navmeshrefresh2;
 
     public int moveSpeed;
     public float change;
@@ -68,6 +69,7 @@ public class zombie : MonoBehaviour
     public int Gcostmodifier;
     public bool alwayssee;
     public bool retarget = true;
+    public float navmeshrefresh2;
 
 
 
@@ -164,10 +166,12 @@ public class zombie : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D (Collider2D other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("attack");
+
             if (attackable == true)
             {
                 StartCoroutine(attack());
