@@ -7,6 +7,7 @@ using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Analytics;
+using UnityEngine.Purchasing.Security;
 using UnityEngine.UIElements;
 
 public class zombie : MonoBehaviour
@@ -16,7 +17,11 @@ public class zombie : MonoBehaviour
 
     public Rigidbody2D Rb;
     public Transform playerpoint;
+    public float attacktimebase;
     public float attacktime;
+    public float attackdistance;
+    public float stopmovementdistance;
+
     public int attackdamage;
     public float RetargetTimeBase;
 
@@ -24,9 +29,11 @@ public class zombie : MonoBehaviour
 
     public int moveSpeed;
     public float change;
+
     public PathfindingOptimized pt;
     public GameObject player;
     public AudioSource src;
+    public AudioClip attacksound;
     public Collider2D coll;
     public Collider2D coll2;
     public Collider2D collsaved;
@@ -68,7 +75,10 @@ public class zombie : MonoBehaviour
     public bool visualizegrid;
     public int Gcostmodifier;
     public bool alwayssee;
+    public bool lockviewangle;
+    public bool desiredposition;
     public bool retarget = true;
+    public Vector3 lookDir;
     public float navmeshrefresh2;
 
 
@@ -91,7 +101,14 @@ public class zombie : MonoBehaviour
         {
             navmeshrefresh2 = 0;
         }
-
+        if (attacktime > 0)
+        {
+            attacktime -= Time.deltaTime;
+        }
+        if (attacktime < 0)
+        {
+            attacktime = 0;
+        }
 
 
 
@@ -101,7 +118,27 @@ public class zombie : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (Vector3.Distance(Rb.position, player.transform.position) < stopmovementdistance)
+        {
+            activepathfinding = false;
+            path.Clear();
+        }
+        if (Vector3.Distance(Rb.position, player.transform.position) > stopmovementdistance)
+        {
 
+            activepathfinding = true;
+        }
+        if (lockviewangle == true)
+        {
+            lookDir = new Vector3(player.transform.position.x, player.transform.position.y, 0) - transform.position;
+
+            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+            var mouse = new Vector3(0f, 0f, angle);
+            Quaternion rotation = Quaternion.Euler(mouse);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+
+        }
         if (navmeshrefresh2 == 0)
         {
             if(retarget == true )
@@ -151,13 +188,33 @@ public class zombie : MonoBehaviour
                 }
 
             }
-            Vector3 lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
-            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-            var mouse = new Vector3(0f, 0f, angle);
-            Quaternion rotation = Quaternion.Euler(mouse);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+            if (Vector3.Distance(Rb.position, player.transform.position) < attackdistance)
+            {
+                lockviewangle = true;
+                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
+            }
+            else
+            {
+                lockviewangle = false;
+                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
+
+            }
+
+            ;
+            
             lookDir.Normalize();
             movementek(lookDir);
+
+            
+            if (lockviewangle == false)
+            {
+                lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
+
+                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+                var mouse = new Vector3(0f, 0f, angle);
+                Quaternion rotation = Quaternion.Euler(mouse);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+            }
 
             if (coll.gameObject == pt.cells2[path2[0]])
             {
@@ -166,23 +223,40 @@ public class zombie : MonoBehaviour
             }
         }
     }
-    void OnTriggerEnter2D (Collider2D other)
+    void OnTriggerStay2D (Collider2D other)
     {
-        if(other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") == true)
         {
-            Debug.Log("attack");
 
             if (attackable == true)
             {
-                StartCoroutine(attack());
+                attackable = false;
+                Debug.Log("attack");
+                src.PlayOneShot(attacksound);
+                attacktime = attacktimebase;
+
             }
+            if (attacktime == 0)
+            {
+
+                attack();
+
+            }
+        }
+        
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player") == true)
+        {
+            Debug.Log("attack over");
+            attackable = true;
         }
 
     }
-
-    void movementek(Vector2 lookDir)
+    void movementek(Vector2 lookDir2)
     {
-        Rb.MovePosition((Vector2)transform.position + (lookDir * moveSpeed * Time.deltaTime));
+        Rb.MovePosition((Vector2)transform.position + (moveSpeed * Time.deltaTime * lookDir2));
 
     }
 
@@ -346,18 +420,21 @@ public class zombie : MonoBehaviour
         playerpoint = player.transform;
         szamok.Clear();
     }
-    IEnumerator attack()
+    void attack()
     {
 
-        attackable = false;
-        yield return new WaitForSeconds(attacktime);
         RaycastHit2D hit4 = Physics2D.Raycast(player.transform.position, player.transform.position, Mathf.Infinity, layermask2);
-        if(hit4.collider.gameObject == gameObject)
+        if (hit4.collider != null)
         {
-            player.GetComponent<hp_system>().hp -= 10;
-            Debug.Log("attacking");
+            if (hit4.collider.gameObject == gameObject)
+            {
+                Debug.Log("attacking");
+
+                player.GetComponent<hp_system>().hp -= attackdamage;
+            }
+            attackable = true;
+
         }
-        attackable = true;
 
     }
 }
