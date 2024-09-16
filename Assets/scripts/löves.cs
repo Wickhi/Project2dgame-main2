@@ -36,6 +36,7 @@ public class löves : NetworkBehaviour
 
     //OBJECTS
     public Transform firePoint;
+    public GameObject trailPrefab;
     public GameObject bulletPrefab;
     public GameObject bullet1Prefab;
     public GameObject bullet2Prefab;
@@ -296,7 +297,9 @@ public class löves : NetworkBehaviour
         audiscr.PlayOneShot(lövés);
         var rand = Random.Range(-spreadangle / 2, spreadangle / 2);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Quaternion.AngleAxis(rand, Vector3.forward) * transform.up, Mathf.Infinity, layrm);
-        Debug.DrawRay(transform.position, Vector2.Distance(transform.position, hit.point) *  (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up),  Color.yellow, 0.2f);
+        GameObject bullet = Instantiate(trailPrefab, firePoint.transform.position, Quaternion.Euler(Quaternion.AngleAxis(rand, Vector3.forward) * firePoint.transform.up));
+        bullet.GetComponent<buuletra>().settargerpos(hit.point);
+        //Debug.DrawRay(transform.position, Vector2.Distance(transform.position, hit.point) *  (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up),  Color.yellow, 0.2f);
         // (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up)
         if (hit.collider != null)
         {
@@ -311,7 +314,7 @@ public class löves : NetworkBehaviour
     void OldShoot()
     {
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);
+        GameObject bullet = Instantiate(trailPrefab, firePoint.position, rotation);
         bullet.GetComponent<NetworkObject>().Spawn(true);
 
         audiscr.PlayOneShot(lövés);
