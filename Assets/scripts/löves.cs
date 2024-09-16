@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
+using JetBrains.Annotations;
 
 public class löves : NetworkBehaviour
 {
@@ -75,6 +76,7 @@ public class löves : NetworkBehaviour
     public bool semiautofirecooldown;
     public int numberoffiremodes = 5;
     public float reloadtimebase;
+    public LayerMask layrm;
 
 
 
@@ -288,6 +290,25 @@ public class löves : NetworkBehaviour
         }
     }
     void Shoot()
+    {
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
+
+        audiscr.PlayOneShot(lövés);
+        var rand = Random.Range(-spreadangle / 2, spreadangle / 2);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Quaternion.AngleAxis(rand, Vector3.forward) * transform.up, Mathf.Infinity, layrm);
+        Debug.DrawRay(transform.position, Vector2.Distance(transform.position, hit.point) *  (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up),  Color.yellow, 0.2f);
+        // (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up)
+        if (hit.collider != null)
+        {
+            Debug.Log(hit.collider.gameObject.name);
+            //Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
+        }
+        bulletcount = bulletcount + 1;
+        mag = mag - 1;
+
+
+    }
+    void OldShoot()
     {
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, rotation);

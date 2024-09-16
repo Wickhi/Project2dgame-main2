@@ -236,6 +236,9 @@ MonoBehaviour:
   semiautofirecooldown: 0
   numberoffiremodes: 5
   reloadtimebase: 0
+  layrm:
+    serializedVersion: 2
+    m_Bits: 2624
 --- !u!114 &-3015969263289358315
 MonoBehaviour:
   m_ObjectHideFlags: 0
