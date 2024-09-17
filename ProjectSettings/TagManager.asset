@@ -6,6 +6,7 @@ TagManager:
   tags:
   - minimapcamera
   - navmeshnode
+  - Enemybodypart
   layers:
   - Default
   - TransparentFX

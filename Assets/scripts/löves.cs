@@ -45,6 +45,8 @@ public class löves : NetworkBehaviour
     public string playername;
     public GameObject cam;
     public GameObject magazin;
+    public GameObject blood;
+
 
 
     //CASING STUFF
@@ -78,7 +80,6 @@ public class löves : NetworkBehaviour
     public int numberoffiremodes = 5;
     public float reloadtimebase;
     public LayerMask layrm;
-
 
 
 
@@ -304,6 +305,12 @@ public class löves : NetworkBehaviour
         if (hit.collider != null)
         {
             Debug.Log(hit.collider.gameObject.name);
+            if (hit.collider.gameObject.CompareTag("Enemybodypart") == true)
+            {
+                GameObject bloody = Instantiate(blood, hit.point, hit.collider.gameObject.transform.rotation);
+
+            }
+
             //Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
         }
         bulletcount = bulletcount + 1;

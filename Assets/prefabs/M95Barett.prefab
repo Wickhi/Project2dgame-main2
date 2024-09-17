@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1064301530
+  GlobalObjectIdHash: 2330147662
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -215,6 +215,7 @@ MonoBehaviour:
   playername: 
   cam: {fileID: 0}
   magazin: {fileID: 7575771649585829933, guid: 3ad1d8963bfbaf8459ce424a24951ed1, type: 3}
+  blood: {fileID: 4496980879718197436, guid: 01da9da09b4278c4c97a2bbd0bb0e6cb, type: 3}
   Casingforce: 1
   casingpoint: 1
   casingstart: 1
@@ -241,7 +242,7 @@ MonoBehaviour:
   reloadtimebase: 0
   layrm:
     serializedVersion: 2
-    m_Bits: 2624
+    m_Bits: 2560
 --- !u!114 &-3015969263289358315
 MonoBehaviour:
   m_ObjectHideFlags: 0

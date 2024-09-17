@@ -153,6 +153,7 @@ MonoBehaviour:
   playername: 
   cam: {fileID: 0}
   magazin: {fileID: 4108159218935521615, guid: 35b0c119c1fb7d141a647b8629641d05, type: 3}
+  blood: {fileID: 4496980879718197436, guid: 01da9da09b4278c4c97a2bbd0bb0e6cb, type: 3}
   Casingforce: 1
   casingpoint: 1
   casingstart: 1
@@ -179,7 +180,7 @@ MonoBehaviour:
   reloadtimebase: 0
   layrm:
     serializedVersion: 2
-    m_Bits: 2624
+    m_Bits: 2560
 --- !u!114 &-5185539311488363301
 MonoBehaviour:
   m_ObjectHideFlags: 0
