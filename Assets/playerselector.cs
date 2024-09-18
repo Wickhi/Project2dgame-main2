@@ -16,7 +16,11 @@ public class playerselector : MonoBehaviour {
     public GameObject NetworkmanagerObject;
     public NetworkManager nm;
     public GameObject Cam;
-
+    public timer2 tm2;
+    public Imagefiller imagefiller;
+    public timer tm;
+    public iconscript iconscript;
+    public textszar txt;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +38,15 @@ public class playerselector : MonoBehaviour {
             Stuart.GetComponent<playermovement_orgia_script>().enabled = true;
 
             cam.GetComponent<follow_script>().Stuart = Stuart;
-            disablebuttons();
+            tm2.Setplayer(Stuart);
+            tm.Setplayer(Stuart);
+            iconscript.Setplayer(Stuart);
+            txt.Setplayer(Stuart);
 
+            imagefiller.Setplayer(Stuart);
+
+
+            disablebuttons();
         });
         john.onClick.AddListener(() =>
         {
@@ -44,6 +55,13 @@ public class playerselector : MonoBehaviour {
             John.GetComponent<NetworkObject>().ChangeOwnership(nm.LocalClientId);
             John.GetComponent<playermovement_orgia_script>().enabled = true;
             cam.GetComponent<follow_script>().Stuart = John;
+            tm2.Setplayer(John);
+            tm.Setplayer(John);
+            iconscript.Setplayer(John);
+            txt.Setplayer(John);
+
+            imagefiller.Setplayer(John);
+
             disablebuttons();
 
 
@@ -55,6 +73,13 @@ public class playerselector : MonoBehaviour {
             George.GetComponent<playermovement_orgia_script>().enabled = true;
 
             cam.GetComponent<follow_script>().Stuart = George;
+            tm2.Setplayer(George);
+            tm.Setplayer(George);
+            iconscript.Setplayer(George);
+            txt.Setplayer(George);
+
+            imagefiller.Setplayer(George);
+
             disablebuttons();
         });
     }

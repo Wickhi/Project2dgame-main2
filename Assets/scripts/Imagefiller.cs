@@ -21,22 +21,42 @@ public class Imagefiller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        weapon = stuart.GetComponent<Weaponswitch_script>().activeweapon;
-        fillpercentage2 = (float)weapon.GetComponent<löves>().mag / (float)weapon.GetComponent<löves>().magazinebase;
-        fillpercentage = weapon.GetComponent<löves>().reloadtime / weapon.GetComponent<löves>().reloadtimeBase;
-
-
-        if (weapon.GetComponent<löves>().isreloading == true)
+        if (stuart != null)
         {
-            reload.fillAmount = 1 - fillpercentage;
+            if (stuart.GetComponent<Weaponswitch_script>().activeweapon != null)
+            {
+                weapon = stuart.GetComponent<Weaponswitch_script>().activeweapon;
+
+            }
+
+            if (weapon != null && weapon != stuart)
+            {
+
+                fillpercentage2 = (float)weapon.GetComponent<löves>().mag / (float)weapon.GetComponent<löves>().magazinebase;
+                fillpercentage = weapon.GetComponent<löves>().reloadtime / weapon.GetComponent<löves>().reloadtimeBase;
+                if (weapon.GetComponent<löves>().isreloading == true)
+                {
+                    reload.fillAmount = 1 - fillpercentage;
+
+                }
+                if (weapon.GetComponent<löves>().isreloading == false)
+                {
+                    reload.fillAmount = fillpercentage2;
+                }
+
+            }
+
 
         }
-        if (weapon.GetComponent<löves>().isreloading == false)
-        {
-            reload.fillAmount = fillpercentage2;
-        }
 
 
+
+
+
+    }
+    public void Setplayer(GameObject Stuart2)
+    {
+        stuart = Stuart2;
 
     }
 }

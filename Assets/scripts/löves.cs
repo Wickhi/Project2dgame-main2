@@ -62,9 +62,11 @@ public class löves : NetworkBehaviour
     public float Magstart;
     public Vector3 MagVariability;
     public Quaternion Magrot;
+    public int fullammobase;
+    public int fullammo;
+    public int reserveammo;
 
-
-    //weaponfunction
+    //WEAPONFUNCION
     public int firemode = 1;
     public int bulletcount;
     public bool isreloading = false;
@@ -96,6 +98,8 @@ public class löves : NetworkBehaviour
     void Start()
     {
         mag = magazinebase;
+        fullammo = fullammobase;
+        reserveammo = fullammo - mag;
         firerate = 60 / Roundperminute;
         reloadtime = reloadtimeBase;
         cam = GameObject.Find("Main Camera");
@@ -328,7 +332,10 @@ public class löves : NetworkBehaviour
         Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
         rb_ammo.AddForce(bullet.transform.up * bulletForce, ForceMode2D.Impulse);
         bulletcount = bulletcount + 1;
-        mag = mag - 1;
+        mag --;
+        fullammobase--;
+        reserveammo = fullammo - mag;
+
 
 
     }
@@ -350,7 +357,19 @@ public class löves : NetworkBehaviour
         Rigidbody2D rb_magazine = magazine.GetComponent<Rigidbody2D>();
         rb_magazine.AddForce((Casingpoint.up + MagVariability) * Magforce, ForceMode2D.Force);
         yield return new WaitForSeconds(reloadtime);
-        mag = magazinebase;
+        if(fullammo > magazinebase)
+        {
+            mag = magazinebase;
+
+        }
+        if (fullammo < magazinebase)
+        {
+            mag = fullammo;
+
+        }
+        fullammo = fullammo - mag;
+        reserveammo = fullammo - mag;
+
         isreloading = false;
         reloadtimebase = 0f;
         reloadtime = reloadtimeBase;

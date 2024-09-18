@@ -24,8 +24,20 @@ public class iconscript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        weapon = stuart.GetComponent<Weaponswitch_script>().activeweapon;
-        firemode = weapon.GetComponent<löves>().firemode;
+        if (stuart != null)
+        {
+            if (stuart.GetComponent<Weaponswitch_script>().activeweapon != null)
+            {
+                weapon = stuart.GetComponent<Weaponswitch_script>().activeweapon;
+            }
+            if (weapon != null && weapon != stuart)
+            {
+                firemode = weapon.GetComponent<löves>().firemode;
+
+            }
+
+        }
+
 
         if (firemode == 1)
         {
@@ -45,5 +57,10 @@ public class iconscript : MonoBehaviour
             icon.sprite = buckshotfireicon;
         }
         
+    }
+    public void Setplayer(GameObject Stuart2)
+    {
+        stuart = Stuart2;
+
     }
 }

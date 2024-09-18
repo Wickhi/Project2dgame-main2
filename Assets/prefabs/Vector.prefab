@@ -164,6 +164,9 @@ MonoBehaviour:
   Magstart: 0
   MagVariability: {x: 0, y: 0, z: 0}
   Magrot: {x: 0, y: 0, z: 0, w: 0}
+  fullammobase: 225
+  fullammo: 225
+  reserveammo: 0
   firemode: 1
   bulletcount: 0
   isreloading: 0
