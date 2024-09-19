@@ -10,7 +10,7 @@ public class textszar : MonoBehaviour
     public GameObject weapon;
     public TextMeshProUGUI text;
     public int ammo;
-   
+    public int reserve;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,9 @@ public class textszar : MonoBehaviour
             {
 
                 ammo = weapon.GetComponent<löves>().mag;
-                text.text = ammo.ToString();
+                reserve = weapon.GetComponent<löves>().reserveammo;
+
+                text.text = ammo.ToString() + "/" + reserve.ToString();
 
             }
 
