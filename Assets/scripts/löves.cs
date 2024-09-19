@@ -318,7 +318,9 @@ public class löves : NetworkBehaviour
             //Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
         }
         bulletcount = bulletcount + 1;
-        mag = mag - 1;
+        mag--;
+        fullammo--;
+        reserveammo = fullammo - mag;
 
 
     }
@@ -360,15 +362,14 @@ public class löves : NetworkBehaviour
         if(fullammo > magazinebase)
         {
             mag = magazinebase;
-
+            reserveammo = fullammo - mag;
         }
-        if (fullammo < magazinebase)
+        if (magazinebase > fullammo || magazinebase == fullammo)
         {
             mag = fullammo;
-
         }
-        fullammo = fullammo - mag;
         reserveammo = fullammo - mag;
+
 
         isreloading = false;
         reloadtimebase = 0f;
