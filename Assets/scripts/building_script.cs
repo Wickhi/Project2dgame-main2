@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ public class building_script : MonoBehaviour
     public int falszam = 3;
     public int bustszam = 1;
     public float cooldown = 0.5f;
+    public bool candrone;
+    public bool canbuildreincorcements;
+    public bool canhmg;
+    public List<bool> abilities;
 
     //Gameobjects
     public Transform buildingspot;
@@ -25,7 +30,7 @@ public class building_script : MonoBehaviour
     public GameObject hmgPrefab;
     public GameObject fal;
     public GameObject fallPrefab;
-    
+    public GameObject Drone;
 
     //Workvariables
     public bool bpressed = false;
@@ -46,28 +51,42 @@ public class building_script : MonoBehaviour
     public bool selected;
     public bool deployed;
     public bool firebuttonpressed;
-   
 
 
 
 
 
-
-    // B.U.S.T. Bestday Utility Sentry Turret
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        //Hmg = GameObject.Find("M3(Clone)");
-    }
+        abilities = new List<bool>();
+        abilities.Add(canbuildreincorcements);
+        abilities.Add(canhmg);
+        abilities.Add(candrone);
 
+    }
+    // B.U.S.T. Bestday Utility Sentry Turret
     // Update is called once per frame
     void Update()
     {
-        mouseposition = cam.ScreenToWorldPoint(Input.mousePosition);
-        mouseposition.z = player.position.z;
-        // Hmg = GameObject.Find("M3(Clone)");
 
 
+        if (Input.GetKeyDown(KeyCode.B))
+        {      
+            //Enter Building Mode
+            if (!bpressed)
+            {
+                bpressed = true;
+                mozoghat = false;
+                buildingtime = true;
+            }
+            else
+            {
+                bpressed = false;
+                mozoghat = true;
+                selected = false;
+                buildingtime = false;
+            }
+        }
 
         //Rotate the object
         if (Input.GetKeyDown(KeyCode.Q))
@@ -96,23 +115,8 @@ public class building_script : MonoBehaviour
 
 
 
-        //Enter Building Mode
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            if (!bpressed)
-            {
-                bpressed = true;
-                mozoghat = false;
-                buildingtime = true;
-            }
-            else
-            {
-                bpressed = false;
-                mozoghat = true;
-                selected = false;
-                buildingtime = false;
-            }
-        }
+
+
 
         if (Canbuild == false)
         {
@@ -153,9 +157,6 @@ public class building_script : MonoBehaviour
                 whattobuild = 3;
 
             }
-
-
-
 
 
             if (whattobuild == 1)
@@ -263,6 +264,9 @@ public class building_script : MonoBehaviour
 
     void fal1()
     {
+        mouseposition = cam.ScreenToWorldPoint(Input.mousePosition);
+        mouseposition.z = player.position.z;
+
         Vector3 busthely = cam.ScreenToWorldPoint(Input.mousePosition);
         busthely.z = player.position.z;
         fal = Instantiate(fallPrefab, busthely, Quaternion.Euler(new Vector3(0, 0, 0)));
@@ -270,29 +274,27 @@ public class building_script : MonoBehaviour
         falszam -= 1;
         fal.name = falname + " " + falszam.ToString();
         selected = true;
-
-
-        //  buildin = false;
-        //  mozoghat = false;
-
-
-
     }
     void bust1()
     {
-        Vector3 busthely = cam.ScreenToWorldPoint(Input.mousePosition);
-        busthely.z = player.rotation.z;
-        bust = Instantiate(bustPrefab, busthely, Quaternion.Euler(new Vector3(0, 0, 0)));
-        //  bustbuild = false;
-        // mozoghat = false;
+        mouseposition = cam.ScreenToWorldPoint(Input.mousePosition);
+        mouseposition.z = player.position.z;
+
+        Vector3 buildpoint = cam.ScreenToWorldPoint(Input.mousePosition);
+        buildpoint.z = player.rotation.z;
+        bust = Instantiate(bustPrefab, buildpoint, Quaternion.Euler(new Vector3(0, 0, 0)));
+
     }
     void mgbuild()
     {
-        Vector3 busthely = cam.ScreenToWorldPoint(Input.mousePosition);
-        busthely.z = player.position.z;
-        Hmg = Instantiate(hmgPrefab, busthely, Quaternion.Euler(new Vector3(0, 0, 0)));
-        //  bustbuild = false;
-        // mozoghat = false;
+
+        Drone = Instantiate(hmgPrefab, buildingspot.position, Quaternion.Euler(new Vector3(0, 0, 0)));
+
+    }
+    void dronebuild()
+    {
+        
+        Drone = Instantiate(hmgPrefab, buildingspot.position, Quaternion.Euler(new Vector3(0, 0, 0)));
     }
     void buildtime()
     {
