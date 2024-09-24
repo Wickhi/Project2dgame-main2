@@ -9,6 +9,11 @@ public class dronedeploy : MonoBehaviour
     public int numberofdrones;
     public bool deployed;
     public follow_script follow;
+    public float rechargetime;
+    public bool recharge;
+
+    public float rechargetimeBase;
+    public int NumberOfDronesbase;
     // make drone recahrge
         // Start is called before the first frame update
     void Start()
@@ -19,6 +24,32 @@ public class dronedeploy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (numberofdrones < NumberOfDronesbase)
+        {
+            if (recharge == false)
+            {
+                rechargetime = rechargetimeBase;
+                recharge = true;
+
+            }
+        }
+        
+        if (rechargetime > 0 )
+        {
+            rechargetime -= Time.deltaTime;
+        }
+        if (rechargetime < 0 || rechargetime == 0)
+        {
+            if (recharge == true)
+            {
+                numberofdrones++;
+                if (numberofdrones == NumberOfDronesbase)
+                {
+                    recharge = false;
+                }
+            }
+            
+        }
         if (deployed == false)
         {
             if (numberofdrones > 0)

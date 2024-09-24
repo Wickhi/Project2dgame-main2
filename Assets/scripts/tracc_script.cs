@@ -9,6 +9,7 @@ public class tracc : MonoBehaviour
     Vector2 playerpoint;
     public Camera cam;
     public Rigidbody2D rbn;
+    public LayerMask laymr;
 
 
 
@@ -22,15 +23,19 @@ public class tracc : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collider)
     {
-        transform.rotation = irány.rotation;
+        //transform.rotation = irány.rotation;
     }
     void OnTriggerStay2D(Collider2D collider)
     {
-        playerpoint = cam.ScreenToWorldPoint(playerp.position);
-        Vector3 lookDir = playerp.position - transform.position;
-        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-        rbn.rotation = angle;
-        lookDir.Normalize();
+        if (collider.gameObject.CompareTag("Player"))
+        {
+            playerpoint = cam.ScreenToWorldPoint(playerp.position);
+            Vector3 lookDir = playerp.position - transform.position;
+            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+            rbn.rotation = angle;
+            lookDir.Normalize();
+        }
+        
 
 
 
