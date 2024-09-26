@@ -68,6 +68,7 @@ public class löves : NetworkBehaviour
 
     //WEAPONFUNCION
     public int firemode = 1;
+    public bool fire;
     public int bulletcount;
     public bool isreloading = false;
     public double firerate;
@@ -115,7 +116,7 @@ public class löves : NetworkBehaviour
         casingstart = Random.Range(-0.25f, 0.25f);
         casingVariability = new Vector3(casingstart, casingstart, 0);
 
-        Magforce = Random.Range(-300 , 300);
+        Magforce = Random.Range(-300, 300);
         Magstart = Random.Range(-0.25f, 0.25f);
         MagVariability = new Vector3(Magstart, Magstart, 0);
 
@@ -162,7 +163,7 @@ public class löves : NetworkBehaviour
         {
             firemode = firemode + 1;
         }
-        if (firemode == numberoffiremodes )
+        if (firemode == numberoffiremodes)
         {
             firemode = firemode - 4;
         }
@@ -174,7 +175,7 @@ public class löves : NetworkBehaviour
 
 
 
-        if (isreloading == false &&  mag > 0)
+        if (isreloading == false && mag > 0)
         {
             if (firemode == 1)
             {
@@ -334,7 +335,7 @@ public class löves : NetworkBehaviour
         Rigidbody2D rb_ammo = bullet.GetComponent<Rigidbody2D>();
         rb_ammo.AddForce(bullet.transform.up * bulletForce, ForceMode2D.Impulse);
         bulletcount = bulletcount + 1;
-        mag --;
+        mag--;
         fullammobase--;
         reserveammo = fullammo - mag;
 
@@ -347,6 +348,12 @@ public class löves : NetworkBehaviour
         ammocasing.GetComponent<NetworkObject>().Spawn(true);
         Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
         rb_casing.AddForce((Casingpoint.up + casingVariability) * Casingforce, ForceMode2D.Force);
+    }
+    void firing()
+    {
+
+        fire = false;
+
     }
     IEnumerator reload()
     {
