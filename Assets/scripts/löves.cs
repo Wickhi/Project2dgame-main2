@@ -81,6 +81,7 @@ public class löves : NetworkBehaviour
     public bool semiautofirecooldown;
     public int numberoffiremodes = 5;
     public float reloadtimebase;
+    public bool canfire;
     public LayerMask layrm;
 
 
@@ -188,10 +189,16 @@ public class löves : NetworkBehaviour
                     {
                         if (Input.GetButtonDown("Fire1"))
                         {
+                            canfire = true;
+                            
+
+                        }
+                        if (canfire == true)
+                        {
                             Shoot();
                             Casing();
                             semiautofire = semiautofirebase;
-
+                            canfire = false;
                         }
                     }
 
@@ -232,7 +239,7 @@ public class löves : NetworkBehaviour
                     if (Input.GetMouseButtonUp(0))
                     {
                         egérlent = false;
-                        //   Debug.Log("az egészbe");
+                        Debug.Log("az egészbe");
 
                     }
                     if (egérlent == true && autofire == 0)
@@ -255,12 +262,21 @@ public class löves : NetworkBehaviour
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
+                        canfire = true;
+
+                        //  mag = mag - 1;
+
+                    }
+                    if (canfire == true)
+                    {
+                        canfire = false;
                         StartCoroutine(Buckshot());
                         Casing();
 
                         //  mag = mag - 1;
 
                     }
+
                 }
                 else
                 {
