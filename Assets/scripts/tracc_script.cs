@@ -9,6 +9,8 @@ public class tracc : MonoBehaviour
     Vector2 playerpoint;
     public Camera cam;
     public Rigidbody2D rbn;
+    public float change;
+    public löves lvs;
     public LayerMask laymr;
 
 
@@ -32,7 +34,10 @@ public class tracc : MonoBehaviour
             playerpoint = cam.ScreenToWorldPoint(playerp.position);
             Vector3 lookDir = playerp.position - transform.position;
             float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-            rbn.rotation = angle;
+            var mouse = new Vector3(0f, 0f, angle);
+            Quaternion rotation = Quaternion.Euler(mouse);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
             lookDir.Normalize();
         }
         
