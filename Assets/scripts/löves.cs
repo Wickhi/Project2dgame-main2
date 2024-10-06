@@ -32,6 +32,7 @@ public class löves : NetworkBehaviour
     public float spreadangle;
     public AudioClip lövés;
     public AudioSource audiscr;
+    public bool canreload = true;
 
 
     //OBJECTS
@@ -132,7 +133,11 @@ public class löves : NetworkBehaviour
         }
         if (Input.GetKeyDown(KeyCode.R) && isreloading == false)
         {
-            StartCoroutine(reload());
+            if (canreload == true)
+            {
+                StartCoroutine(reload());
+
+            }
 
             return;
         }
@@ -312,33 +317,38 @@ public class löves : NetworkBehaviour
 
         }
     }
-    void Shoot()
+    public void Shoot()
     {
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
-
-        audiscr.PlayOneShot(lövés);
-        var rand = Random.Range(-spreadangle / 2, spreadangle / 2);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Quaternion.AngleAxis(rand, Vector3.forward) * transform.up, Mathf.Infinity, layrm);
-        GameObject bullet = Instantiate(trailPrefab, firePoint.transform.position, Quaternion.Euler(Quaternion.AngleAxis(rand, Vector3.forward) * firePoint.transform.up));
-        bullet.GetComponent<buuletra>().settargerpos(hit.point);
-        //Debug.DrawRay(transform.position, Vector2.Distance(transform.position, hit.point) *  (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up),  Color.yellow, 0.2f);
-        // (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up)
-        if (hit.collider != null)
+        if (mag > 0)
         {
-            Debug.Log(hit.collider.gameObject.name);
-            if (hit.collider.gameObject.CompareTag("Enemybodypart") == true)
+            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
+
+            audiscr.PlayOneShot(lövés);
+            var rand = Random.Range(-spreadangle / 2, spreadangle / 2);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Quaternion.AngleAxis(rand, Vector3.forward) * transform.up, Mathf.Infinity, layrm);
+            GameObject bullet = Instantiate(trailPrefab, firePoint.transform.position, Quaternion.Euler(Quaternion.AngleAxis(rand, Vector3.forward) * firePoint.transform.up));
+            bullet.GetComponent<buuletra>().settargerpos(hit.point);
+            //Debug.DrawRay(transform.position, Vector2.Distance(transform.position, hit.point) *  (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up),  Color.yellow, 0.2f);
+            // (Quaternion.AngleAxis(rand, Vector3.forward) * transform.up)
+            if (hit.collider != null)
             {
-                GameObject bloody = Instantiate(blood, hit.point, hit.collider.gameObject.transform.rotation);
+                Debug.Log(hit.collider.gameObject.name);
+                if (hit.collider.gameObject.CompareTag("Enemybodypart") == true)
+                {
+                    GameObject bloody = Instantiate(blood, hit.point, hit.collider.gameObject.transform.rotation);
 
+                }
+
+                //Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
             }
+            bulletcount = bulletcount + 1;
+            mag--;
+            fullammo--;
+            reserveammo = fullammo - mag;
 
-            //Debug.DrawLine(transform.position, hit.point, Color.red, 1f);
+
         }
-        bulletcount = bulletcount + 1;
-        mag--;
-        fullammo--;
-        reserveammo = fullammo - mag;
-
+        
 
     }
     void OldShoot()
@@ -358,12 +368,16 @@ public class löves : NetworkBehaviour
 
 
     }
-    void Casing()
+    public void Casing()
     {
-        GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
-        ammocasing.GetComponent<NetworkObject>().Spawn(true);
-        Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
-        rb_casing.AddForce((Casingpoint.up + casingVariability) * Casingforce, ForceMode2D.Force);
+        if (mag > 0)
+        { 
+            GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
+            ammocasing.GetComponent<NetworkObject>().Spawn(true);
+            Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
+            rb_casing.AddForce((Casingpoint.up + casingVariability) * Casingforce, ForceMode2D.Force);
+        }
+            
     }
     void firing()
     {
