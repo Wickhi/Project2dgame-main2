@@ -22,13 +22,13 @@ public class tracc : MonoBehaviour
     private float firingtimeBase;
     public bool inside;
     public bool canshoot;
-
+    public float roundsperminute;
     // Start is called before the first frame update
     // Update is called once per frame
-    private void Start()
+    void Start()
     {
         rbn = this.GetComponent<Rigidbody2D>();
-        firerate = 60/ lvs.Roundperminute;
+        firingtime = 60f / roundsperminute;
     }
     void Update()
     {
