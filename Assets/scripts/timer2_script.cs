@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -12,7 +9,7 @@ public class timer2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
     }
 
     // Update is called once per frame
@@ -22,7 +19,7 @@ public class timer2 : MonoBehaviour
     }
     public void cooldown()
     {
-        if(Stuart != null)
+        if (Stuart != null)
         {
             slider.maxValue = Stuart.GetComponent<playermovement_orgia_script>().maxstamina;
             slider.minValue = 0;

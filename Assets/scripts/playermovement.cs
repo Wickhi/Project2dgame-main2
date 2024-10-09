@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class playermovement : MonoBehaviour
 {
@@ -9,15 +7,15 @@ public class playermovement : MonoBehaviour
     Vector2 movement;
     Vector2 mousepos;
     public Camera cam;
-  //  public float angle1; 
-  //  public float angle2;
-  //  public float baseangle;
+    //  public float angle1; 
+    //  public float angle2;
+    //  public float baseangle;
     public float change = 20f;
- //   public float angle3 = 1f;
- //   public float angle4;
-  //  public float nul = 0f;
-  //  public int faszom;
- //   public Transform target;
+    //   public float angle3 = 1f;
+    //   public float angle4;
+    //  public float nul = 0f;
+    //  public int faszom;
+    //   public Transform target;
     public Vector3 mouse;
     //public Transform Stuart;
     //   public bool mozgas;
@@ -26,7 +24,7 @@ public class playermovement : MonoBehaviour
     public bool shiftle = false;
     public float basemovespeed;
     // Update is called once per frame
-   
+
     private void Start()
     {
 
@@ -72,17 +70,17 @@ public class playermovement : MonoBehaviour
 
 
         }
-        
+
     }
 
     void FixedUpdate()
     {
-     
+
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
-        
 
-    
+
+
 
 
         mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -92,11 +90,11 @@ public class playermovement : MonoBehaviour
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
 
 
-        mouse = new Vector3(0f, 0f, angle);        
+        mouse = new Vector3(0f, 0f, angle);
 
 
 
-   
+
         Quaternion rotation = Quaternion.Euler(mouse);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);

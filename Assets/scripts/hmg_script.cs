@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class hmg : MonoBehaviour
 {
@@ -11,11 +9,11 @@ public class hmg : MonoBehaviour
     public Vector3 mouse;
     public float állás;
     public float fordulás;
-    public GameObject  Stuart;
+    public GameObject Stuart;
     public bool jobbra;
     public bool balra;
     public int building;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +35,7 @@ public class hmg : MonoBehaviour
         building = Stuart.GetComponent<building_script>().whattobuild;
 
         mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
-        
+
         //   if (állás < -fordulás)
         // {
         //   állás = állás + 360;
@@ -57,8 +55,8 @@ public class hmg : MonoBehaviour
             }
         }
         Vector2 lookDir = mousepos - rb.position;
-        
-      //  float angle = Mathf.Abs( Mathf.Atan2(lookDir.y, lookDir.x)) * Mathf.Rad2Deg - 90f;
+
+        //  float angle = Mathf.Abs( Mathf.Atan2(lookDir.y, lookDir.x)) * Mathf.Rad2Deg - 90f;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         //  angle = Mathf.Clamp(angle, állás - fordulás, állás + fordulás);
 

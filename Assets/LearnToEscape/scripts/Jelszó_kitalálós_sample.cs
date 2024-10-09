@@ -1,8 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 
 public class Jelszó_kitalálós_sample : MonoBehaviour
 {
@@ -45,7 +43,7 @@ public class Jelszó_kitalálós_sample : MonoBehaviour
             resultText.text = "Helytelen jelszó. Próbáld újra!";
         }
     }
-    
+
 
 
 }

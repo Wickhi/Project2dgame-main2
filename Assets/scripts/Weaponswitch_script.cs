@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -26,7 +24,7 @@ public class Weaponswitch_script : NetworkBehaviour
     void Update()
     {
         if (!IsOwner) return;
-        
+
         if (Input.GetKeyDown(KeyCode.U))
         {
             currentweapon += 1;
@@ -40,14 +38,14 @@ public class Weaponswitch_script : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void weaponswitchServerRpc() 
+    public void weaponswitchServerRpc()
     {
 
         //Serverrpc fog kelleni
         if (Spawned == true)
         {
             //activeweapon.GetComponent<NetworkObject>().Despawn(true);
-            if(activeweapon != null)
+            if (activeweapon != null)
             {
                 Destroy(activeweapon);
 

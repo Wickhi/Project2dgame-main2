@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class snagger : MonoBehaviour
 {
@@ -14,7 +12,7 @@ public class snagger : MonoBehaviour
     }
 
     // Update is called once per frame
-     void Update()
+    void Update()
     {
 
 

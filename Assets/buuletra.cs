@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class buuletra : MonoBehaviour
@@ -23,6 +21,6 @@ public class buuletra : MonoBehaviour
     }
     public void settargerpos(Vector3 targepos)
     {
-           end = targepos;
+        end = targepos;
     }
 }

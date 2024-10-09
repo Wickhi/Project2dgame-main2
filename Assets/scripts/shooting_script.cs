@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-
-using UnityEngine.Audio;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class shooting_script : MonoBehaviour
@@ -48,7 +43,7 @@ public class shooting_script : MonoBehaviour
         Vector.damage = 20;
         Vector.firerate = 0.05f;
 
-        weapons = new weapon[] { Vector, Scar_H};
+        weapons = new weapon[] { Vector, Scar_H };
 
         //   active.name = weapons[1].name;
 
@@ -126,7 +121,7 @@ public class shooting_script : MonoBehaviour
             {
 
                 StartCoroutine(active.Burst());
-               
+
                 cooldownTimer = cooldown;
 
             }

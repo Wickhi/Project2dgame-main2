@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class roomcreator : MonoBehaviour
 {
-   // https://docs.unity3d.com/2022.3/Documentation/ScriptReference/UnityEngine.TilemapModule.html
+    // https://docs.unity3d.com/2022.3/Documentation/ScriptReference/UnityEngine.TilemapModule.html
     //https://www.youtube.com/watch?v=h50OMdqtbKE&t=261s
 
     //Important variables
@@ -61,7 +59,7 @@ public class roomcreator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     
+
         //Set block action code
         if (Input.GetMouseButtonDown(0))
         {
@@ -78,7 +76,7 @@ public class roomcreator : MonoBehaviour
 
             CastRay();
 
-            
+
         }
 
 
@@ -117,7 +115,7 @@ public class roomcreator : MonoBehaviour
                         Tilebase = Tilebasesaved;
                     }
                 }
-                    
+
             }
 
             //RectangleTool
@@ -131,7 +129,7 @@ public class roomcreator : MonoBehaviour
 
                         EPressed = true;
                         EraseMode2 = true;
-                        
+
 
 
                     }
@@ -144,7 +142,7 @@ public class roomcreator : MonoBehaviour
                     }
                 }
 
-               //Rectangle Drawing Mode
+                //Rectangle Drawing Mode
                 if (Input.GetMouseButtonDown(0))
                 {
 
@@ -168,7 +166,7 @@ public class roomcreator : MonoBehaviour
                     Rectangleside.xMin = Curentposition.x < Startposition.x ? Curentposition.x : Startposition.x;
                     Rectangleside.xMax = Curentposition.x > Startposition.x ? Curentposition.x : Startposition.x;
                     Rectangleside.yMin = Curentposition.y < Startposition.y ? Curentposition.y : Startposition.y;
-                    Rectangleside.yMax= Curentposition.y > Startposition.y ? Curentposition.y : Startposition.y;
+                    Rectangleside.yMax = Curentposition.y > Startposition.y ? Curentposition.y : Startposition.y;
                     previewmap.ClearAllTiles();
                     for (int x = Rectangleside.xMin; x <= Rectangleside.xMax; x++)
                     {
@@ -240,7 +238,7 @@ public class roomcreator : MonoBehaviour
                 EraseMode = true;
                 ToolMode = true;
                 EraseMode2 = false;
-                
+
 
             }
             else
@@ -295,7 +293,7 @@ public class roomcreator : MonoBehaviour
         worldPoint = ray.GetPoint(0);
         if (GetTileMode == false)
         {
-           
+
             position = grid.WorldToCell(worldPoint);
             position.x = position.x - Xoffset;
             position.y = position.y - Yoffset;
@@ -324,5 +322,5 @@ public class roomcreator : MonoBehaviour
         }
 
     }
-    
+
 }

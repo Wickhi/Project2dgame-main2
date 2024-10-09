@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class artillery_script : MonoBehaviour
 {
@@ -11,11 +9,11 @@ public class artillery_script : MonoBehaviour
     public GameObject szar;
     public Transform player;
     public Transform szarrot;
- 
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,13 +25,13 @@ public class artillery_script : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             Vector3 arty = cam.ScreenToWorldPoint(Input.mousePosition);
-            arty.z = player.position.z ;
+            arty.z = player.position.z;
             GameObject szar2 = Instantiate(szar, arty, Quaternion.Euler(new Vector3(0, 0, 0)));
 
 
 
         }
-      
-        
+
+
     }
 }

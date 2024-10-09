@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class hitdetection : MonoBehaviour
@@ -33,11 +31,11 @@ public class hitdetection : MonoBehaviour
             player.GetComponent<building_script>().Canbuild = false;
             wallname = gameObject.name;
             player.GetComponent<building_script>().fal = gameObject;
-            
+
 
 
         }
-        
+
 
 
     }

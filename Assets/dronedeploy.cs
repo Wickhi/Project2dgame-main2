@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class dronedeploy : MonoBehaviour
 {
-    public  GameObject Drone;
+    public GameObject Drone;
     public Transform buildingspot;
     public int numberofdrones;
     public bool deployed;
@@ -15,10 +13,10 @@ public class dronedeploy : MonoBehaviour
     public float rechargetimeBase;
     public int NumberOfDronesbase;
     // make drone recahrge
-        // Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -33,8 +31,8 @@ public class dronedeploy : MonoBehaviour
 
             }
         }
-        
-        if (rechargetime > 0 )
+
+        if (rechargetime > 0)
         {
             rechargetime -= Time.deltaTime;
         }
@@ -48,7 +46,7 @@ public class dronedeploy : MonoBehaviour
                     recharge = false;
                 }
             }
-            
+
         }
         if (deployed == false)
         {

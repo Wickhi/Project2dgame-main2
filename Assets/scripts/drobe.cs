@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.FilePathAttribute;
 
 public class drobe : MonoBehaviour
 {
@@ -27,7 +23,7 @@ public class drobe : MonoBehaviour
     void Update()
     {
         movedir = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        if(lifetime > 0)
+        if (lifetime > 0)
         {
             lifetime -= Time.deltaTime;
 
@@ -47,13 +43,13 @@ public class drobe : MonoBehaviour
             player.GetComponent<playermovement_orgia_script>().enabled = true;
 
         }
-        
+
     }
     private void FixedUpdate()
     {
         rb.velocity = movedir * speed;
         var mouse = new Vector3(0f, 0f, speed);
-        Quaternion rotation = Quaternion.Euler(mouse *  5);
+        Quaternion rotation = Quaternion.Euler(mouse * 5);
         transform.rotation = transform.rotation * rotation;
 
     }

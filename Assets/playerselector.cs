@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class playerselector : MonoBehaviour {
+public class playerselector : MonoBehaviour
+{
     public Camera cam;
     public Button stuart;
     public Button george;

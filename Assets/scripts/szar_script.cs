@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class szar : MonoBehaviour
 {
@@ -41,7 +39,7 @@ public class szar : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q))
         {
             egérlent2 = true;
-   
+
 
 
         }
@@ -49,7 +47,7 @@ public class szar : MonoBehaviour
         {
             egérlent2 = false;
             mozgás = true;
-            
+
 
         }
         if (egérlent2 == true)

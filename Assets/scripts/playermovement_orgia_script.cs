@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
+﻿using Unity.Netcode;
 using UnityEngine;
 
 public class playermovement_orgia_script : NetworkBehaviour
@@ -42,7 +40,7 @@ public class playermovement_orgia_script : NetworkBehaviour
     private void Start()
     {
         //  stamina = maxstamina;
-        
+
 
 
     }
@@ -100,7 +98,7 @@ public class playermovement_orgia_script : NetworkBehaviour
         }
         if (moving == false)
         {
-            if(!audi.isPlaying)
+            if (!audi.isPlaying)
             {
                 audi.Play();
             }

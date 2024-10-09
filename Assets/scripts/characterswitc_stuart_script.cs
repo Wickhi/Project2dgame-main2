@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class characterswitch_stuart : MonoBehaviour
 {
@@ -10,7 +8,7 @@ public class characterswitch_stuart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,7 +21,7 @@ public class characterswitch_stuart : MonoBehaviour
             Stuart.GetComponent<shooting_script>().enabled = true;
             Stuart.GetComponent<building_script>().enabled = true;
             Stuart.GetComponent<grenadethrow_script>().enabled = true;
-           
+
             Stuart.GetComponent<car>().enabled = true;
 
         }

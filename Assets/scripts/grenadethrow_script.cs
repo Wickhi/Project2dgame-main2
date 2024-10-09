@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class grenadethrow_script : MonoBehaviour
 {
-    
+
     public int throwforce = 5;
     public Rigidbody2D rb;
     public GameObject GranataPrefab;
@@ -27,14 +25,14 @@ public class grenadethrow_script : MonoBehaviour
 
         }
 
-    void Throw()
-    {
+        void Throw()
+        {
 
-        GameObject granata = Instantiate(GranataPrefab, granataindul.position, granataindul.rotation);
-        Rigidbody2D rb = granata.GetComponent<Rigidbody2D>();
-        rb.AddForce(granataindul.up * throwforce, ForceMode2D.Force);
-    }
+            GameObject granata = Instantiate(GranataPrefab, granataindul.position, granataindul.rotation);
+            Rigidbody2D rb = granata.GetComponent<Rigidbody2D>();
+            rb.AddForce(granataindul.up * throwforce, ForceMode2D.Force);
+        }
     }
 
-    
+
 }

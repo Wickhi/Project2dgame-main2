@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class follow_script : MonoBehaviour
 {
@@ -37,13 +35,13 @@ public class follow_script : MonoBehaviour
             transform.position = new Vector3(Stuart.transform.position.x, Stuart.transform.position.y, transform.position.z);
             //if (usinghmg == true)
             //{
-              //  Stuart = GameObject.Find("M3(Clone)");
+            //  Stuart = GameObject.Find("M3(Clone)");
             //}
             //else
             //{
-              //  Stuart = GameObject.Find("Stuart");
+            //  Stuart = GameObject.Find("Stuart");
             //}
-            
+
 
 
 
@@ -52,7 +50,7 @@ public class follow_script : MonoBehaviour
         {
             //transform.position = new Vector3(George.transform.position.x, George.transform.position.y, transform.position.z);
             //Stuart = GameObject.Find("George");
-            
+
 
         }
         if (playervalue == 3)

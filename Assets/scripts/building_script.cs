@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class building_script : MonoBehaviour
@@ -71,7 +69,7 @@ public class building_script : MonoBehaviour
 
 
         if (Input.GetKeyDown(KeyCode.B))
-        {      
+        {
             //Enter Building Mode
             if (!bpressed)
             {
@@ -162,7 +160,7 @@ public class building_script : MonoBehaviour
             if (whattobuild == 1)
             {
 
-                
+
                 if (selected == true)
                 {
                     fal.transform.position = mouseposition;
@@ -218,8 +216,8 @@ public class building_script : MonoBehaviour
 
             if (whattobuild == 3)
             {
-                
-   
+
+
                 if (Input.GetButtonDown("Fire1"))
                 {
                     if (!hmgdeployed)
@@ -234,7 +232,7 @@ public class building_script : MonoBehaviour
                             Destroy(Hmg);
                             hmgdeployed = false;
                         }
-                        
+
                     }
                 }
 
@@ -250,7 +248,7 @@ public class building_script : MonoBehaviour
                     Hmg.transform.Rotate(0, 0, 0.5f);
                 }
             }
-            if(hmgdeployed == true)
+            if (hmgdeployed == true)
             {
                 usinghmg = Hmg.GetComponent<collidee>().usinghmg;
 
@@ -293,7 +291,7 @@ public class building_script : MonoBehaviour
     }
     void dronebuild()
     {
-        
+
         Drone = Instantiate(hmgPrefab, buildingspot.position, Quaternion.Euler(new Vector3(0, 0, 0)));
     }
     void buildtime()
@@ -303,4 +301,3 @@ public class building_script : MonoBehaviour
 
     }
 }
-    

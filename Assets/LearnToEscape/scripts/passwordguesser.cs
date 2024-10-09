@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class passwordguesser : MonoBehaviour
 {
@@ -96,10 +95,10 @@ public class passwordguesser : MonoBehaviour
             }
 
             maxNumber = 0;
-           
+
             //if (Objectlocation.TryGetValue(new Vector2(currentnumber - 1, i), out GameObject adc) == true)
             //{
-                //currentnumber--;
+            //currentnumber--;
             //}
 
         }
@@ -132,11 +131,11 @@ public class passwordguesser : MonoBehaviour
 
 
 
-                
+
             }
             //else if ((c == '\n') || (c == '\r')) // enter/return
             //{
-                //print("User entered their name: " + gt.text);
+            //print("User entered their name: " + gt.text);
             //}
             else
             {
@@ -146,7 +145,7 @@ public class passwordguesser : MonoBehaviour
                     Object = Objectlocation[new Vector2(currentnumber, i)];
 
                 }
-                
+
                 currentnumber++;
                 lastNumberInRow[i] = currentnumber;
                 if (Objectlocation.TryGetValue(new Vector2(currentnumber + 1, i), out GameObject adcb) == false)
@@ -207,7 +206,7 @@ public class passwordguesser : MonoBehaviour
                 }
             }
         }
-        
+
     }
 }
 

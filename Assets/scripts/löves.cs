@@ -1,12 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-
-using UnityEngine.Audio;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Netcode;
-using JetBrains.Annotations;
 
 public class löves : NetworkBehaviour
 {
@@ -196,7 +191,7 @@ public class löves : NetworkBehaviour
                         if (Input.GetButtonDown("Fire1"))
                         {
                             canfire = true;
-                            
+
 
                         }
                         if (canfire == true)
@@ -348,7 +343,7 @@ public class löves : NetworkBehaviour
 
 
         }
-        
+
 
     }
     void OldShoot()
@@ -371,13 +366,13 @@ public class löves : NetworkBehaviour
     public void Casing()
     {
         if (mag > 0)
-        { 
+        {
             GameObject ammocasing = Instantiate(bulletcasing, Casingpoint.position, Casingpoint.rotation);
             ammocasing.GetComponent<NetworkObject>().Spawn(true);
             Rigidbody2D rb_casing = ammocasing.GetComponent<Rigidbody2D>();
             rb_casing.AddForce((Casingpoint.up + casingVariability) * Casingforce, ForceMode2D.Force);
         }
-            
+
     }
     void firing()
     {
@@ -396,7 +391,7 @@ public class löves : NetworkBehaviour
         Rigidbody2D rb_magazine = magazine.GetComponent<Rigidbody2D>();
         rb_magazine.AddForce((Casingpoint.up + MagVariability) * Magforce, ForceMode2D.Force);
         yield return new WaitForSeconds(reloadtime);
-        if(fullammo > magazinebase)
+        if (fullammo > magazinebase)
         {
             mag = magazinebase;
             reserveammo = fullammo - mag;
@@ -411,7 +406,7 @@ public class löves : NetworkBehaviour
         isreloading = false;
         reloadtimebase = 0f;
         reloadtime = reloadtimeBase;
-        
+
     }
     IEnumerator varakoztatas()
     {

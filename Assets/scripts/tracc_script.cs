@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class tracc : MonoBehaviour
 {
@@ -64,12 +61,12 @@ public class tracc : MonoBehaviour
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
             lookDir.Normalize();
-            
+
         }
     }
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(enemys.Contains(collider.gameObject) == false)
+        if (enemys.Contains(collider.gameObject) == false)
         {
             enemys.Add(collider.gameObject);
         }
@@ -81,7 +78,7 @@ public class tracc : MonoBehaviour
                 inside = true;
 
             }
-            
+
         }
 
     }
@@ -90,7 +87,7 @@ public class tracc : MonoBehaviour
         if (enemys.Contains(collider.gameObject) == true)
         {
             enemys.Remove(collider.gameObject);
-            if(player == collider.gameObject)
+            if (player == collider.gameObject)
             {
                 player = null;
 
@@ -100,7 +97,7 @@ public class tracc : MonoBehaviour
         {
             inside = false;
         }
-    } 
+    }
     void OnTriggerStay2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Enemybodypart"))
@@ -116,11 +113,11 @@ public class tracc : MonoBehaviour
                 player = enemys[Random.Range(0, enemys.Count)];
             }
         }
-        
+
 
 
 
 
     }
-    
+
 }

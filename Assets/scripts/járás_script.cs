@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class járás : MonoBehaviour
 {
@@ -13,11 +11,11 @@ public class járás : MonoBehaviour
     // Update is called once per frame
     void start()
     {
-       rbn = this.GetComponent<Rigidbody2D>();
+        rbn = this.GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        playerpoint = cam.ScreenToWorldPoint(playerp.position); 
+        playerpoint = cam.ScreenToWorldPoint(playerp.position);
     }
     private void FixedUpdate()
     {
@@ -26,7 +24,7 @@ public class járás : MonoBehaviour
         rbn.rotation = angle;
         lookDir.Normalize();
         movementek(lookDir);
-        
+
 
     }
     void movementek(Vector2 lookDir)

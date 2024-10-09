@@ -1,9 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class UIInteractions_SecretLabor : MonoBehaviour
 {
@@ -44,16 +39,16 @@ public class UIInteractions_SecretLabor : MonoBehaviour
 
                 }
             }
-                
+
         }
-        
-        
+
+
 
     }
     public void Changemapsize()
     {
         camerastage++;
-        if(camerastage == 1)
+        if (camerastage == 1)
         {
             mapcam.orthographicSize = 10;
         }
@@ -68,7 +63,7 @@ public class UIInteractions_SecretLabor : MonoBehaviour
         if (camerastage == 4)
         {
             mapcam.orthographicSize = 45;
-            
+
         }
         if (camerastage == 5)
         {

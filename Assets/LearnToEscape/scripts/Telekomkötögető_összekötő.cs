@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -31,7 +30,7 @@ public class Telekomkötögető_összekötő : MonoBehaviour
             CastRay();
 
         }
-        
+
     }
     void CastRay()
     {
@@ -48,7 +47,7 @@ public class Telekomkötögető_összekötő : MonoBehaviour
                 {
                     if (value.x == 0)
                     {
-                        test1  = GameObject.Find(HitObjectName);
+                        test1 = GameObject.Find(HitObjectName);
                         testtext1 = test1.transform.GetChild(0).gameObject;
 
                     }
@@ -73,16 +72,16 @@ public class Telekomkötögető_összekötő : MonoBehaviour
                     }
                 }
             }
-            
+
 
             //linedrawer
             if (test1 != null && test2 != null)
             {
-                
+
                 lr = test1.GetComponent<LineRenderer>();
                 if (Camera2.GetComponent<Telekomkötögető>().Question.IndexOf(testtext1.GetComponent<TextMeshPro>().text) == Camera2.GetComponent<Telekomkötögető>().Answer.IndexOf(testtext2.GetComponent<TextMeshPro>().text))
                 {
-                    
+
                     lr.startColor = Color.blue;
                     lr.endColor = Color.blue;
                     selectedint++;
@@ -115,4 +114,4 @@ public class Telekomkötögető_összekötő : MonoBehaviour
         }
 
     }
-    }
+}

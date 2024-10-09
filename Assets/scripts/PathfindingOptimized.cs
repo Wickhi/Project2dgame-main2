@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PathfindingOptimized : MonoBehaviour
 {
@@ -14,13 +11,13 @@ public class PathfindingOptimized : MonoBehaviour
     public Collider2D collidee;
     [Header("Grid Settings")]
 
-        [SerializeField] public int gridWidth = 10;
-        [SerializeField] public int gridHeight = 10;
-        [SerializeField] public int cellWidth = 1;
-        [SerializeField] public int cellHeight = 1;
-        public float CellSize = 1;
-        public float sizeofcollider;
-        public int Gcostmodifier;
+    [SerializeField] public int gridWidth = 10;
+    [SerializeField] public int gridHeight = 10;
+    [SerializeField] public int cellWidth = 1;
+    [SerializeField] public int cellHeight = 1;
+    public float CellSize = 1;
+    public float sizeofcollider;
+    public int Gcostmodifier;
 
 
     [Header("Pathfinding Function")]
@@ -257,8 +254,8 @@ public class PathfindingOptimized : MonoBehaviour
                 Collider2D collider = celle.GetComponent<BoxCollider2D>();
                 spriteRenderer = celle.GetComponent<SpriteRenderer>();
                 RaycastHit2D hit = Physics2D.Raycast(celle.transform.position, celle.transform.position, Mathf.Infinity, layrm);
-                
-                if(collider.IsTouching(collidee))
+
+                if (collider.IsTouching(collidee))
                 {
                     cells[pos].tiletoavoid = true;
                     TilesToAvoid.Add(pos);
@@ -273,7 +270,7 @@ public class PathfindingOptimized : MonoBehaviour
             }
 
         }
-        
+
     }
     public void GenerateWalls3()
     {
@@ -304,7 +301,7 @@ public class PathfindingOptimized : MonoBehaviour
 
             }
         }
-      
+
     }
     //Get grid visualized
 
@@ -390,7 +387,7 @@ public class PathfindingOptimized : MonoBehaviour
         FindPath(sp, ep);
         finalfinalPath = finalPath;
         finalfinalPath.Reverse();
-        foreach(Vector2 c in finalfinalPath)
+        foreach (Vector2 c in finalfinalPath)
         {
             Objectfinalpos.Add(cells2[c].transform.position);
             finalfinalfinalPath.Add(c);

@@ -1,14 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
-using TMPro;
-using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.Purchasing.Security;
-using UnityEngine.UIElements;
 
 public class zombie : MonoBehaviour
 {
@@ -141,7 +133,7 @@ public class zombie : MonoBehaviour
         }
         if (navmeshrefresh2 == 0)
         {
-            if(retarget == true )
+            if (retarget == true)
             {
                 getplayer();
             }
@@ -180,7 +172,7 @@ public class zombie : MonoBehaviour
             {
                 if (path.Count != 1)
                 {
-                  
+
                     path.RemoveAt(0);
                     path2.RemoveAt(0);
                     adjustment = false;
@@ -201,11 +193,11 @@ public class zombie : MonoBehaviour
             }
 
             ;
-            
+
             lookDir.Normalize();
             movementek(lookDir);
 
-            
+
             if (lockviewangle == false)
             {
                 lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
@@ -223,7 +215,7 @@ public class zombie : MonoBehaviour
             }
         }
     }
-    void OnTriggerStay2D (Collider2D other)
+    void OnTriggerStay2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player") == true)
         {
@@ -243,7 +235,7 @@ public class zombie : MonoBehaviour
 
             }
         }
-        
+
     }
     void OnTriggerExit2D(Collider2D other)
     {

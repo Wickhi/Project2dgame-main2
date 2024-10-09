@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class tankcontroller : MonoBehaviour
 {
@@ -20,7 +18,7 @@ public class tankcontroller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -29,7 +27,7 @@ public class tankcontroller : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-             bal = true;
+            bal = true;
 
         }
         if (Input.GetKeyUp(KeyCode.A))
@@ -41,7 +39,7 @@ public class tankcontroller : MonoBehaviour
         if (bal == true)
         {
             fordulás = fordulás + fordulásfok;
-            Quaternion rotation = Quaternion.Euler(new Vector3 (0,0,fordulás));
+            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, fordulás));
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
 
         }

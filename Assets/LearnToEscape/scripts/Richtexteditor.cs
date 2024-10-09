@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using System.Text.RegularExpressions;
+using UnityEngine;
 
 public class Richtexteditor : MonoBehaviour
 {
@@ -48,9 +45,9 @@ public class Richtexteditor : MonoBehaviour
 
 
 
-    
+
         starttag = starttag + colortag + ">";
-        
+
     }
 
     // Update is called once per frame
@@ -104,8 +101,8 @@ public class Richtexteditor : MonoBehaviour
         adjustedstart = tMP_Input.text.IndexOf(selectedText);
         starttagpoint = start;
         endtagpositiontemp = end;
-        Debug.Log("start= " + start +  " end= " + end);
-        
+        Debug.Log("start= " + start + " end= " + end);
+
 
     }
     public void GetSelectedText2(string str, int start, int end)
@@ -118,7 +115,7 @@ public class Richtexteditor : MonoBehaviour
     }
     public void Getendtagposition()
     {
-        while(tMP_Input.text.Substring(Mathf.Min(starttagpoint, endtagpoint), Mathf.Abs(endtagpoint - starttagpoint)) != endtag)
+        while (tMP_Input.text.Substring(Mathf.Min(starttagpoint, endtagpoint), Mathf.Abs(endtagpoint - starttagpoint)) != endtag)
         {
 
         }
