@@ -1,3 +1,4 @@
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
 
@@ -7,6 +8,10 @@ public class overlord : MonoBehaviour
     public int NumberOfMormaks;
     public int MormakSpawncap;
     public Vector3 Mormakspawnpoint;
+    public string Difficulty;
+    public string DifficultyName;
+    public int Difficultylevel;
+    public int Assaultlevel;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +28,34 @@ public class overlord : MonoBehaviour
         Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
 
     }
-    void determineassaulttype()
+    void Determineassaulttype()
+    {
+
+    }
+    void Reconphase()
+    {
+
+    }
+    void Buildphase()
     {
         
     }
-    void determineassaulttype()
+    void Attritionphase()
     {
 
+    }
+    void Minibossphase()
+    {
+
+    }
+    void Retreat()
+    {
+
+    }
+
+
+    //Custom assault types
+    void Swarmtype()
+    { 
     }
 }
