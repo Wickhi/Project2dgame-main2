@@ -29,11 +29,36 @@ public class overlord : MonoBehaviour
         if (Assaultphase == 1)
         {
             //reconphaseStart
-            ReconphaseStart(ReconPrefab, Mormakspawnpoint);
-            if (Recon == null)
+            if (Reconphaseactive == true)
             {
+                ReconphaseStart(ReconPrefab, Mormakspawnpoint);
+                Reconphaseactive = false;
+            }
+            if (returned == true)
+            {
+                Assaultphase++;
 
             }
+            if (Recon == null && returned == false)
+            {
+                Assaultphase++;
+            }
+
+        }
+        if (Assaultphase == 2)
+        {
+            //reconphaseStart
+            ReconphaseStart(ReconPrefab, Mormakspawnpoint);
+            if (returned == true)
+            {
+                Assaultphase++;
+
+            }
+            if (Recon == null && returned == false)
+            {
+                Assaultphase++;
+            }
+
         }
     }
     void spawnenemy(GameObject enemy, Vector3 spawnpoint)
