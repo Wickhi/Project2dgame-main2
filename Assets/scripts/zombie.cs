@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -110,16 +111,7 @@ public class zombie : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Vector3.Distance(Rb.position, player.transform.position) < stopmovementdistance)
-        {
-            activepathfinding = false;
-            path.Clear();
-        }
-        if (Vector3.Distance(Rb.position, player.transform.position) > stopmovementdistance)
-        {
-
-            activepathfinding = true;
-        }
+        Determineiftomove(stopmovementdistance);
         if (lockviewangle == true)
         {
             lookDir = new Vector3(player.transform.position.x, player.transform.position.y, 0) - transform.position;
@@ -131,89 +123,8 @@ public class zombie : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
 
         }
-        if (navmeshrefresh2 == 0)
-        {
-            if (retarget == true)
-            {
-                getplayer();
-            }
-            collsaved = coll;
-            coll2saved = coll2;
-            RaycastHit2D hit = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
-            RaycastHit2D hit2 = Physics2D.Raycast(playerpoint.position, playerpoint.position, Mathf.Infinity, layermask);
-            coll = hit.collider;
-            coll2 = hit2.collider;
-            canexecute = false;
-            if (activepathfinding == true)
-            {
-                if (coll != null)
-                {
-                    if (coll2 != coll2saved)
-                    {
-                        path.Clear();
-                        path2.Clear();
-                        //Rb.position = pt.cells2[startpoint].transform.position;
-                        startpoint = pt.objectCell2[coll.gameObject].position;
-                        targetpoint = pt.objectCell2[coll2.gameObject].position;
-                        Pathfindingalgorith(startpoint, targetpoint);
-                        path = Objectfinalpos;
-                        path2 = finalfinalfinalPath;
-                        adjustment = true;
-                        navmeshrefresh2 = navmeshrefreshbase;
-                    }
-                }
-            }
-        }
-        if (path.Count != 0)
-        {
-            RaycastHit2D hit3 = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
-            coll = hit3.collider;
-            if (adjustment == true)
-            {
-                if (path.Count != 1)
-                {
-
-                    path.RemoveAt(0);
-                    path2.RemoveAt(0);
-                    adjustment = false;
-
-                }
-
-            }
-            if (Vector3.Distance(Rb.position, player.transform.position) < attackdistance)
-            {
-                lockviewangle = true;
-                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
-            }
-            else
-            {
-                lockviewangle = false;
-                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
-
-            }
-
-            ;
-
-            lookDir.Normalize();
-            movementek(lookDir);
-
-
-            if (lockviewangle == false)
-            {
-                lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
-
-                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-                var mouse = new Vector3(0f, 0f, angle);
-                Quaternion rotation = Quaternion.Euler(mouse);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
-            }
-
-            if (coll.gameObject == pt.cells2[path2[0]])
-            {
-                path.RemoveAt(0);
-                path2.RemoveAt(0);
-            }
-        }
+        Getroute(player.transform);
+        Move();
     }
     void OnTriggerStay2D(Collider2D other)
     {
@@ -428,5 +339,112 @@ public class zombie : MonoBehaviour
 
         }
 
+    }
+    void navmeshrefreshing()
+    {
+
+    }
+    void Determineiftomove(float Stopmovementdistance)
+    {
+        if (Vector3.Distance(Rb.position, player.transform.position) < Stopmovementdistance)
+        {
+            activepathfinding = false;
+            path.Clear();
+        }
+        if (Vector3.Distance(Rb.position, player.transform.position) > Stopmovementdistance)
+        {
+
+            activepathfinding = true;
+        }
+    }
+
+    void Getroute(Transform Target)
+    {
+        if (navmeshrefresh2 == 0)
+        {
+            if (retarget == true)
+            {
+                getplayer();
+            }
+            collsaved = coll;
+            coll2saved = coll2;
+            RaycastHit2D hit = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
+            RaycastHit2D hit2 = Physics2D.Raycast(Target.position, Target.position, Mathf.Infinity, layermask);
+            coll = hit.collider;
+            coll2 = hit2.collider;
+            canexecute = false;
+            if (activepathfinding == true)
+            {
+                if (coll != null)
+                {
+                    if (coll2 != coll2saved)
+                    {
+                        path.Clear();
+                        path2.Clear();
+                        //Rb.position = pt.cells2[startpoint].transform.position;
+                        startpoint = pt.objectCell2[coll.gameObject].position;
+                        targetpoint = pt.objectCell2[coll2.gameObject].position;
+                        Pathfindingalgorith(startpoint, targetpoint);
+                        path = Objectfinalpos;
+                        path2 = finalfinalfinalPath;
+                        adjustment = true;
+                        navmeshrefresh2 = navmeshrefreshbase;
+                    }
+                }
+            }
+        }
+    }
+    void Move()
+    {
+        if (path.Count != 0)
+        { 
+            RaycastHit2D hit3 = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
+            coll = hit3.collider;
+            if (adjustment == true)
+            {
+                if (path.Count != 1)
+                {
+
+                    path.RemoveAt(0);
+                    path2.RemoveAt(0);
+                    adjustment = false;
+
+                }
+
+            }
+            if (Vector3.Distance(Rb.position, player.transform.position) < attackdistance)
+            {
+                lockviewangle = true;
+                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
+            }
+            else
+            {
+                lockviewangle = false;
+                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
+
+            }
+
+
+
+            lookDir.Normalize();
+            movementek(lookDir);
+
+
+            if (lockviewangle == false)
+            {
+                lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
+
+                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+                var mouse = new Vector3(0f, 0f, angle);
+                Quaternion rotation = Quaternion.Euler(mouse);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+            }
+
+            if (coll.gameObject == pt.cells2[path2[0]])
+            {
+                path.RemoveAt(0);
+                path2.RemoveAt(0);
+            }
+        }
     }
 }
