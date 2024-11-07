@@ -2,25 +2,27 @@ using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Purchasing;
 
 public class zombie : MonoBehaviour
 {
 
-    public bool activepathfinding;
+    private bool activepathfinding;
 
-    public Rigidbody2D Rb;
+    private Rigidbody2D Rb;
     public float attacktimebase;
     public float attacktime;
     public float attackdistance;
     public float stopmovementdistance;
 
     public int attackdamage;
+    public bool isabletoattack;
     public float RetargetTimeBase;
 
     public float navmeshrefreshbase;
 
     public int moveSpeed;
-    public float change;
+    public float rotationspeed;
 
     public PathfindingOptimized pt;
     public GameObject player;
@@ -28,56 +30,48 @@ public class zombie : MonoBehaviour
     public AudioClip attacksound;
     public Collider2D self;
     public Collider2D targetcollider;
-    public Collider2D collsaved;
-    public Collider2D coll2saved;
+    private Collider2D collsaved;
+    private Collider2D coll2saved;
     public Collider2D heararea;
     public Collider2D attackarea;
 
 
-    public Vector2 startpoint;
-    public Vector2 targetpoint;
-    public List<Vector2> path;
-    public List<Vector2> path2;
+    private List<Vector2> path = new();
+    private List<Vector2> path2 = new();
 
-    public bool pathGenerated;
-    public bool adjustment;
+    private bool adjustment;
     public bool attackable = true;
 
-    public LayerMask layermask;
+    public LayerMask navmesh;
 
-    public LayerMask layermask2;
+    public LayerMask enemy;
 
     public bool canexecute;
 
-
-    public List<Vector2> cellsToSearch;
-    public List<Vector2> searchedCells;
-    public List<Vector2> finalPath;
-    public List<Vector2> finalfinalPath;
-    public List<Vector2> finalfinalfinalPath;
-    public List<Vector2> Objectfinalpos;
-    public List<Vector2> Walls;
-    public List<Vector2> TilesToAvoid;
+    private List<Vector2> cellsToSearch = new();
+    private List<Vector2> searchedCells = new();
+    private List<Vector2> finalPath = new();
+    private List<Vector2> finalfinalPath = new();
+    private List<Vector2> finalfinalfinalPath = new();
+    private List<Vector2> Objectfinalpos = new();
     public List<GameObject> players;
-    public List<float> szamok;
+    private List<float> szamok = new();
     public List<GameObject> targets;
-    public List<GameObject> targetsorganised;
-    public Dictionary<float, GameObject> floattotarget;
+    private List<GameObject> targetsorganised = new();
+    private Dictionary<float, GameObject> floattotarget = new();
 
     [Header("Pathfinding Function")]
-    public int GcostToNeighbour;
+    private int GcostToNeighbour;
     public bool reset;
-    public bool visualizegrid;
     public int Gcostmodifier;
-    public bool lockviewangle;
-    public bool desiredposition;
-    public bool retarget = true;
-    public Vector3 lookDir;
-    public float navmeshrefresh2;
+    private bool lockviewangle;
+    private bool retarget = true;
+    private Vector3 lookDir;
+    private float navmeshrefresh2;
 
 
-    public bool execute;
-    public bool recontypeexecute;
+    public bool organise;
+    private bool recontypeexecute;
 
     public bool recontype;
 
@@ -87,17 +81,21 @@ public class zombie : MonoBehaviour
     {
         canexecute = true;
         navmeshrefreshbase = Random.Range(navmeshrefreshbase - 0.2f, navmeshrefreshbase + 0.2f);
-
+        Rb = gameObject.GetComponent<Rigidbody2D>();
+        if(recontype == true)
+        {
+            organise = true;
+        }
     }
 
     // Update is called once per frame 
     void Update()
     {
         Refreshtimers();
-        if (execute == true)
+        if (organise == true)
         {
             OrganiseTargets();
-            execute = false;
+            organise = false;
         }
     }
     private void FixedUpdate()
@@ -342,7 +340,7 @@ public class zombie : MonoBehaviour
     void attack()
     {
 
-        RaycastHit2D hit4 = Physics2D.Raycast(player.transform.position, player.transform.position, Mathf.Infinity, layermask2);
+        RaycastHit2D hit4 = Physics2D.Raycast(player.transform.position, player.transform.position, Mathf.Infinity, enemy);
         if (hit4.collider != null)
         {
             if (hit4.collider.gameObject == gameObject)
@@ -400,8 +398,8 @@ public class zombie : MonoBehaviour
             }
             collsaved = self;
             coll2saved = targetcollider;
-            RaycastHit2D hit = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
-            RaycastHit2D hit2 = Physics2D.Raycast(Target.position, Target.position, Mathf.Infinity, layermask);
+            RaycastHit2D hit = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, navmesh);
+            RaycastHit2D hit2 = Physics2D.Raycast(Target.position, Target.position, Mathf.Infinity, navmesh);
             self = hit.collider;
             targetcollider = hit2.collider;
             //canexecute = false;
@@ -414,9 +412,7 @@ public class zombie : MonoBehaviour
                         path.Clear();
                         path2.Clear();
                         //Rb.position = pt.cells2[startpoint].transform.position;
-                        startpoint = pt.objectCell2[self.gameObject].position;
-                        targetpoint = pt.objectCell2[targetcollider.gameObject].position;
-                        Pathfindingalgorith(startpoint, targetpoint);
+                        Pathfindingalgorith(pt.objectCell2[self.gameObject].position, pt.objectCell2[targetcollider.gameObject].position);
                         path = Objectfinalpos;
                         path2 = finalfinalfinalPath;
                         adjustment = true;
@@ -431,7 +427,7 @@ public class zombie : MonoBehaviour
     {
         if (path.Count != 0)
         { 
-            RaycastHit2D hit3 = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, layermask);
+            RaycastHit2D hit3 = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, navmesh);
             self = hit3.collider;
             if (adjustment == true)
             {
@@ -489,52 +485,58 @@ public class zombie : MonoBehaviour
             var mouse = new Vector3(0f, 0f, angle);
             Quaternion rotation = Quaternion.Euler(mouse);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationspeed);
 
         }
 
         if (lockviewangle == false)
         {
-            lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
+            if(path.Count != 0)
+            {
+                lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
 
-            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-            var mouse = new Vector3(0f, 0f, angle);
-            Quaternion rotation = Quaternion.Euler(mouse);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
+                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+                var mouse = new Vector3(0f, 0f, angle);
+                Quaternion rotation = Quaternion.Euler(mouse);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationspeed);
+            }
+            
         }
-    }
-    void recontypeGetpath()
-    {
-        
     }
     void StartAttack(Collider2D Other)
     {
-        if (Other.gameObject.CompareTag("Player") == true)
+        if(isabletoattack == true)
         {
-
-            if (attackable == true)
-            {
-                attackable = false;
-                Debug.Log("attack");
-                src.PlayOneShot(attacksound);
-                attacktime = attacktimebase;
-
-            }
-            if (attacktime == 0)
+            if (Other.gameObject.CompareTag("Player") == true)
             {
 
-                attack();
+                    if (attackable == true)
+                    {
+                        attackable = false;
+                        Debug.Log("attack");
+                        src.PlayOneShot(attacksound);
+                        attacktime = attacktimebase;
 
-            }
+                    }
+                    if (attacktime == 0)
+                    {
+                        attack();
+                    }
+                }
         }
+        
 
     }
     void EndAttack(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player") == true)
+        if(isabletoattack == true)
         {
-            Debug.Log("attack over");
-            attackable = true;
+            if (other.gameObject.CompareTag("Player") == true)
+            {
+                Debug.Log("attack over");
+                attackable = true;
+            }
+
         }
     }
 
