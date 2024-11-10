@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering;
@@ -15,8 +16,10 @@ public class overlord : MonoBehaviour
     public bool activate;
     public bool Reconphaseactive;
     public GameObject ReconPrefab;
-    public bool returned;
+    public bool reconreturned;
     public GameObject Recon;
+    public List<GameObject> Targets;
+    public List<GameObject> Spawnpoints;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +37,12 @@ public class overlord : MonoBehaviour
                 ReconphaseStart(ReconPrefab, Mormakspawnpoint);
                 Reconphaseactive = false;
             }
-            if (returned == true)
+            if (reconreturned == true)
             {
                 Assaultphase++;
 
             }
-            if (Recon == null && returned == false)
+            if (Recon == null && reconreturned == false)
             {
                 Assaultphase++;
             }
@@ -49,19 +52,19 @@ public class overlord : MonoBehaviour
         {
             //reconphaseStart
             ReconphaseStart(ReconPrefab, Mormakspawnpoint);
-            if (returned == true)
+            if (reconreturned == true)
             {
                 Assaultphase++;
 
             }
-            if (Recon == null && returned == false)
+            if (Recon == null && reconreturned == false)
             {
                 Assaultphase++;
             }
 
         }
     }
-    void spawnenemy(GameObject enemy, Vector3 spawnpoint)
+    void Spawnenemy(GameObject enemy, Vector3 spawnpoint)
     {
         Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
 

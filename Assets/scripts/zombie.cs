@@ -30,12 +30,15 @@ public class zombie : MonoBehaviour
     public AudioClip attacksound;
     public Collider2D self;
     public Collider2D targetcollider;
+    [SerializeField]
     private Collider2D collsaved;
+    [SerializeField]
+
     private Collider2D coll2saved;
     public Collider2D heararea;
     public Collider2D attackarea;
 
-
+    [SerializeField]
     private List<Vector2> path = new();
     private List<Vector2> path2 = new();
 
@@ -74,7 +77,7 @@ public class zombie : MonoBehaviour
     private bool recontypeexecute;
 
     public bool recontype;
-
+    public bool staggerwhenplayernear;
 
     // Start is called before the first frame update
     void Start()
@@ -252,7 +255,7 @@ public class zombie : MonoBehaviour
             Objectfinalpos.Add(pt.cells2[c].transform.position);
             finalfinalfinalPath.Add(c);
         }
-        clearhistory();
+        Clearhistory();
     }
     public int GetDistance(Vector2 pos1, Vector2 pos2)
     {
@@ -266,7 +269,7 @@ public class zombie : MonoBehaviour
 
 
 
-    public void clearhistory()
+    public void Clearhistory()
     {
         //Walls.Clear();
         finalPath.Clear();
@@ -292,14 +295,7 @@ public class zombie : MonoBehaviour
 
         }
     }
-
-
-
-
-
-
-
-    public void getplayer()
+    public void Getplayer()
     {
         foreach (GameObject c in players)
         {
@@ -337,7 +333,7 @@ public class zombie : MonoBehaviour
         szamok.Clear();
     }
 
-    void attack()
+    void Attack()
     {
 
         RaycastHit2D hit4 = Physics2D.Raycast(player.transform.position, player.transform.position, Mathf.Infinity, enemy);
@@ -375,15 +371,24 @@ public class zombie : MonoBehaviour
     }
     void Determineiftomove(float Stopmovementdistance)
     {
-        if (Vector3.Distance(Rb.position, player.transform.position) < Stopmovementdistance)
+        if(recontype == false)
         {
-            activepathfinding = false;
-            path.Clear();
-        }
-        if (Vector3.Distance(Rb.position, player.transform.position) > Stopmovementdistance)
-        {
+            if (Vector3.Distance(Rb.position, player.transform.position) < Stopmovementdistance)
+            {
+                activepathfinding = false;
+                path.Clear();
+            }
+            if (Vector3.Distance(Rb.position, player.transform.position) > Stopmovementdistance)
+            {
 
+                activepathfinding = true;
+            }
+
+        }
+        else
+        {
             activepathfinding = true;
+
         }
     }
 
@@ -394,7 +399,7 @@ public class zombie : MonoBehaviour
         {
             if (retarget == true)
             {
-                getplayer();
+                Getplayer();
             }
             collsaved = self;
             coll2saved = targetcollider;
@@ -456,7 +461,7 @@ public class zombie : MonoBehaviour
 
 
             lookDir.Normalize();
-            movementek(lookDir);
+            Movementek(lookDir);
 
 
 
@@ -479,17 +484,19 @@ public class zombie : MonoBehaviour
     {
         if (lockviewangle == true)
         {
-            lookDir = new Vector3(player.transform.position.x, player.transform.position.y, 0) - transform.position;
+            if (recontype == false || staggerwhenplayernear == true)
+            {
+                lookDir = new Vector3(player.transform.position.x, player.transform.position.y, 0) - transform.position;
 
-            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
-            var mouse = new Vector3(0f, 0f, angle);
-            Quaternion rotation = Quaternion.Euler(mouse);
+                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+                var mouse = new Vector3(0f, 0f, angle);
+                Quaternion rotation = Quaternion.Euler(mouse);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationspeed);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationspeed);
+            }
 
         }
-
-        if (lockviewangle == false)
+        else
         {
             if(path.Count != 0)
             {
@@ -520,7 +527,7 @@ public class zombie : MonoBehaviour
                     }
                     if (attacktime == 0)
                     {
-                        attack();
+                        Attack();
                     }
                 }
         }
@@ -540,7 +547,7 @@ public class zombie : MonoBehaviour
         }
     }
 
-    void movementek(Vector2 lookDir2)
+    void Movementek(Vector2 lookDir2)
     {
         Rb.MovePosition((Vector2)transform.position + (moveSpeed * Time.deltaTime * lookDir2));
 
