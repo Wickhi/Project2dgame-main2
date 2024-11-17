@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 public class overlord : MonoBehaviour
 {
@@ -13,6 +11,8 @@ public class overlord : MonoBehaviour
     public string DifficultyName;
     public int Difficultylevel;
     public int Assaultphase;
+    public int CustomAssaultphase;
+
     public bool activate;
     public bool Reconphaseactive;
     public GameObject ReconPrefab;
@@ -20,6 +20,7 @@ public class overlord : MonoBehaviour
     public GameObject Recon;
     public List<GameObject> Targets;
     public List<GameObject> Spawnpoints;
+    public List<Vector2> Sentryonmap;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,7 @@ public class overlord : MonoBehaviour
                 ReconphaseStart(ReconPrefab, Mormakspawnpoint);
                 Reconphaseactive = false;
             }
+
             if (reconreturned == true)
             {
                 Assaultphase++;
@@ -44,27 +46,32 @@ public class overlord : MonoBehaviour
             }
             if (Recon == null && reconreturned == false)
             {
-                Assaultphase++;
+                Assaultphase = 3;
             }
 
         }
         if (Assaultphase == 2)
         {
-            //reconphaseStart
+            //Assaultstart
             ReconphaseStart(ReconPrefab, Mormakspawnpoint);
             if (reconreturned == true)
             {
-                Assaultphase++;
 
             }
             if (Recon == null && reconreturned == false)
             {
                 Assaultphase++;
+
             }
 
         }
     }
     void Spawnenemy(GameObject enemy, Vector3 spawnpoint)
+    {
+        Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
+
+    }
+    void SpawnSentryBuster(GameObject enemy, Vector3 spawnpoint)
     {
         Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
 
@@ -84,7 +91,7 @@ public class overlord : MonoBehaviour
     }
     void Buildphase()
     {
-        
+
     }
     void Attritionphase()
     {
@@ -102,6 +109,6 @@ public class overlord : MonoBehaviour
 
     //Custom assault types
     void Swarmtype()
-    { 
+    {
     }
 }

@@ -9,7 +9,7 @@ public class grenadethrow_script : MonoBehaviour
     Vector2 granatapont;
     public Transform granataindul;
     public Camera cam;
-    
+
     // Update is called once per frame
     void Update()
     {

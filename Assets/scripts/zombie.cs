@@ -1,8 +1,6 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Purchasing;
 
 public class zombie : MonoBehaviour
 {
@@ -85,7 +83,7 @@ public class zombie : MonoBehaviour
         canexecute = true;
         navmeshrefreshbase = Random.Range(navmeshrefreshbase - 0.2f, navmeshrefreshbase + 0.2f);
         Rb = gameObject.GetComponent<Rigidbody2D>();
-        if(recontype == true)
+        if (recontype == true)
         {
             organise = true;
         }
@@ -104,11 +102,11 @@ public class zombie : MonoBehaviour
     private void FixedUpdate()
     {
         Determineiftomove(stopmovementdistance);
-        if(canexecute == true)
+        if (canexecute == true)
         {
             if (recontype == true)
             {
-                if(recontypeexecute == true)
+                if (recontypeexecute == true)
                 {
                     if (targetsorganised.Count != 0)
                     {
@@ -313,11 +311,11 @@ public class zombie : MonoBehaviour
     void OrganiseTargets()
     {
         floattotarget = new Dictionary<float, GameObject>();
-        targetsorganised = new List<GameObject> ();
+        targetsorganised = new List<GameObject>();
         foreach (GameObject c in targets)
         {
             float distance2 = Vector3.Distance(Rb.position, c.transform.position);
-            
+
             floattotarget.Add(distance2, c);
             szamok.Add(distance2);
 
@@ -371,7 +369,7 @@ public class zombie : MonoBehaviour
     }
     void Determineiftomove(float Stopmovementdistance)
     {
-        if(recontype == false)
+        if (recontype == false)
         {
             if (Vector3.Distance(Rb.position, player.transform.position) < Stopmovementdistance)
             {
@@ -423,15 +421,19 @@ public class zombie : MonoBehaviour
                         adjustment = true;
                         navmeshrefresh2 = navmeshrefreshbase;
                     }
+
                 }
             }
         }
 
     }
+
+
+
     void Move()
     {
         if (path.Count != 0)
-        { 
+        {
             RaycastHit2D hit3 = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, navmesh);
             self = hit3.collider;
             if (adjustment == true)
@@ -472,7 +474,7 @@ public class zombie : MonoBehaviour
                 path2.RemoveAt(0);
             }
         }
-        else 
+        else
         {
             recontypeexecute = true;
 
@@ -498,7 +500,7 @@ public class zombie : MonoBehaviour
         }
         else
         {
-            if(path.Count != 0)
+            if (path.Count != 0)
             {
                 lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
 
@@ -507,36 +509,36 @@ public class zombie : MonoBehaviour
                 Quaternion rotation = Quaternion.Euler(mouse);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationspeed);
             }
-            
+
         }
     }
     void StartAttack(Collider2D Other)
     {
-        if(isabletoattack == true)
+        if (isabletoattack == true)
         {
             if (Other.gameObject.CompareTag("Player") == true)
             {
 
-                    if (attackable == true)
-                    {
-                        attackable = false;
-                        Debug.Log("attack");
-                        src.PlayOneShot(attacksound);
-                        attacktime = attacktimebase;
+                if (attackable == true)
+                {
+                    attackable = false;
+                    Debug.Log("attack");
+                    src.PlayOneShot(attacksound);
+                    attacktime = attacktimebase;
 
-                    }
-                    if (attacktime == 0)
-                    {
-                        Attack();
-                    }
                 }
+                if (attacktime == 0)
+                {
+                    Attack();
+                }
+            }
         }
-        
+
 
     }
     void EndAttack(Collider2D other)
     {
-        if(isabletoattack == true)
+        if (isabletoattack == true)
         {
             if (other.gameObject.CompareTag("Player") == true)
             {
