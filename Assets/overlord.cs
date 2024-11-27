@@ -21,6 +21,7 @@ public class overlord : MonoBehaviour
     public List<GameObject> Targets;
     public List<GameObject> Spawnpoints;
     public List<Vector2> Sentryonmap;
+    private float Mormaktimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -89,9 +90,24 @@ public class overlord : MonoBehaviour
     {
 
     }
-    void Buildphase()
+    void Buildphase(GameObject enemy, Vector3 spawnpoint, float MormakTimer)
     {
+        if (NumberOfMormaks < MormakSpawncap)
+        {
 
+            if (Mormaktimer <= 0)
+            {
+                Spawnenemy(enemy, spawnpoint);
+                NumberOfMormaks++;
+                Mormaktimer = MormakTimer;
+            }
+            else
+            {
+                Mormaktimer -= Time.deltaTime;
+
+            }
+
+        }
     }
     void Attritionphase()
     {
@@ -105,10 +121,10 @@ public class overlord : MonoBehaviour
     {
 
     }
-
-
     //Custom assault types
     void Swarmtype()
     {
+
     }
+
 }
