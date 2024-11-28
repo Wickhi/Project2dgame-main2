@@ -12,7 +12,7 @@ public class overlord : MonoBehaviour
     public int Difficultylevel;
     public int Assaultphase;
     public int CustomAssaultphase;
-
+    public GameObject player;
     public bool activate;
     public bool Reconphaseactive;
     public GameObject ReconPrefab;
@@ -31,6 +31,10 @@ public class overlord : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (activate == true)
+        {
+            Buildphase(Mormak, MormakSpawncap, Mormakspawnpoint, 0.2f);
+        }
         if (Assaultphase == 1)
         {
             //reconphaseStart
@@ -42,34 +46,26 @@ public class overlord : MonoBehaviour
 
             if (reconreturned == true)
             {
+                //Increase Difficulty
                 Assaultphase++;
-
             }
             if (Recon == null && reconreturned == false)
             {
-                Assaultphase = 3;
+                Assaultphase++;
             }
 
         }
         if (Assaultphase == 2)
         {
-            //Assaultstart
-            ReconphaseStart(ReconPrefab, Mormakspawnpoint);
-            if (reconreturned == true)
-            {
+            Buildphase(Mormak, MormakSpawncap, Mormakspawnpoint, 0.2f);
 
-            }
-            if (Recon == null && reconreturned == false)
-            {
-                Assaultphase++;
-
-            }
 
         }
     }
     void Spawnenemy(GameObject enemy, Vector3 spawnpoint)
     {
-        Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
+        var enem =Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
+        enem.GetComponent<zombie>().player = player;
 
     }
     void SpawnSentryBuster(GameObject enemy, Vector3 spawnpoint)
@@ -90,9 +86,9 @@ public class overlord : MonoBehaviour
     {
 
     }
-    void Buildphase(GameObject enemy, Vector3 spawnpoint, float MormakTimer)
+    void Buildphase(GameObject enemy, int Spawncap, Vector3 spawnpoint, float MormakTimer)
     {
-        if (NumberOfMormaks < MormakSpawncap)
+        if (NumberOfMormaks < Spawncap)
         {
 
             if (Mormaktimer <= 0)
