@@ -28,15 +28,15 @@ public class zombie : MonoBehaviour
     public AudioClip attacksound;
     public Collider2D self;
     public Collider2D targetcollider;
-    [SerializeField]
     private Collider2D collsaved;
-    [SerializeField]
-
     private Collider2D coll2saved;
+
+
+    //modify later
     public Collider2D heararea;
     public Collider2D attackarea;
 
-    [SerializeField]
+    //[Serialisefield]
     private List<Vector2> path = new();
     private List<Vector2> path2 = new();
 
