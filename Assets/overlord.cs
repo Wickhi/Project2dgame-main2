@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class overlord : MonoBehaviour
 {
+    public PathfindingOptimized PT;
+    public List<GameObject> Players;
     public GameObject Mormak;
     public int NumberOfMormaks;
     public int MormakSpawncap;
@@ -65,8 +67,10 @@ public class overlord : MonoBehaviour
     void Spawnenemy(GameObject enemy, Vector3 spawnpoint)
     {
         var enem =Instantiate(enemy, spawnpoint, gameObject.transform.rotation);
-        enem.GetComponent<zombie>().player = player;
-
+        var zombiescript = enem.GetComponent<zombie>();
+        zombiescript.pt = PT;
+        zombiescript.players = Players;
+        zombiescript.player = player;
     }
     void SpawnSentryBuster(GameObject enemy, Vector3 spawnpoint)
     {

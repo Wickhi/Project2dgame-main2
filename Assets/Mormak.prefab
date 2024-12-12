@@ -1095,6 +1095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 026adf36d5169674bb6206edb21dbea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  percentage: 0.5
   attacktimebase: 0.5
   attacktime: 0
   attackdistance: 2
@@ -1102,9 +1103,9 @@ MonoBehaviour:
   attackdamage: 5
   isabletoattack: 1
   RetargetTimeBase: 0
-  navmeshrefreshbase: 0.5
-  moveSpeed: 3
-  rotationspeed: 5
+  navmeshrefreshbase: 4
+  moveSpeed: 4
+  rotationspeed: 6
   pt: {fileID: 0}
   player: {fileID: 0}
   src: {fileID: 8876392010776545947}
@@ -1121,10 +1122,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   canexecute: 1
-  players:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  players: []
   targets: []
   reset: 1
   Gcostmodifier: 20

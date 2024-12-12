@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class zombie : MonoBehaviour
 {
-
+    public float percentage;
     private bool activepathfinding;
 
     private Rigidbody2D Rb;
@@ -81,7 +81,7 @@ public class zombie : MonoBehaviour
     void Start()
     {
         canexecute = true;
-        navmeshrefreshbase = Random.Range(navmeshrefreshbase - 0.2f, navmeshrefreshbase + 0.2f);
+        navmeshrefreshbase = Random.Range(navmeshrefreshbase * (1-percentage), navmeshrefreshbase * (1+percentage));
         Rb = gameObject.GetComponent<Rigidbody2D>();
         if (recontype == true)
         {
