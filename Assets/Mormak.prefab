@@ -1103,7 +1103,7 @@ MonoBehaviour:
   attackdamage: 5
   isabletoattack: 1
   RetargetTimeBase: 0
-  navmeshrefreshbase: 4
+  navmeshrefreshbase: 0.5
   moveSpeed: 4
   rotationspeed: 6
   pt: {fileID: 0}
@@ -1121,6 +1121,9 @@ MonoBehaviour:
   enemy:
     serializedVersion: 2
     m_Bits: 64
+  obstacle:
+    serializedVersion: 2
+    m_Bits: 512
   canexecute: 1
   players: []
   targets: []

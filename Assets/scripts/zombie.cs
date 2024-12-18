@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class zombie : MonoBehaviour
@@ -46,6 +48,7 @@ public class zombie : MonoBehaviour
     public LayerMask navmesh;
 
     public LayerMask enemy;
+    public LayerMask obstacle;
 
     public bool canexecute;
 
@@ -121,7 +124,11 @@ public class zombie : MonoBehaviour
             }
             else
             {
-                Getroute(player.transform);
+                if (Physics2D.Raycast(Rb.position, new Vector2(player.transform.position.x, player.transform.position.y) - Rb.position, Vector3.Distance(Rb.position, player.transform.position), obstacle) == false)
+                {               
+                    Getroute(player.transform);
+                    Debug.Log("fasz");
+                }
 
             }
             Move();
