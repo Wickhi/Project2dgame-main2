@@ -140,6 +140,7 @@ MonoBehaviour:
   spreadangle: 24
   "l\xF6v\xE9s": {fileID: 8300000, guid: f94e64d020d5ce748b26089e8f73389a, type: 3}
   audiscr: {fileID: -2993755807157870071}
+  canreload: 1
   firePoint: {fileID: 4234889737120163993}
   trailPrefab: {fileID: 1174790763147125012, guid: 73eda1ad00193314fa2610bb3cd1d478,
     type: 3}
@@ -168,6 +169,7 @@ MonoBehaviour:
   fullammo: 225
   reserveammo: 0
   firemode: 1
+  fire: 0
   bulletcount: 0
   isreloading: 0
   firerate: 0
@@ -181,9 +183,10 @@ MonoBehaviour:
   semiautofirecooldown: 0
   numberoffiremodes: 5
   reloadtimebase: 0
+  canfire: 0
   layrm:
     serializedVersion: 2
-    m_Bits: 2560
+    m_Bits: 576
 --- !u!114 &-5409334342116748313
 MonoBehaviour:
   m_ObjectHideFlags: 0

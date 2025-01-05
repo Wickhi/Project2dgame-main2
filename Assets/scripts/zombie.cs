@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class zombie : MonoBehaviour
 {
     public float percentage;
     private bool activepathfinding;
-
+    private bool noobstacle;
     private Rigidbody2D Rb;
     public float attacktimebase;
     public float attacktime;
@@ -17,7 +15,8 @@ public class zombie : MonoBehaviour
 
     public int attackdamage;
     public bool isabletoattack;
-    public float RetargetTimeBase;
+    private float RetargetTimeBase;
+    public float retargettime = 5f;
 
     public float navmeshrefreshbase;
 
@@ -59,6 +58,8 @@ public class zombie : MonoBehaviour
     private List<Vector2> finalfinalfinalPath = new();
     private List<Vector2> Objectfinalpos = new();
     public List<GameObject> players;
+    public List<GameObject> attackableplayers;
+
     private List<float> szamok = new();
     public List<GameObject> targets;
     private List<GameObject> targetsorganised = new();
@@ -69,7 +70,7 @@ public class zombie : MonoBehaviour
     public bool reset;
     public int Gcostmodifier;
     private bool lockviewangle;
-    private bool retarget = true;
+    public bool retarget = true;
     private Vector3 lookDir;
     private float navmeshrefresh2;
 
@@ -79,13 +80,15 @@ public class zombie : MonoBehaviour
 
     public bool recontype;
     public bool staggerwhenplayernear;
-
+    public Hivemind hivemind;
+    public float crowdingsensitivity;
     // Start is called before the first frame update
     void Start()
     {
         canexecute = true;
         navmeshrefreshbase = Random.Range(navmeshrefreshbase * (1-percentage), navmeshrefreshbase * (1+percentage));
         Rb = gameObject.GetComponent<Rigidbody2D>();
+        attackableplayers = players;
         if (recontype == true)
         {
             organise = true;
@@ -104,6 +107,12 @@ public class zombie : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if(retarget == true)
+        {
+            Getplayer();
+            RetargetTimeBase = retargettime;
+            retarget = false;
+        }
         Determineiftomove(stopmovementdistance);
         if (canexecute == true)
         {
@@ -124,12 +133,16 @@ public class zombie : MonoBehaviour
             }
             else
             {
-                if (Physics2D.Raycast(Rb.position, new Vector2(player.transform.position.x, player.transform.position.y) - Rb.position, Vector3.Distance(Rb.position, player.transform.position), obstacle) == false)
-                {               
+                if (Physics2D.Raycast(Rb.position, new Vector2(player.transform.position.x, player.transform.position.y) - Rb.position, Vector3.Distance(Rb.position, player.transform.position), obstacle) == true)
+                {
+                    noobstacle = false;
                     Getroute(player.transform);
                     Debug.Log("fasz");
                 }
-
+                else
+                {
+                    noobstacle = true;
+                }
             }
             Move();
             Wheretolook();
@@ -302,17 +315,18 @@ public class zombie : MonoBehaviour
     }
     public void Getplayer()
     {
-        foreach (GameObject c in players)
+        foreach (GameObject c in attackableplayers)
         {
-            int szam = players.IndexOf(c);
-            float distance2 = Vector3.Distance(Rb.position, c.transform.position);
+            int szam = attackableplayers.IndexOf(c);
+            float distance2 = (1/Vector3.Distance(Rb.position, c.transform.position)) - (crowdingsensitivity * hivemind.integers[szam]);
             szamok.Add(distance2);
-
+            //Debug.Log("fasz");
 
         }
-        float distance = szamok.Min();
+        float distance = szamok.Max();
         int szam2 = szamok.IndexOf(distance);
         player = players[szam2];
+        hivemind.targets.Add(player);
         szamok.Clear();
     }
     void OrganiseTargets()
@@ -373,6 +387,15 @@ public class zombie : MonoBehaviour
         {
             attacktime = 0;
         }
+        if (RetargetTimeBase > 0)
+        {
+            RetargetTimeBase -= Time.deltaTime;
+        }
+        if (RetargetTimeBase < 0 || RetargetTimeBase == 0)
+        {
+            RetargetTimeBase = 0;
+            retarget = true;
+        }
     }
     void Determineiftomove(float Stopmovementdistance)
     {
@@ -402,10 +425,10 @@ public class zombie : MonoBehaviour
 
         if (navmeshrefresh2 == 0)
         {
-            if (retarget == true)
-            {
-                Getplayer();
-            }
+            //if (retarget == true)
+            //{
+                //Getplayer();
+            //}
             collsaved = self;
             coll2saved = targetcollider;
             RaycastHit2D hit = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, navmesh);
@@ -439,6 +462,28 @@ public class zombie : MonoBehaviour
 
     void Move()
     {
+        if (Vector3.Distance(Rb.position, player.transform.position) < attackdistance)
+        {
+            lockviewangle = true;
+            //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
+        }
+        else
+        {
+            lockviewangle = false;
+            //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
+
+        }
+
+        if (noobstacle == true)
+        {
+            if (Vector3.Distance(Rb.position, player.transform.position) > stopmovementdistance)
+            {
+                path.Clear();
+                lookDir.Normalize();
+                Movementek(lookDir);
+
+            }
+        }
         if (path.Count != 0)
         {
             RaycastHit2D hit3 = Physics2D.Raycast(Rb.position, Rb.position, Mathf.Infinity, navmesh);
@@ -453,17 +498,6 @@ public class zombie : MonoBehaviour
                     adjustment = false;
 
                 }
-
-            }
-            if (Vector3.Distance(Rb.position, player.transform.position) < attackdistance)
-            {
-                lockviewangle = true;
-                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
-            }
-            else
-            {
-                lockviewangle = false;
-                //Debug.Log(Vector3.Distance(Rb.position, player.transform.position));
 
             }
 
@@ -488,6 +522,7 @@ public class zombie : MonoBehaviour
 
 
         }
+
     }
     void Wheretolook()
     {
@@ -510,6 +545,15 @@ public class zombie : MonoBehaviour
             if (path.Count != 0)
             {
                 lookDir = new Vector3(path[0].x, path[0].y, 0) - transform.position;
+
+                float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
+                var mouse = new Vector3(0f, 0f, angle);
+                Quaternion rotation = Quaternion.Euler(mouse);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationspeed);
+            }
+            if (noobstacle == true)
+            {
+                lookDir = player.transform.position - transform.position;
 
                 float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
                 var mouse = new Vector3(0f, 0f, angle);

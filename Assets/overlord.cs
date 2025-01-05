@@ -24,6 +24,8 @@ public class overlord : MonoBehaviour
     public List<GameObject> Spawnpoints;
     public List<Vector2> Sentryonmap;
     private float Mormaktimer;
+    public List<AudioClip> sounds;
+    public Hivemind hivemind;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +72,11 @@ public class overlord : MonoBehaviour
         var zombiescript = enem.GetComponent<zombie>();
         zombiescript.pt = PT;
         zombiescript.players = Players;
-        zombiescript.player = player;
+        zombiescript.hivemind = hivemind;
+        //zombiescript.player = player;
+        //int szam = Random.Range(0, sounds.Count);
+        //Debug.Log(szam);
+        //zombiescript.attacksound = sounds[szam];
     }
     void SpawnSentryBuster(GameObject enemy, Vector3 spawnpoint)
     {
