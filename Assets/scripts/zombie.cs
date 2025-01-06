@@ -315,6 +315,8 @@ public class zombie : MonoBehaviour
     }
     public void Getplayer()
     {
+        szamok = new List<float>();
+
         foreach (GameObject c in attackableplayers)
         {
             int szam = attackableplayers.IndexOf(c);
@@ -323,11 +325,15 @@ public class zombie : MonoBehaviour
             //Debug.Log("fasz");
 
         }
-        float distance = szamok.Max();
-        int szam2 = szamok.IndexOf(distance);
-        player = players[szam2];
-        hivemind.targets.Add(player);
-        szamok.Clear();
+        if (szamok.Count != 0)
+        { 
+            float distance = szamok.Max();
+            int szam2 = szamok.IndexOf(distance);
+            player = players[szam2];
+            hivemind.targets.Add(player);
+            szamok.Clear();
+        }
+        
     }
     void OrganiseTargets()
     {

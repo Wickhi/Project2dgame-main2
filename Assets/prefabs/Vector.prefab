@@ -131,6 +131,7 @@ MonoBehaviour:
   magazinebase: 45
   reloadtime: 3.5
   reloadtimeBase: 3.5
+  damage: 15
   Roundperminute: 1200
   bursttime: 0.2
   bulletForce: 20

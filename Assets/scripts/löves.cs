@@ -17,6 +17,7 @@ public class löves : NetworkBehaviour
     public int magazinebase;
     public float reloadtime;
     public float reloadtimeBase = 4f;
+    public float damage;
 
     public double Roundperminute = 600f;
     public float bursttime = 0.2f;
@@ -331,6 +332,8 @@ public class löves : NetworkBehaviour
                 if (hit.collider.gameObject.CompareTag("Enemybodypart") == true)
                 {
                     GameObject bloody = Instantiate(blood, hit.point, hit.collider.gameObject.transform.rotation);
+                    var healthmanager = hit.collider.gameObject.GetComponent<enemyhealtsystem>();
+                    healthmanager.determinecooliderhit(hit.collider, damage);
 
                 }
 

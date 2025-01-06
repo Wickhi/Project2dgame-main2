@@ -131,6 +131,7 @@ MonoBehaviour:
   magazinebase: 20
   reloadtime: 4
   reloadtimeBase: 4
+  damage: 40
   Roundperminute: 650
   bursttime: 0.2
   bulletForce: 30
@@ -140,6 +141,7 @@ MonoBehaviour:
   spreadangle: 15
   "l\xF6v\xE9s": {fileID: 8300000, guid: f94e64d020d5ce748b26089e8f73389a, type: 3}
   audiscr: {fileID: 8012431995357786871}
+  canreload: 1
   firePoint: {fileID: 198364298558036797}
   trailPrefab: {fileID: 1174790763147125012, guid: 73eda1ad00193314fa2610bb3cd1d478,
     type: 3}
@@ -168,6 +170,7 @@ MonoBehaviour:
   fullammo: 100
   reserveammo: 100
   firemode: 1
+  fire: 0
   bulletcount: 0
   isreloading: 0
   firerate: 0
@@ -181,6 +184,7 @@ MonoBehaviour:
   semiautofirecooldown: 0
   numberoffiremodes: 5
   reloadtimebase: 0
+  canfire: 0
   layrm:
     serializedVersion: 2
     m_Bits: 2560
