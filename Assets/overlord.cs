@@ -37,7 +37,7 @@ public class overlord : MonoBehaviour
     {
         if (activate == true)
         {
-            Buildphase(Mormak, MormakSpawncap, Mormakspawnpoint, 0.2f);
+            Buildphase(Mormak, MormakSpawncap, Mormakspawnpoint, 0.15f);
         }
         if (Assaultphase == 1)
         {
@@ -73,6 +73,7 @@ public class overlord : MonoBehaviour
         zombiescript.pt = PT;
         zombiescript.players = Players;
         zombiescript.hivemind = hivemind;
+        zombiescript.enemyhealtsystem.overlord = this;
         //zombiescript.player = player;
         //int szam = Random.Range(0, sounds.Count);
         //Debug.Log(szam);
@@ -100,7 +101,7 @@ public class overlord : MonoBehaviour
     {
         if (NumberOfMormaks < Spawncap)
         {
-
+            
             if (Mormaktimer <= 0)
             {
                 Spawnenemy(enemy, spawnpoint);
@@ -115,9 +116,22 @@ public class overlord : MonoBehaviour
 
         }
     }
-    void Attritionphase()
+    void Attritionphase(GameObject enemy, int Spawncap, Vector3 spawnpoint, float MormakTimer)
     {
+        if (NumberOfMormaks < MormakSpawncap)
+        {
+            if (Mormaktimer <= 0)
+            {
+                Spawnenemy(enemy, spawnpoint);
+                NumberOfMormaks++;
+                Mormaktimer = MormakTimer;
+            }
+            else
+            {
+                Mormaktimer -= Time.deltaTime;
 
+            }
+        }
     }
     void Minibossphase()
     {

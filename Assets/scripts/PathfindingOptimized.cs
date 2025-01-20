@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+[ExecuteInEditMode]
 public class PathfindingOptimized : MonoBehaviour
 {
 
@@ -23,6 +23,8 @@ public class PathfindingOptimized : MonoBehaviour
     [Header("Pathfinding Function")]
     public int GcostToNeighbour;
     public bool reset;
+    public bool destroy;
+    public bool generategrid;
     public bool visualizegrid;
     public bool DisableGrid;
     public bool doupdategrid;
@@ -58,21 +60,40 @@ public class PathfindingOptimized : MonoBehaviour
 
     public void Start()
     {
-        GenerateGrid();
-        cellsToSearch = new List<Vector2>();
-        searchedCells = new List<Vector2>();
-        finalPath = new List<Vector2>();
+
 
     }
     public void Update()
     {
+        if ( destroy == true)
+        {
+            destroy = false;
+            destroygrid();
+        }
         if (getwalls == true)
         {
+            getwalls = false;
+
             GenerateWalls2();
             //GenerateWalls3();
 
-            getwalls = false;
         }
+        if (generategrid == true)
+        {
+            generategrid = false;
+            destroygrid();
+            cellsToSearch = new List<Vector2>();
+            searchedCells = new List<Vector2>();
+            finalPath = new List<Vector2>();
+            cells = new Dictionary<Vector2, Cell2>();
+            objectCell = new Dictionary<Cell2, GameObject>();
+            objectCell2 = new Dictionary<GameObject, Cell2>();
+            celltocell = new Dictionary<Cell2, cell3>();
+            //cells2 = new Dictionary<Vector2, GameObject>();
+            GenerateGrid();
+            getwalls = true;
+        }
+
         if (DisableGrid == true)
         {
             Visualizegrid();
@@ -393,6 +414,16 @@ public class PathfindingOptimized : MonoBehaviour
             finalfinalfinalPath.Add(c);
         }
         clearhistory();
+    }
+    public void destroygrid()
+    {
+        int i = transform.childCount;
+        while (i > 0)
+        {
+            Transform child = transform.GetChild(0);
+            DestroyImmediate(child.gameObject);
+            i--;
+        }
     }
 }
 

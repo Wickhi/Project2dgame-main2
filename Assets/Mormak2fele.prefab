@@ -182,8 +182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bc99e0c9cecc734d9559ac806dd790b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftDamaged: {fileID: 21300000, guid: 8d38c6f029b686849b8b90342bdc7ee5, type: 3}
-  rightDamaged: {fileID: 21300000, guid: ee3a51d209011b74289c424f4fc652c1, type: 3}
+  leftDamaged: {fileID: 21300000, guid: ee3a51d209011b74289c424f4fc652c1, type: 3}
+  rightDamaged: {fileID: 21300000, guid: 8d38c6f029b686849b8b90342bdc7ee5, type: 3}
   main: {fileID: 21300000, guid: b962fe7555694ec4aa2bbc5057933e7d, type: 3}
   SpriteRenderer: {fileID: 221601162761893638}
   rightCollider: {fileID: 3549205732540563027}
@@ -193,6 +193,7 @@ MonoBehaviour:
   lefthealth: 70
   righthealth: 70
   parent: {fileID: 2512782186779523088}
+  overlord: {fileID: 0}
 --- !u!1 &2512782186779523088
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +257,7 @@ MonoBehaviour:
   moveSpeed: 4
   rotationspeed: 6
   pt: {fileID: 0}
+  enemyhealtsystem: {fileID: 3867108426319815495}
   player: {fileID: 0}
   src: {fileID: 2167514938113137106}
   attacksound: {fileID: 8300000, guid: 0ce4b885da35c894bbce7fda62f6d9e7, type: 3}

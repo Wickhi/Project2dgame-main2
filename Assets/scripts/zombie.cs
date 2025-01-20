@@ -24,6 +24,7 @@ public class zombie : MonoBehaviour
     public float rotationspeed;
 
     public PathfindingOptimized pt;
+    public enemyhealtsystem enemyhealtsystem;
     public GameObject player;
     public AudioSource src;
     public AudioClip attacksound;

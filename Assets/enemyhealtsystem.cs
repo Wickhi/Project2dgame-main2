@@ -16,6 +16,7 @@ public class enemyhealtsystem : MonoBehaviour
     public float lefthealth;
     public float righthealth;
     public GameObject parent;
+    public overlord overlord;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +77,7 @@ public class enemyhealtsystem : MonoBehaviour
         if (allhealth <= 0)
         {
             Destroy(parent);
+            overlord.NumberOfMormaks--;
         }
     }
 }
