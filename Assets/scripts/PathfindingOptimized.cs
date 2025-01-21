@@ -3,7 +3,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PathfindingOptimized : MonoBehaviour
 {
-
+    //save dictionary to be avaible in play mode
+    //https://answers.unity.com/questions/1315146/how-to-save-dictionary-in-unity.html
     //https://github.com/pixelfac/2D-Astar-Pathfinding-in-Unity
     //https://www.reddit.com/r/Unity2D/comments/19exwop/help_with_pathfinding_in_simple_unity_beginner/
     //variables
@@ -51,11 +52,15 @@ public class PathfindingOptimized : MonoBehaviour
     public List<Vector2> TilesToAvoid;
 
 
-
+    [SerializeField]
     public Dictionary<Vector2, Cell2> cells;
+    [SerializeField]
     public Dictionary<Cell2, GameObject> objectCell;
+    [SerializeField]
     public Dictionary<GameObject, Cell2> objectCell2;
+    [SerializeField]
     public Dictionary<Cell2, cell3> celltocell;
+    [SerializeField]
     public Dictionary<Vector2, GameObject> cells2;
 
     public void Start()
