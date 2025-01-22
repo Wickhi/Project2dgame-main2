@@ -38,6 +38,7 @@ public class PathfindingOptimized : MonoBehaviour
     public Sprite sprite;
     public SpriteRenderer spriteRenderer;
     public LayerMask layrm;
+    public LayerMask layrm2;
     public Vector2 Endpoint;
     public Vector2 Startpoint;
 
@@ -54,18 +55,42 @@ public class PathfindingOptimized : MonoBehaviour
 
     [SerializeField]
     public Dictionary<Vector2, Cell2> cells;
+    public List<Vector2> cellsKeys;
+    public List<Cell2> cellsValue;
+
+
     [SerializeField]
     public Dictionary<Cell2, GameObject> objectCell;
+    public List<Cell2> objectCellKeys;
+    public List<GameObject> objectCellValue;
+
     [SerializeField]
     public Dictionary<GameObject, Cell2> objectCell2;
+    public List<GameObject> objectCell2Keys;
+    public List<Cell2> objectCell2Value;
     [SerializeField]
     public Dictionary<Cell2, cell3> celltocell;
+    public List<Cell2> celltocellKeys;
+    public List<cell3> celltocellValue;
     [SerializeField]
     public Dictionary<Vector2, GameObject> cells2;
+    public List<Vector2> cells2Keys;
+    public List<GameObject> cells2Value;
 
     public void Start()
     {
-
+        /*
+        cellsToSearch = new List<Vector2>();
+        searchedCells = new List<Vector2>();
+        finalPath = new List<Vector2>();
+        cells = new Dictionary<Vector2, Cell2>();
+        objectCell = new Dictionary<Cell2, GameObject>();
+        objectCell2 = new Dictionary<GameObject, Cell2>();
+        celltocell = new Dictionary<Cell2, cell3>();
+        destroygrid();
+        GenerateGrid();
+        GenerateWalls2();
+        */
 
     }
     public void Update()
@@ -87,16 +112,23 @@ public class PathfindingOptimized : MonoBehaviour
         {
             generategrid = false;
             destroygrid();
-            cellsToSearch = new List<Vector2>();
-            searchedCells = new List<Vector2>();
             finalPath = new List<Vector2>();
             cells = new Dictionary<Vector2, Cell2>();
+            cellsKeys = new List<Vector2>();
+            cellsValue = new List<Cell2>();
             objectCell = new Dictionary<Cell2, GameObject>();
+            objectCellKeys = new List<Cell2>();
+            objectCellValue = new List<GameObject>();
             objectCell2 = new Dictionary<GameObject, Cell2>();
+            objectCell2Keys = new List<GameObject>();
+            objectCell2Value = new List<Cell2>();
             celltocell = new Dictionary<Cell2, cell3>();
+            celltocellKeys = new List<Cell2>();
+            celltocellValue = new List<cell3>();
             //cells2 = new Dictionary<Vector2, GameObject>();
             GenerateGrid();
-            getwalls = true;
+            //getwalls = true;
+            doupdategrid = true;
         }
 
         if (DisableGrid == true)
@@ -212,10 +244,20 @@ public class PathfindingOptimized : MonoBehaviour
     public void GenerateGrid()
     {
         cells = new Dictionary<Vector2, Cell2>();
+        cellsKeys = new List<Vector2>();
+        cellsValue = new List<Cell2>();
         cells2 = new Dictionary<Vector2, GameObject>();
+        cells2Keys = new List<Vector2>();
+        cells2Value = new List<GameObject>();
         objectCell = new Dictionary<Cell2, GameObject>();
+        objectCellKeys = new List<Cell2>();
+        objectCellValue = new List<GameObject>();
         celltocell = new Dictionary<Cell2, cell3>();
+        celltocellKeys = new List<Cell2>();
+        celltocellValue = new List<cell3>();
         objectCell2 = new Dictionary<GameObject, Cell2>();
+        objectCell2Keys = new List<GameObject>();
+        objectCell2Value = new List<Cell2>();
         Vector3 gridOffset = transform.position - new Vector3(gridHeight * CellSize / 2f, gridWidth * CellSize / 2f, 0f);
         for (float x = 0; x < gridWidth; x += cellWidth)
         {
@@ -230,7 +272,8 @@ public class PathfindingOptimized : MonoBehaviour
                 var collider = cellObject.AddComponent<BoxCollider2D>();
                 collider.size = new Vector2(sizeofcollider, sizeofcollider);
                 collider.isTrigger = true;
-                //collider.includeLayers = layrm;
+                collider.callbackLayers = layrm2;
+                collider.includeLayers = layrm2;
 
                 spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = sprite;
@@ -238,10 +281,20 @@ public class PathfindingOptimized : MonoBehaviour
                 Vector2 pos = new Vector2(x, y);
                 cellObject.AddComponent<cell3>();
                 cells.Add(pos, new Cell2(pos));
+                cellsKeys.Add(pos);
+                cellsValue.Add(cells[pos]);
                 cells2.Add(pos, cellObject);
+                cells2Keys.Add(pos);
+                cells2Value.Add(cells2[pos]);
                 objectCell.Add(cells[pos], cellObject);
+                objectCellKeys.Add(cells[pos]);
+                objectCellValue.Add(objectCell[cells[pos]]);
                 objectCell2.Add(cellObject, cells[pos]);
+                objectCell2Keys.Add(cellObject);
+                objectCell2Value.Add(objectCell2[cellObject]);
                 celltocell.Add(cells[pos], cellObject.GetComponent<cell3>());
+                celltocellKeys.Add(cells[pos]);
+                celltocellValue.Add(celltocell[cells[pos]]);
                 if (collidee.IsTouching(collider) == true)
                 {
                     Debug.Log("fasz");
@@ -268,34 +321,30 @@ public class PathfindingOptimized : MonoBehaviour
     }
     public void GenerateWalls2()
     {
-        for (float x = 0; x < gridWidth; x += cellWidth)
+        foreach (KeyValuePair<Vector2, GameObject> kvp in cells2)
         {
-            for (float y = 0; y < gridHeight; y += cellHeight)
+            Vector2 pos = kvp.Key;
+            GameObject celle = kvp.Value;
+            spriteRenderer = celle.GetComponent<SpriteRenderer>();
+            Collider2D collider = celle.GetComponent<BoxCollider2D>();
+
+            RaycastHit2D hit = Physics2D.Raycast(celle.transform.position, celle.transform.position, Mathf.Infinity, layrm);
+
+            if (collider.IsTouching(collidee))
             {
-
-
-                Vector2 pos = new Vector2(x, y);
-
-                GameObject celle = cells2[pos];
-                Collider2D collider = celle.GetComponent<BoxCollider2D>();
-                spriteRenderer = celle.GetComponent<SpriteRenderer>();
-                RaycastHit2D hit = Physics2D.Raycast(celle.transform.position, celle.transform.position, Mathf.Infinity, layrm);
-
-                if (collider.IsTouching(collidee))
-                {
-                    cells[pos].tiletoavoid = true;
-                    TilesToAvoid.Add(pos);
-                    spriteRenderer.color = Color.blue;
-                }
-                if (hit.collider == collidee)
-                {
-                    cells[pos].isWall = true;
-                    spriteRenderer.color = Color.black;
-                    Walls.Add(pos);
-                }
+                cells[pos].tiletoavoid = true;
+                TilesToAvoid.Add(pos);
+                spriteRenderer.color = Color.blue;
+            }
+            if (hit.collider == collidee)
+            {
+                cells[pos].isWall = true;
+                spriteRenderer.color = Color.black;
+                Walls.Add(pos);
             }
 
         }
+
 
     }
     public void GenerateWalls3()
@@ -425,12 +474,37 @@ public class PathfindingOptimized : MonoBehaviour
         int i = transform.childCount;
         while (i > 0)
         {
+            Walls.Clear();
             Transform child = transform.GetChild(0);
             DestroyImmediate(child.gameObject);
             i--;
         }
     }
+    public void reconstruckdictionary()
+    {
+        foreach (Vector2 c in cellsKeys)
+        {
+            cells.Add(c, cellsValue[cellsKeys.IndexOf(c)]);
+        }
+        foreach (Cell2 c in objectCellKeys)
+        {
+            objectCell.Add(c, objectCellValue[objectCellKeys.IndexOf(c)]);
+        }
+        foreach (GameObject c in objectCell2Keys)
+        {
+            objectCell2.Add(c, objectCell2Value[objectCell2Keys.IndexOf(c)]);
+        }
+        foreach (Cell2 c in celltocellKeys)
+        {
+            celltocell.Add(c, celltocellValue[celltocellKeys.IndexOf(c)]);
+        }
+        foreach (Vector2 c in cells2Keys)
+        {
+            cells2.Add(c, cells2Value[cells2Keys.IndexOf(c)]);
+        }
+    }
 }
+
 
 
 //Cell for calculation

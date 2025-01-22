@@ -29,7 +29,7 @@ public class overlord : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        PT.reconstruckdictionary();
     }
 
     // Update is called once per frame
