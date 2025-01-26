@@ -10,4 +10,14 @@ public class cell3 : MonoBehaviour
     public bool isWall;
 
     public bool tiletoavoid;
+    public bool spawnpoint;
+    public overlord overlord;
+    void Start()
+    {
+        if (spawnpoint == true)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.yellow;
+            overlord.Spawnpoints.Add(gameObject);
+        }
+    }
 }

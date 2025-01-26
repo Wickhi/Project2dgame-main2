@@ -30,6 +30,7 @@ public class PathfindingOptimized : MonoBehaviour
     public bool DisableGrid;
     public bool doupdategrid;
     public bool getwalls;
+    public bool centeredgeneration;
     public int numberOfWalls;
 
 
@@ -93,6 +94,7 @@ public class PathfindingOptimized : MonoBehaviour
         */
 
     }
+    
     public void Update()
     {
         if ( destroy == true)
@@ -258,7 +260,7 @@ public class PathfindingOptimized : MonoBehaviour
         objectCell2 = new Dictionary<GameObject, Cell2>();
         objectCell2Keys = new List<GameObject>();
         objectCell2Value = new List<Cell2>();
-        Vector3 gridOffset = transform.position - new Vector3(gridHeight * CellSize / 2f, gridWidth * CellSize / 2f, 0f);
+        Vector3 gridOffset = transform.position - new Vector3(gridWidth * CellSize / 2f, gridHeight * CellSize / 2f, 10f);
         for (float x = 0; x < gridWidth; x += cellWidth)
         {
             for (float y = 0; y < gridHeight; y += cellHeight)
@@ -277,7 +279,14 @@ public class PathfindingOptimized : MonoBehaviour
 
                 spriteRenderer = cellObject.GetComponent<SpriteRenderer>();
                 spriteRenderer.sprite = sprite;
-                cellObject.transform.position = gridOffset + new Vector3(x * CellSize, y * CellSize, 10f);
+                if (centeredgeneration == true)
+                {
+                    cellObject.transform.position = transform.position + new Vector3(x * CellSize, y * CellSize, 10f);
+                }
+                else
+                {
+                    cellObject.transform.position = transform.position + new Vector3(x * CellSize, -y * CellSize, 10f);
+                }
                 Vector2 pos = new Vector2(x, y);
                 cellObject.AddComponent<cell3>();
                 cells.Add(pos, new Cell2(pos));
@@ -295,14 +304,14 @@ public class PathfindingOptimized : MonoBehaviour
                 celltocell.Add(cells[pos], cellObject.GetComponent<cell3>());
                 celltocellKeys.Add(cells[pos]);
                 celltocellValue.Add(celltocell[cells[pos]]);
-                if (collidee.IsTouching(collider) == true)
+                /*if (collidee.IsTouching(collider) == true)
                 {
                     Debug.Log("fasz");
                     cells[pos].isWall = true;
                     spriteRenderer.color = Color.black;
                     Walls.Add(pos);
                 }
-
+                */
             }
 
         }
@@ -329,8 +338,19 @@ public class PathfindingOptimized : MonoBehaviour
             Collider2D collider = celle.GetComponent<BoxCollider2D>();
 
             RaycastHit2D hit = Physics2D.Raycast(celle.transform.position, celle.transform.position, Mathf.Infinity, layrm);
+            Collider2D[] results = Physics2D.OverlapBoxAll(collider.bounds.center, collider.bounds.size, 0f, layrm2);
 
-            if (collider.IsTouching(collidee))
+            bool isInside = false;
+            foreach (var result in results)
+            {
+                if (result == collidee)
+                {
+                    isInside = true;
+                    break;
+                }
+            }
+
+            if (isInside)
             {
                 cells[pos].tiletoavoid = true;
                 TilesToAvoid.Add(pos);
@@ -347,37 +367,7 @@ public class PathfindingOptimized : MonoBehaviour
 
 
     }
-    public void GenerateWalls3()
-    {
-        //foreach (Vector2 c in Walls)
-        //{
-        //Vector2 pos = new Vector2(cells[c].position.x - 1, cells[c].position.y - 1);
-        //for (int x = 0; x < 3; x++)
-        //{
-        //for (int y = 0; y < 3; y++)
-        //{
-        //Vector2 pos2 = new Vector2(pos.x + x, pos.y + y);
-        //if (cells.TryGetValue(pos2, out Cell2 B))
-        //{
-        //B.tiletoavoid = true;
-        //TilesToAvoid.Add(pos2);
-        //cells2[pos2].GetComponent<SpriteRenderer>().color = Color.cyan;
-        //}
-
-        //}
-
-        //}
-        //}
-        for (int x = 0; x < gridWidth; x += cellWidth)
-        {
-            for (int y = 0; y < gridHeight; y += cellHeight)
-            {
-
-
-            }
-        }
-
-    }
+    
     //Get grid visualized
 
     public int GetDistance(Vector2 pos1, Vector2 pos2)
