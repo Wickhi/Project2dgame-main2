@@ -472,25 +472,40 @@ public class PathfindingOptimized : MonoBehaviour
     }
     public void reconstruckdictionary()
     {
-        foreach (Vector2 c in cellsKeys)
+        cells = new Dictionary<Vector2, Cell2>();
+        objectCell = new Dictionary<Cell2, GameObject>();
+        objectCell2 = new Dictionary<GameObject, Cell2>();
+        celltocell = new Dictionary<Cell2, cell3>();
+        cells2 = new Dictionary<Vector2, GameObject>();
+
+        // Populate the cells dictionary
+        for (int i = 0; i < cellsKeys.Count; i++)
         {
-            cells.Add(c, cellsValue[cellsKeys.IndexOf(c)]);
+            cells.Add(cellsKeys[i], cellsValue[i]);
         }
-        foreach (Cell2 c in objectCellKeys)
+
+        // Populate the objectCell dictionary
+        for (int i = 0; i < objectCellKeys.Count; i++)
         {
-            objectCell.Add(c, objectCellValue[objectCellKeys.IndexOf(c)]);
+            objectCell.Add(objectCellKeys[i], objectCellValue[i]);
         }
-        foreach (GameObject c in objectCell2Keys)
+
+        // Populate the objectCell2 dictionary
+        for (int i = 0; i < objectCell2Keys.Count; i++)
         {
-            objectCell2.Add(c, objectCell2Value[objectCell2Keys.IndexOf(c)]);
+            objectCell2.Add(objectCell2Keys[i], objectCell2Value[i]);
         }
-        foreach (Cell2 c in celltocellKeys)
+
+        // Populate the celltocell dictionary
+        for (int i = 0; i < celltocellKeys.Count; i++)
         {
-            celltocell.Add(c, celltocellValue[celltocellKeys.IndexOf(c)]);
+            celltocell.Add(celltocellKeys[i], celltocellValue[i]);
         }
-        foreach (Vector2 c in cells2Keys)
+
+        // Populate the cells2 dictionary
+        for (int i = 0; i < cells2Keys.Count; i++)
         {
-            cells2.Add(c, cells2Value[cells2Keys.IndexOf(c)]);
+            cells2.Add(cells2Keys[i], cells2Value[i]);
         }
     }
 }
