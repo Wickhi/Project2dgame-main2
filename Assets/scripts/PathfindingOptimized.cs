@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 [ExecuteInEditMode]
+
 public class PathfindingOptimized : MonoBehaviour
 {
     //save dictionary to be avaible in play mode
@@ -9,6 +11,7 @@ public class PathfindingOptimized : MonoBehaviour
     //https://www.reddit.com/r/Unity2D/comments/19exwop/help_with_pathfinding_in_simple_unity_beginner/
     //variables
     // 1 unity unit = 100 pixels
+    public PathfindingData pathfindingData;
     public Collider2D collidee;
     [Header("Grid Settings")]
 
@@ -57,6 +60,7 @@ public class PathfindingOptimized : MonoBehaviour
     [SerializeField]
     public Dictionary<Vector2, Cell2> cells;
     public List<Vector2> cellsKeys;
+    [SerializeField]
     public List<Cell2> cellsValue;
 
 
@@ -129,6 +133,7 @@ public class PathfindingOptimized : MonoBehaviour
             celltocellValue = new List<cell3>();
             //cells2 = new Dictionary<Vector2, GameObject>();
             GenerateGrid();
+           //hfindingData.cellsValue = cellsValue;
             //getwalls = true;
             doupdategrid = true;
         }

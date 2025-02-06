@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[System.Serializable]
 public class Cell2
 {
     public Vector2 position;

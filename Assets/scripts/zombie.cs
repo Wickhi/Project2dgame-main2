@@ -23,7 +23,8 @@ public class zombie : MonoBehaviour
     public int moveSpeed;
     public float rotationspeed;
 
-    public PathfindingOptimized pt;
+    public overlord pt;
+    public PathfindingOptimized pt2;
     public enemyhealtsystem enemyhealtsystem;
     public GameObject player;
     public AudioSource src;
@@ -225,11 +226,11 @@ public class zombie : MonoBehaviour
     }
     public void SearchCellNeighbors(Vector2 cellPos, Vector2 endPos)
     {
-        for (float x = cellPos.x - pt.cellWidth; x <= pt.cellWidth + cellPos.x; x += pt.cellWidth)
+        for (float x = cellPos.x - pt2.cellWidth; x <= pt2.cellWidth + cellPos.x; x += pt2.cellWidth)
         {
             //Debug.Log("1");
 
-            for (float y = cellPos.y - pt.cellHeight; y <= pt.cellHeight + cellPos.y; y += pt.cellHeight)
+            for (float y = cellPos.y - pt2.cellHeight; y <= pt2.cellHeight + cellPos.y; y += pt2.cellHeight)
             {
                 //Debug.Log("2");
                 Vector2 neighborPos = new Vector2(x, y);
@@ -295,9 +296,9 @@ public class zombie : MonoBehaviour
         cellsToSearch.Clear();
         searchedCells.Clear();
         //finalPath = null;
-        for (float x = 0; x < pt.gridWidth; x += pt.cellWidth)
+        for (float x = 0; x < pt2.gridWidth; x += pt2.cellWidth)
         {
-            for (float y = 0; y < pt.gridHeight; y += pt.cellHeight)
+            for (float y = 0; y < pt2.gridHeight; y += pt2.cellHeight)
             {
                 Vector2 pos = new Vector2(x, y);
                 Cell2 c = pt.cells[pos];
