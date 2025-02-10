@@ -12,7 +12,8 @@ public class Weaponswitch_script : NetworkBehaviour
     public Transform weaponpoint;
     public Transform player;
     public bool Spawned;
-
+    public bool aimingdownsights;
+    public playermovement_orgia_script playermovement;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,7 @@ public class Weaponswitch_script : NetworkBehaviour
             }
             weaponswitchServerRpc();
         }
+        playermovement.aimingdownsights = aimingdownsights;
 
     }
 
@@ -62,6 +64,8 @@ public class Weaponswitch_script : NetworkBehaviour
             activeweapon = Instantiate(weapons[currentweapon], gameObject.transform.position, gameObject.transform.rotation, gameObject.transform);
             activeweapon.GetComponent<NetworkObject>().Spawn(true);
             activeweapon.GetComponent<NetworkObject>().TrySetParent(weaponpoint);
+            activeweapon.GetComponent<löves>().weaponswitch = this;
+
         }
         Spawned = true;
 

@@ -26,6 +26,10 @@ public class löves : NetworkBehaviour
     public double semiautofirebase;
     public float Burstcooldown = 1;
     public float spreadangle;
+    public float actualspreadangle;
+    public float spreadangleincrease;
+    public float recoverytimefull;
+    public float recoverytime;
     public AudioClip lövés;
     public AudioSource audiscr;
     public bool canreload = true;
@@ -81,8 +85,11 @@ public class löves : NetworkBehaviour
     public float reloadtimebase;
     public bool canfire;
     public LayerMask layrm;
-
-
+    public bool fired;
+    public float firedcooldown;
+    public float firedcooldownbase;
+    public float aimdownsightmodifier;
+    public Weaponswitch_script weaponswitch;
 
     // public int One = 1;
 
@@ -103,6 +110,7 @@ public class löves : NetworkBehaviour
         reloadtime = reloadtimeBase;
         cam = GameObject.Find("Main Camera");
         audiscr = cam.GetComponent<AudioSource>();
+        recoverytime = recoverytimefull / spreadangle;
     }
 
 
@@ -169,10 +177,46 @@ public class löves : NetworkBehaviour
         {
             firemode = firemode - 4;
         }
+        if (actualspreadangle > 0)
+        {
+            if (fired == false)
+            {
+                actualspreadangle -= spreadangleincrease * Time.deltaTime / recoverytime;
 
-
-
-
+            }
+            
+        }
+        if (actualspreadangle < 0)
+        {
+            actualspreadangle = 0;
+        }
+        if (spreadangle < actualspreadangle)
+        {
+            actualspreadangle = spreadangle;
+        }
+        if (firedcooldownbase < 0)
+        {
+            firedcooldownbase = 0;
+            fired = false;
+        }
+        if (firedcooldownbase > firedcooldown)
+        {
+            firedcooldownbase = firedcooldown;
+        }
+        if (firedcooldownbase > 0)
+        {
+            firedcooldownbase -= Time.deltaTime;
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            spreadangle = spreadangle / aimdownsightmodifier;
+            weaponswitch.aimingdownsights = true;
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            spreadangle = spreadangle * aimdownsightmodifier;
+            weaponswitch.aimingdownsights = false;
+        }
 
 
 
@@ -317,10 +361,10 @@ public class löves : NetworkBehaviour
     {
         if (mag > 0)
         {
-            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + spreadangle, transform.rotation.eulerAngles.z - spreadangle)));
+            Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(transform.rotation.eulerAngles.z + actualspreadangle, transform.rotation.eulerAngles.z - spreadangle)));
 
             audiscr.PlayOneShot(lövés);
-            var rand = Random.Range(-spreadangle / 2, spreadangle / 2);
+            var rand = Random.Range(-actualspreadangle / 2, actualspreadangle / 2);
             RaycastHit2D hit = Physics2D.Raycast(transform.position, Quaternion.AngleAxis(rand, Vector3.forward) * transform.up, Mathf.Infinity, layrm);
             GameObject bullet = Instantiate(trailPrefab, firePoint.transform.position, Quaternion.Euler(Quaternion.AngleAxis(rand, Vector3.forward) * firePoint.transform.up));
             bullet.GetComponent<buuletra>().settargerpos(hit.point);
@@ -343,6 +387,10 @@ public class löves : NetworkBehaviour
             mag--;
             fullammo--;
             reserveammo = fullammo - mag;
+            actualspreadangle += spreadangleincrease;
+            fired = true;
+            firedcooldownbase = firedcooldown;
+
 
 
         }

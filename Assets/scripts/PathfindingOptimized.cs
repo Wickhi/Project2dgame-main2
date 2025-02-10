@@ -11,7 +11,7 @@ public class PathfindingOptimized : MonoBehaviour
     //https://www.reddit.com/r/Unity2D/comments/19exwop/help_with_pathfinding_in_simple_unity_beginner/
     //variables
     // 1 unity unit = 100 pixels
-    public PathfindingData pathfindingData;
+    //public PathfindingData pathfindingData;
     public Collider2D collidee;
     [Header("Grid Settings")]
 

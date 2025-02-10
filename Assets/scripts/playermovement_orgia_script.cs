@@ -8,19 +8,8 @@ public class playermovement_orgia_script : NetworkBehaviour
     Vector2 movement;
     Vector2 mousepos;
     public Camera cam;
-    //  public float angle1; 
-    //  public float angle2;
-    //  public float baseangle;
     public float change = 20f;
-    //   public float angle3 = 1f;
-    //   public float angle4;
-    //  public float nul = 0f;
-    //  public int faszom;
-    //   public Transform target;
     public Vector3 mouse;
-    //public Transform Stuart;
-    //   public bool mozgas;
-    // public GameObject fal;
     public float stamina = 10f;
     public float maxstamina;
     public bool shiftle = false;
@@ -35,6 +24,9 @@ public class playermovement_orgia_script : NetworkBehaviour
     public Transform forcepoint;
     public bool moving;
     public AudioSource audi;
+    public float aimdownsightsmodifier;
+    public bool aimingdownsights;
+    public bool boolean;
     // Update is called once per frame
 
     private void Start()
@@ -96,6 +88,7 @@ public class playermovement_orgia_script : NetworkBehaviour
 
 
         }
+
         if (moving == false)
         {
             if (!audi.isPlaying)
@@ -124,69 +117,6 @@ public class playermovement_orgia_script : NetworkBehaviour
             forcemethod1();
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //  mozgas = fal.GetComponent<szar>().mozgás;
-        //    if (mozgas == true)
-        //   { 
-        //  movement.x = Input.GetAxisRaw("Horizontal");
-        //  movement.y = Input.GetAxisRaw("Vertical");
-        //   }   
-        //  mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
-
-
-
-
-        //    transform.position = new Vector2(Mathf.Round(transform.position.x * 100) / 100, Mathf.Round(transform.position.y * 100) / 100);
-
-        //   angle4 = angle;
-
-        // Mathf.Round((angle * 100) / 100);
-
-        //  Debug.Log(Stuart.rotation.z);
-        //     if (angle < 0)
-        //    {
-        //       angle4 = angle + 360;
-        //   }
-
-        // if(baseangle < 90 && angle4 > 270)
-        //{
-        //   angle3 = angle3 - change;
-        // }
-        //if (baseangle < angle4)
-        //{
-        //   baseangle = baseangle + change;
-        //  faszom = 1;
-        //}
-        //if ((baseangle > angle4) || (angle4 > 270 && baseangle < 90))
-        // {
-        //    if (angle4 > 270 && baseangle < 90)
-        //  {
-        //      angle4 -= 360;
-        //     baseangle = baseangle - change;
-        //       faszom = 2;
-        //  }
-        // else
-        //{
-
-        //    baseangle = baseangle - change;
-        //   faszom = 2;
-        //}
-        //  Mathf.Round(Stuart.rotation.z);
-
-
-
 
     }
 
@@ -241,10 +171,22 @@ public class playermovement_orgia_script : NetworkBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, change);
     }
     void sima()
-
     {
+        
         movement.x = Mathf.Round(Input.GetAxisRaw("Horizontal"));
         movement.y = Mathf.Round(Input.GetAxisRaw("Vertical"));
+        if (movement.y != 0 || movement.x != 0)
+        {
+            moving = true;
+        }
+        else
+        {
+            moving = false;
+        }
+        if(aimingdownsights == true)
+        {
+            moveSpeed = moveSpeed / aimdownsightsmodifier;
+        }
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         mousepos = cam.ScreenToWorldPoint(Input.mousePosition);
 

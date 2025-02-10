@@ -139,6 +139,10 @@ MonoBehaviour:
   semiautofirebase: 0.05
   Burstcooldown: 0.65
   spreadangle: 24
+  actualspreadangle: 0
+  spreadangleincrease: 2
+  recoverytimefull: 0.75
+  recoverytime: 0
   "l\xF6v\xE9s": {fileID: 8300000, guid: f94e64d020d5ce748b26089e8f73389a, type: 3}
   audiscr: {fileID: -2993755807157870071}
   canreload: 1
@@ -188,6 +192,11 @@ MonoBehaviour:
   layrm:
     serializedVersion: 2
     m_Bits: 576
+  fired: 0
+  firedcooldown: 0.25
+  firedcooldownbase: 0
+  aimdownsightmodifier: 2
+  weaponswitch: {fileID: 0}
 --- !u!114 &-5409334342116748313
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 public class overlord : MonoBehaviour
 {
     public PathfindingOptimized PT;
-    PathfindingData PD;
+    //PathfindingData PD;
     public List<GameObject> Players;
     public GameObject Mormak;
     public int NumberOfMormaks;
